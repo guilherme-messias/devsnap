@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Aula } from "./aula/aula";
+import { NotaComponent } from './nota-component/nota-component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Aula],
+  imports: [NotaComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('meu-app');
