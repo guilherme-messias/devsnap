@@ -9,5 +9,5 @@
 
 <p style="padding: 15px">Média: {{ notaService.media() }}</p>
 
-<input #inputNota style="background-color: rgb(222, 216, 216);" type="number" />
+<input #inputNota style="background-color: rgb(222, 216, 216)" type="number" />
 <button (click)="notaService.adicionar(+inputNota.value)">Adicionar Nota</button>
