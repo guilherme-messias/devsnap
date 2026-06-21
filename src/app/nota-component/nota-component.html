@@ -1,13 +1,9 @@
-@for (nota of notaService.notas; track nota) {
-  <ul>
-    Nota:
-    {{
-      nota
-    }}
-  </ul>
+@for (nota of notaService.notas; track $index) {
+  <div style="padding: 5px">
+    <p>Nota: {{ nota }}</p>
+  </div>
 }
 
-<p style="padding: 15px">Média: {{ notaService.media() }}</p>
-
-<input #inputNota style="background-color: rgb(222, 216, 216)" type="number" />
-<button (click)="notaService.adicionar(+inputNota.value)">Adicionar Nota</button>
+<button (click)="notaService.adicionarNota(7)">Adicionar Nota</button>
+<button (click)="notaService.removerNota(9)">Remover Nota</button>
+<app-total-component></app-total-component>
