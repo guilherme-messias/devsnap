@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { NotaComponent } from './nota-component/nota-component';
+import { PlaygroundComponent } from "./playground-component/playground-component";
 
 @Component({
   selector: 'app-root',
-  imports: [NotaComponent],
+  imports: [PlaygroundComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

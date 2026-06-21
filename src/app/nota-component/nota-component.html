@@ -1,9 +1,0 @@
-@for (nota of notaService.notas; track $index) {
-  <div style="padding: 5px">
-    <p>Nota: {{ nota }}</p>
-  </div>
-}
-
-<button (click)="notaService.adicionarNota(7)">Adicionar Nota</button>
-<button (click)="notaService.removerNota(9)">Remover Nota</button>
-<app-total-component></app-total-component>
