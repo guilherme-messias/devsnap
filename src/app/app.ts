@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { PlaygroundComponent } from "./playground-component/playground-component";
+import { PainelComponent } from './painel-component/painel-component';
 
 @Component({
   selector: 'app-root',
-  imports: [PlaygroundComponent],
+  imports: [PainelComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
