@@ -1,3 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
 @use 'tailwindcss';
+
+// ===========================
+// Color Palette — Light Mode
+// ===========================
+
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-surface: #f1efe8;
+
+  --color-text-primary: #1a1825;
+  --color-text-secondary: #5f5e5a;
+
+  --color-primary: #534ab7;
+  --color-secondary: #1d9e75;
+  --color-accent: #ef9f27;
+}
+
+// ===========================
+// Color Palette — Dark Mode
+// ===========================
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #13111f;
+    --color-bg-surface: #1e1b30;
+
+    --color-text-primary: #f0eff8;
+    --color-text-secondary: #afa9ec;
+
+    --color-primary: #7f77dd;
+    --color-secondary: #5dcaa5;
+    --color-accent: #fac775;
+  }
+}
