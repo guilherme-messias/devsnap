@@ -1,9 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { PainelComponent } from './painel-component/painel-component';
 
 @Component({
   selector: 'app-root',
-  imports: [PainelComponent],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
