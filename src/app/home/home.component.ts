@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { StackService } from '../core/services/stack.service';
 import { EpisodeService } from '../core/services/episode.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [EmptyStateComponent, StackCardComponent],
+  imports: [EmptyStateComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
@@ -23,4 +23,15 @@ export class HomeComponent {
   readonly onCreateStack = (): void => {
     void this._router.navigate(['/stacks/novo']);
   };
+
+  welcomeMessage = computed(() => {
+    const pendingCount = this._episodeService.pending()?.filter(
+      (e) =>
+        !e.reviewedAt && new Date(e.createdAt) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 dias
+    ).length;
+
+    if (pendingCount === 0) return 'Nenhum episódio pendente. Parabéns! Continue assim!';
+    if (pendingCount === 1) return '1 episódio pendente. Vamos revisar? Não deixe para depois!';
+    return `${pendingCount} episódios pendentes. Vamos revisar? Não deixe para depois!`;
+  });
 }
