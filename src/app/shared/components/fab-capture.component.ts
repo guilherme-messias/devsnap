@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-fab-capture',
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
+  styleUrl: './fab-capture.component.scss',
   template: `
     <button mat-flat-button color="primary" aria-label="Capturar tela" [class.hidden]="hidden">
       <mat-icon>add</mat-icon>
