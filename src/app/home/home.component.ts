@@ -5,11 +5,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { EmptyStateComponent } from '../shared/components/empty-state.component';
 import { Router } from '@angular/router';
+import { StackCardComponent } from './stack-card.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [EmptyStateComponent],
+  imports: [EmptyStateComponent, StackCardComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
