@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
   `,
 })
 export class EmptyStateComponent {
-  @Input() message: string = '';
-  @Input() ctaLabel: string = '';
-  @Input() ctaClick: () => void = () => {};
+  @Input() message = '';
+  @Input() ctaLabel = '';
+  @Input() ctaClick = () => {};
 }

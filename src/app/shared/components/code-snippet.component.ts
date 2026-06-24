@@ -12,5 +12,5 @@ import { MarkdownComponent } from 'ngx-markdown';
   `,
 })
 export class CodeSnippetComponent {
-  @Input() code: string = '';
+  @Input() code = '';
 }

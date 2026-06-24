@@ -13,6 +13,6 @@ import { Component, Input } from '@angular/core';
   `,
 })
 export class ProgressBarComponent {
-  @Input() reviewed: number = 0;
-  @Input() total: number = 1;
+  @Input() reviewed = 0;
+  @Input() total = 1;
 }
