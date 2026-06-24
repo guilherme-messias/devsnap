@@ -1,0 +1,242 @@
+---
+alwaysApply: true
+---
+
+# Regras de Estilização — devsnap
+
+> Stack: Angular 19 · SCSS · Tailwind CSS · Angular Material · Paleta Índigo Profundo
+
+---
+
+## 1. Fonte da Verdade: Variáveis CSS
+
+**Regra absoluta:** nunca use cor hardcoded. Toda cor deve vir de uma variável CSS declarada no `styles.scss`.
+
+### Nomenclatura obrigatória: `--color-{categoria}-{variante}`
+
+```scss
+// styles.scss — Modo claro (padrão no :root)
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-surface: #f1efe8;
+
+  --color-text-primary: #1a1825;
+  --color-text-secondary: #5f5e5a;
+
+  --color-brand-primary: #534ab7;
+  --color-brand-secondary: #1d9e75;
+  --color-brand-accent: #ef9f27;
+}
+
+// Modo escuro — sobrescreve via media query
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: #13111f;
+    --color-bg-surface: #1e1b30;
+
+    --color-text-primary: #f0eff8;
+    --color-text-secondary: #afa9ec;
+
+    --color-brand-primary: #7f77dd;
+    --color-brand-secondary: #5dcaa5;
+    --color-brand-accent: #fac775;
+  }
+}
+```
+
+### Quando usar cada cor
+
+| Variável                  | Onde usar                                                                                |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| `--color-brand-primary`   | Botões de ação principal, links, badges de stack ativa, barra de progresso do Modo Foco  |
+| `--color-brand-secondary` | Estados de sucesso — episódio revisado, stack sem pendências, confirmação salva          |
+| `--color-brand-accent`    | Badges de pendência, contador de episódios não revisados, sinais de "atenção necessária" |
+| `--color-bg-surface`      | Cards, sidebars, modais — qualquer superfície elevada                                    |
+| `--color-text-secondary`  | Labels, metadados, textos de apoio                                                       |
+
+---
+
+## 2. Divisão de Responsabilidades: SCSS vs Tailwind
+
+O projeto usa **ambas as ferramentas com papéis distintos**. Misturar os papéis gera inconsistência.
+
+| Responsabilidade         | Ferramenta            | Exemplo                            |
+| ------------------------ | --------------------- | ---------------------------------- |
+| Layout e espaçamento     | **Tailwind**          | `flex gap-4 px-6 py-3`             |
+| Responsividade           | **Tailwind**          | `grid-cols-1 md:grid-cols-2`       |
+| Cores e tema             | **CSS vars via SCSS** | `color: var(--color-text-primary)` |
+| Animações complexas      | **SCSS**              | `@keyframes` + `transition`        |
+| Theming Angular Material | **SCSS** (mixins)     | `@include mat.core()`              |
+
+```html
+<!-- CORRETO: Tailwind para layout, var() para cor -->
+<div class="flex flex-col gap-4 p-6" style="background: var(--color-bg-surface)">
+  <!-- ERRADO: cor hardcoded no template -->
+  <div class="flex flex-col gap-4 p-6 bg-[#1E1B30]"></div>
+</div>
+```
+
+---
+
+## 3. Bordas
+
+Bordas nunca usam cor sólida. Sempre opacidade baixa sobre o fundo.
+
+```scss
+// CORRETO
+border: 0.5px solid rgba(255, 255, 255, 0.1); // modo escuro
+border: 0.5px solid rgba(0, 0, 0, 0.08); // modo claro
+
+// ERRADO
+border: 1px solid #534ab7;
+border: 1px solid var(--color-brand-primary);
+```
+
+---
+
+## 4. Escopo de Estilos em Componentes
+
+Todo componente Angular tem seu `.scss` encapsulado. Use-o apenas para:
+
+- Estilos que dependem da estrutura interna do componente
+- Overrides pontuais de Angular Material
+- Animações específicas do componente
+
+```scss
+// episode-card.component.scss
+:host {
+  display: block;
+}
+
+// Override Material dentro do componente
+::ng-deep .mat-mdc-card {
+  background: var(--color-bg-surface) !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+```
+
+**Nunca** redefina variáveis CSS dentro de um componente. Elas pertencem ao `styles.scss`.
+
+---
+
+## 5. Angular Material: Integração com o Tema
+
+Ao customizar componentes Material, prefira as variáveis CSS do tema ao invés de sobrescrever classes diretamente.
+
+```scss
+// PREFERÍVEL
+.mat-mdc-raised-button.mat-primary {
+  background-color: var(--color-brand-primary);
+}
+
+// EVITAR (frágil, quebra no upgrade do Material)
+.mdc-button__ripple {
+  background: #534ab7;
+}
+```
+
+---
+
+## 6. Responsividade: Mobile-First com Tailwind
+
+O devsnap é **mobile-first**. Escreva os estilos base para mobile e expanda com breakpoints.
+
+```html
+<!-- CORRETO: base = mobile, md: = desktop -->
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+  <!-- ERRADO: pensa só no desktop -->
+  <div class="grid grid-cols-3 gap-4"></div>
+</div>
+```
+
+Breakpoints do projeto:
+
+- `sm` — 640px (tablet pequeno)
+- `md` — 768px (tablet)
+- `lg` — 1024px (desktop)
+
+---
+
+## 7. Estados de UI Obrigatórios
+
+Todo componente que exibe dados deve ter **três estados** implementados:
+
+### 7.1 Estado de carregamento (skeleton)
+
+```html
+@if (loading()) {
+<app-skeleton-card />
+} @else {
+<!-- conteúdo real -->
+}
+```
+
+### 7.2 Estado vazio
+
+```html
+@if (items().length === 0) {
+<app-empty-state message="Nenhum episódio registrado ainda." />
+}
+```
+
+### 7.3 Estado com dados
+
+Conteúdo normal.
+
+---
+
+## 8. Acessibilidade Mínima
+
+```html
+<!-- Botões com só ícone PRECISAM de aria-label -->
+<button mat-icon-button aria-label="Excluir episódio">
+  <mat-icon>delete</mat-icon>
+</button>
+
+<!-- Cores não podem ser o único indicador de estado -->
+<!-- ERRADO: só muda a cor para indicar pendente -->
+<mat-chip [style.background]="var(--color-brand-accent)">{{ stack.name }}</mat-chip>
+
+<!-- CORRETO: cor + texto/ícone -->
+<mat-chip>
+  <mat-icon>pending</mat-icon>
+  {{ stack.pendingCount }} pendentes
+</mat-chip>
+```
+
+---
+
+## 9. Checklist de Revisão (para o agente rodar antes de finalizar)
+
+Antes de entregar qualquer componente estilizado, verificar:
+
+- [ ] Nenhuma cor hardcoded — tudo via `var(--color-*)`
+- [ ] Layout feito com Tailwind, não com CSS custom
+- [ ] Modo escuro funciona automaticamente (sem classe extra)
+- [ ] Borda usa `0.5px` com opacidade, não cor sólida
+- [ ] Mobile-first: base sem breakpoint, expansão com `md:` e `lg:`
+- [ ] Botões com só ícone têm `aria-label`
+- [ ] Estados vazio e carregamento implementados em listas
+- [ ] `::ng-deep` usado **apenas** para overrides Material, com comentário explicando o motivo
+
+---
+
+## 10. Antipadrões Proibidos
+
+```scss
+// ❌ Cor hardcoded
+color: #534AB7;
+background-color: #13111F;
+
+// ❌ !important em excesso (apenas para overrides Material justificados)
+padding: 16px !important;
+
+// ❌ Pixel values arbitrários quando existe escala Tailwind
+margin-top: 13px; // use mt-3 (12px) ou mt-4 (16px)
+
+// ❌ Redefinir variável CSS no componente
+:root { --color-brand-primary: red; }
+
+// ❌ Classe Tailwind com cor hardcoded
+class="bg-[#534AB7]"  // use var() no style binding
+```
