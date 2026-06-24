@@ -1,0 +1,7 @@
+@if (stacks() && stacks()?.length === 0) {
+  <app-empty-state
+    [message]="'Nenhuma stack encontrada'"
+    [ctaLabel]="'Criar stack'"
+    [ctaClick]="onCreateStack"
+  ></app-empty-state>
+}
