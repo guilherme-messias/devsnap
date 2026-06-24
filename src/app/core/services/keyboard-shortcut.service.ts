@@ -1,19 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({ providedIn: 'root' })
 export class KeyboardShortcutService {
+  private readonly _dialog: MatDialog = inject(MatDialog);
 
-  constructor(private dialog: MatDialog) { }
-  
   init(): void {
     document.addEventListener('keydown', (event) => {
       if (event.ctrlKey && event.shiftKey && event.key === 'N') {
         event.preventDefault();
         // TODO: componente será criado
-        // 
-        // this.dialog.open(QuickCaptureDialogComponent);
-        }
-      });
-    }
+        //
+        // this._dialog.open(QuickCaptureDialogComponent);
+      }
+    });
   }
+}

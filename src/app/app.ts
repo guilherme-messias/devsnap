@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { KeyboardShortcutService } from './core/services/keyboard-shortcut.servi
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('meu-app');
 
   private readonly keyboardShortcutService: KeyboardShortcutService =
