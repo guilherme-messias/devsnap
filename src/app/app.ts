@@ -1,9 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
+import { RouterOutlet } from '../../node_modules/@angular/router/types/_router_module-chunk';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
