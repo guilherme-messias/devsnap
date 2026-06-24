@@ -7,4 +7,6 @@
     [total]="episodesForStack().length"
   ></app-progress-bar>
   <app-pending-badge [level]="episodesForStack() | urgencyLevel"> </app-pending-badge>
+  <button [routerLink]="['/stacks', stack.id]">Entrar</button>
+  <button [routerLink]="['/foco']">Modo Foco</button>
 </div>

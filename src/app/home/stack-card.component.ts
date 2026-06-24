@@ -5,11 +5,18 @@ import { PendingBadgeComponent } from '../shared/components/pending-badge.compon
 import { UrgencyLevelPipe } from '../shared/pipes/urgency-level.pipe';
 import { ProgressBarComponent } from '../shared/components/progress-bar.component';
 import { PendingCountPipe } from '../shared/pipes/pending-count.pipe';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-stack-card',
   standalone: true,
-  imports: [PendingBadgeComponent, UrgencyLevelPipe, ProgressBarComponent, PendingCountPipe],
+  imports: [
+    PendingBadgeComponent,
+    UrgencyLevelPipe,
+    ProgressBarComponent,
+    PendingCountPipe,
+    RouterLink,
+  ],
   templateUrl: './stack-card.component.html',
 })
 export class StackCardComponent {
