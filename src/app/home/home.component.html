@@ -10,3 +10,7 @@
   <!-- TODO: Implementar o componente de card de stack -->
   <!-- <app-stack-card></app-stack-card> -->
 }
+
+@if (welcomeMessage()) {
+  <p class="text-center text-gray-500">{{ welcomeMessage() }}</p>
+}
