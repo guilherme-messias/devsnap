@@ -20,7 +20,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './stack-card.component.html',
 })
 export class StackCardComponent {
-  @Input() stack: Stack;
+  @Input() stack!: Stack;
 
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
 

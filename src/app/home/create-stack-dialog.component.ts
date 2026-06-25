@@ -23,7 +23,7 @@ export class CreateStackDialogComponent {
   save(): void {
     this._stackService.add({
       id: uuidv4(),
-      name: this.form.get('name')?.value,
+      name: this.form.get('name')?.value || '',
       createdAt: new Date(),
     });
     this._dialogRef.close();
