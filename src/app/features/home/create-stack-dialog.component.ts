@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { StackService } from '../core/services/stack.service';
+import { StackService } from '../../core/services/stack.service';
 import { v4 as uuidv4 } from 'uuid';
 import { FormControl, FormGroup } from '@angular/forms';
 

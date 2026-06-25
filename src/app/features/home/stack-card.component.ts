@@ -1,10 +1,10 @@
 import { Component, computed, inject, Input } from '@angular/core';
-import { Stack } from '../core/models/stack.model';
-import { EpisodeService } from '../core/services/episode.service';
-import { PendingBadgeComponent } from '../shared/components/pending-badge.component';
-import { UrgencyLevelPipe } from '../shared/pipes/urgency-level.pipe';
-import { ProgressBarComponent } from '../shared/components/progress-bar.component';
-import { PendingCountPipe } from '../shared/pipes/pending-count.pipe';
+import { Stack } from '../../core/models/stack.model';
+import { EpisodeService } from '../../core/services/episode.service';
+import { PendingBadgeComponent } from '../../shared/components/pending-badge.component';
+import { UrgencyLevelPipe } from '../../shared/pipes/urgency-level.pipe';
+import { ProgressBarComponent } from '../../shared/components/progress-bar.component';
+import { PendingCountPipe } from '../../shared/pipes/pending-count.pipe';
 import { RouterLink } from '@angular/router';
 
 @Component({
