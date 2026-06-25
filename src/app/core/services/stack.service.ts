@@ -1,15 +1,19 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Stack } from '../models/stack.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class StackService {
+  private readonly _platformId = inject(PLATFORM_ID);
   private _stacks = signal<Stack[]>(this._load());
   readonly stacks = this._stacks.asReadonly();
 
   private _load(): Stack[] {
-    return localStorage.getItem('devsnap:stacks')
-      ? JSON.parse(localStorage.getItem('devsnap:stacks') || '[]')
-      : [];
+    if (!isPlatformBrowser(this._platformId)) {
+      return [];
+    }
+    const raw = localStorage.getItem('devsnap:stacks');
+    return raw ? JSON.parse(raw) : [];
   }
 
   private _persist() {

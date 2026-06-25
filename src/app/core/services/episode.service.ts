@@ -1,8 +1,10 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Episode } from '../models/episode.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class EpisodeService {
+  private readonly _platformId = inject(PLATFORM_ID);
   private _episodes = signal<Episode[]>(this._load());
   readonly episodes = this._episodes.asReadonly();
 
@@ -20,9 +22,11 @@ export class EpisodeService {
   );
 
   private _load(): Episode[] {
-    return localStorage.getItem('devsnap:episodes')
-      ? JSON.parse(localStorage.getItem('devsnap:episodes') || '[]')
-      : [];
+    if (!isPlatformBrowser(this._platformId)) {
+      return [];
+    }
+    const raw = localStorage.getItem('devsnap:episodes');
+    return raw ? JSON.parse(raw) : [];
   }
 
   private _persist() {
