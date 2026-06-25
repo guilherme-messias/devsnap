@@ -1,4 +1,4 @@
-@if (stacks() && stacks()?.length === 0) {
+@if (stacks().length === 0) {
   <app-empty-state
     [message]="'Nenhuma stack encontrada'"
     [ctaLabel]="'Criar stack'"
@@ -6,7 +6,17 @@
   ></app-empty-state>
 }
 
-<button mat-flat-button color="primary" (click)="onCreateStack()">Criar stack</button>
+@if (stacks().length > 0) {
+  <div class="flex justify-center gap-4 py-12 text-center">
+    <button
+      mat-flat-button
+      class="bg-indigo-600 text-white px-4 py-2 rounded"
+      (click)="onCreateStack()"
+    >
+      Criar stack
+    </button>
+  </div>
+}
 
 @for (stack of stacks(); track stack.id) {
   <app-stack-card [stack]="stack"></app-stack-card>

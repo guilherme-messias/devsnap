@@ -1,4 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
+import { Stack } from '../../core/models/stack.model';
+import { Episode } from '../../core/models/episode.model';
 import { StackService } from '../../core/services/stack.service';
 import { EpisodeService } from '../../core/services/episode.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -19,8 +21,10 @@ export class HomeComponent {
   private readonly _stackService: StackService = inject(StackService);
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
 
-  readonly stacks = toSignal(toObservable(this._stackService.stacks));
-  readonly episodes = toSignal(toObservable(this._episodeService.episodes));
+  readonly stacks = toSignal(toObservable(this._stackService.stacks), { initialValue: [] as Stack[] });
+  readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
+    initialValue: [] as Episode[],
+  });
 
   readonly onCreateStack = (): void => {
     this._dialog.open(CreateStackDialogComponent, {
