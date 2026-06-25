@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { StackService } from '../core/services/stack.service';
@@ -14,6 +14,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class CreateStackDialogComponent {
   private readonly _stackService: StackService = inject(StackService);
+  private readonly _dialogRef = inject(MatDialogRef<CreateStackDialogComponent>);
 
   readonly form = new FormGroup({
     name: new FormControl<string>(''),
@@ -25,5 +26,6 @@ export class CreateStackDialogComponent {
       name: this.form.get('name')?.value,
       createdAt: new Date(),
     });
+    this._dialogRef.close();
   }
 }
