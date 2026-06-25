@@ -4,17 +4,18 @@ import { EpisodeService } from '../core/services/episode.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { EmptyStateComponent } from '../shared/components/empty-state.component';
-import { Router } from '@angular/router';
 import { StackCardComponent } from './stack-card.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateStackDialogComponent } from './create-stack-dialog.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [EmptyStateComponent, StackCardComponent],
+  imports: [EmptyStateComponent, StackCardComponent, MatDialogModule],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  private readonly _router: Router = inject(Router);
+  private readonly _dialog: MatDialog = inject(MatDialog);
   private readonly _stackService: StackService = inject(StackService);
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
 
@@ -22,7 +23,9 @@ export class HomeComponent {
   readonly episodes = toSignal(toObservable(this._episodeService.episodes));
 
   readonly onCreateStack = (): void => {
-    void this._router.navigate(['/stacks/novo']);
+    this._dialog.open(CreateStackDialogComponent, {
+      width: '400px',
+    });
   };
 
   welcomeMessage = computed(() => {

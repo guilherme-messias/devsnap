@@ -6,6 +6,8 @@
   ></app-empty-state>
 }
 
+<button mat-flat-button color="primary" (click)="onCreateStack()">Criar stack</button>
+
 @for (stack of stacks(); track stack.id) {
   <app-stack-card [stack]="stack"></app-stack-card>
 }
