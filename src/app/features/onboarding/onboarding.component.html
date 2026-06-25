@@ -1,27 +1,97 @@
-<div class="text-2xl font-bold"><h1>DevSnap é o seu diário técnico de aprendizado.</h1></div>
-<div class="text-sm text-gray-500">
-  <p>
-    Cada vez que você resolve um bug, supera um bloqueio ou entende algo que antes era confuso, você
-    registra aqui como um episódio — guardando o erro, o que tentou e o que resolveu. Com revisão
-    espaçada, o DevSnap te lembra de revisar esses momentos antes que o conhecimento esfrie.
-  </p>
-  <p>
-    O DevSnap é uma ferramenta que ajuda você a revisar seus episódios de forma eficiente e
-    organizada.
-  </p>
-</div>
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="onboarding-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-4 text-center">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        Bem-vindo ao DevSnap
+      </span>
 
-<div class="text-sm text-gray-500">
-  <p>
-    Com revisão espaçada, o DevSnap te lembra de revisar esses momentos antes que o conhecimento
-    esfrie.
-  </p>
-</div>
+      <h1
+        class="text-2xl font-bold leading-tight md:text-3xl"
+        style="color: var(--color-text-primary)"
+      >
+        Seu diário técnico de aprendizado
+      </h1>
 
+      <p class="text-sm leading-relaxed md:text-base" style="color: var(--color-text-secondary)">
+        Cada vez que você resolve um bug, supera um bloqueio ou entende algo que antes era confuso,
+        registre aqui como um episódio — guardando o erro, o que tentou e o que resolveu.
+      </p>
+    </header>
 
-<form (ngSubmit)="createStack()">
-  <mat-form-field class="w-full">
-    <mat-label>Nome</mat-label>
-    <input matInput formControlName="name" placeholder="Digite o nome da stack" />
-  </mat-form-field>
-</form>
+    <ul class="flex flex-col gap-4" role="list">
+      <li class="feature-item flex items-start gap-3">
+        <mat-icon aria-hidden="true" class="feature-icon shrink-0">edit_note</mat-icon>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium" style="color: var(--color-text-primary)">
+            Registre episódios
+          </span>
+          <span class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            Capture o contexto do problema e da solução enquanto ainda está fresco.
+          </span>
+        </div>
+      </li>
+
+      <li class="feature-item flex items-start gap-3">
+        <mat-icon aria-hidden="true" class="feature-icon shrink-0">schedule</mat-icon>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium" style="color: var(--color-text-primary)">
+            Revise com espaçamento
+          </span>
+          <span class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            O DevSnap te lembra de revisar antes que o conhecimento esfrie.
+          </span>
+        </div>
+      </li>
+
+      <li class="feature-item flex items-start gap-3">
+        <mat-icon aria-hidden="true" class="feature-icon shrink-0">layers</mat-icon>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium" style="color: var(--color-text-primary)">
+            Organize por stacks
+          </span>
+          <span class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            Agrupe episódios por tecnologia, projeto ou área de estudo.
+          </span>
+        </div>
+      </li>
+    </ul>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="createStack()"
+      class="flex flex-col gap-4 border-t pt-6 onboarding-form-divider"
+    >
+      <div class="flex flex-col gap-1">
+        <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+          Crie sua primeira stack
+        </h2>
+        <p class="text-sm" style="color: var(--color-text-secondary)">
+          Ex.: Angular, Node.js, DevOps…
+        </p>
+      </div>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Nome da stack</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          placeholder="Digite o nome da stack"
+          autocomplete="off"
+        />
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="w-full"
+        [disabled]="!form.controls.name.value?.trim()"
+      >
+        Começar
+      </button>
+    </form>
+  </div>
+</section>

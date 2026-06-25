@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  min-height: calc(100dvh - 57px);
+}
+
+.onboarding-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+}
+
+.onboarding-form-divider {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .onboarding-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .onboarding-form-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

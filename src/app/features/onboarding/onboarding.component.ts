@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { StackService } from '../../core/services/stack.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,8 +10,15 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-onboarding',
-  imports: [MatFormFieldModule, MatInputModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './onboarding.component.html',
+  styleUrl: './onboarding.component.scss',
 })
 export class OnboardingComponent {
   private readonly _stackService: StackService = inject(StackService);
