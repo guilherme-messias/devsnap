@@ -1,0 +1,27 @@
+<div class="text-2xl font-bold"><h1>DevSnap é o seu diário técnico de aprendizado.</h1></div>
+<div class="text-sm text-gray-500">
+  <p>
+    Cada vez que você resolve um bug, supera um bloqueio ou entende algo que antes era confuso, você
+    registra aqui como um episódio — guardando o erro, o que tentou e o que resolveu. Com revisão
+    espaçada, o DevSnap te lembra de revisar esses momentos antes que o conhecimento esfrie.
+  </p>
+  <p>
+    O DevSnap é uma ferramenta que ajuda você a revisar seus episódios de forma eficiente e
+    organizada.
+  </p>
+</div>
+
+<div class="text-sm text-gray-500">
+  <p>
+    Com revisão espaçada, o DevSnap te lembra de revisar esses momentos antes que o conhecimento
+    esfrie.
+  </p>
+</div>
+
+
+<form (ngSubmit)="createStack()">
+  <mat-form-field class="w-full">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="name" placeholder="Digite o nome da stack" />
+  </mat-form-field>
+</form>
