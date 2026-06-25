@@ -18,7 +18,7 @@ export class App implements OnInit {
   private readonly keyboardShortcutService: KeyboardShortcutService =
     inject(KeyboardShortcutService);
   private readonly router: Router = inject(Router);
-  private readonly hiddenRoutes = ['/foco/sessao', '/foco/resultado'];
+  private readonly hiddenRoutes = ['/foco/sessao', '/foco/resultado', '/onboarding'];
 
   ngOnInit(): void {
     this.keyboardShortcutService.init();
@@ -29,6 +29,6 @@ export class App implements OnInit {
       filter((e) => e instanceof NavigationEnd),
       map((e) => this.hiddenRoutes.some((r) => (e as NavigationEnd).url.startsWith(r))),
     ),
-    { initialValue: false },
+    { initialValue: this.hiddenRoutes.some((r) => this.router.url.startsWith(r)) },
   );
 }
