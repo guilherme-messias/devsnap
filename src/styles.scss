@@ -1,10 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
-
+@use '@angular/material' as mat;
 @use 'tailwindcss';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+// Angular Material — tokens M3 com suporte a prefers-color-scheme
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$violet-palette,
+        theme-type: color-scheme,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
 
 // ===========================
 // Color Palette — Light Mode
@@ -20,6 +33,24 @@
   --color-primary: #534ab7;
   --color-secondary: #1d9e75;
   --color-accent: #ef9f27;
+
+  // Material → paleta devsnap (contraste em inputs e botões)
+  @include mat.theme-overrides(
+    (
+      primary: var(--color-primary),
+      on-primary: #ffffff,
+      on-surface: var(--color-text-primary),
+      on-surface-variant: var(--color-text-secondary),
+      surface: var(--color-bg-primary),
+      background: var(--color-bg-primary),
+      on-background: var(--color-text-primary),
+      surface-container: var(--color-bg-surface),
+      surface-container-high: var(--color-bg-surface),
+      surface-container-highest: var(--color-bg-surface),
+      outline: rgba(0, 0, 0, 0.38),
+      outline-variant: rgba(0, 0, 0, 0.12),
+    )
+  );
 }
 
 // ===========================
@@ -36,5 +67,22 @@
     --color-primary: #7f77dd;
     --color-secondary: #5dcaa5;
     --color-accent: #fac775;
+
+    @include mat.theme-overrides(
+      (
+        primary: var(--color-primary),
+        on-primary: #ffffff,
+        on-surface: var(--color-text-primary),
+        on-surface-variant: var(--color-text-secondary),
+        surface: var(--color-bg-primary),
+        background: var(--color-bg-primary),
+        on-background: var(--color-text-primary),
+        surface-container: var(--color-bg-surface),
+        surface-container-high: var(--color-bg-surface),
+        surface-container-highest: var(--color-bg-surface),
+        outline: rgba(255, 255, 255, 0.38),
+        outline-variant: rgba(255, 255, 255, 0.12),
+      )
+    );
   }
 }
