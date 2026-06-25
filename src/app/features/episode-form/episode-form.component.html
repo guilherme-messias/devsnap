@@ -1,0 +1,41 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>Stack</mat-label>
+    <mat-select formControlName="stackId">
+      <!-- TODO : pegar as stacks do localStorage -->
+      <mat-option value="abc">TypeScript</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div formGroupName="episodeData">
+    <mat-form-field appearance="outline">
+      <mat-label>"Título do episódio</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Erro encontrado</mat-label>
+      <input matInput formControlName="error" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>O que você tentou</mat-label>
+      <input matInput formControlName="attempts" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>O que resolveu</mat-label>
+      <input matInput formControlName="solution" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Por que funcionou</mat-label>
+      <input matInput formControlName="reasoning" />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Snippet</mat-label>
+    <input matInput formControlName="snippet" />
+  </mat-form-field>
+</form>
