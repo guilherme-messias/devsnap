@@ -56,7 +56,7 @@ export class EpisodeFormComponent {
 
   onSubmit(): void {
     if (this.form.invalid) {
-      return;
+      return this.form.markAllAsTouched();
     }
 
     const episode: Episode = {
