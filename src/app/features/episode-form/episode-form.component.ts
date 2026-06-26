@@ -29,20 +29,15 @@ import { Router } from '@angular/router';
   ],
 })
 export class EpisodeFormComponent {
-  form: FormGroup;
-
-  currentTag = signal<string>('');
-
   private readonly _episodeService = inject(EpisodeService);
-
   private readonly _stackService = inject(StackService);
-
   private readonly _router = inject(Router);
-  readonly stacks = this._stackService.stacks;
-
-  readonly separatorKeysCodes = [ENTER, COMMA];
-
   private readonly _fb = inject(FormBuilder);
+
+  readonly currentTag = signal<string>('');
+  readonly stacks = this._stackService.stacks;
+  readonly separatorKeysCodes = [ENTER, COMMA];
+  readonly form: FormGroup;
 
   constructor() {
     this.form = this._fb.group({
