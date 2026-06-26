@@ -4,13 +4,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { StackService } from '../../core/services/stack.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-episode-form',
   standalone: true,
   templateUrl: './episode-form.component.html',
-  imports: [MatFormFieldModule, MatSelectModule, ReactiveFormsModule],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatChipsModule,
+    MatIconModule,
+  ],
 })
 export class EpisodeFormComponent {
   form: FormGroup;
