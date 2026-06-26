@@ -8,6 +8,10 @@ import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { EpisodeService } from '../../core/services/episode.service';
+import { v4 as uuidv4 } from 'uuid';
+import { Episode } from '../../core/models/episode.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-episode-form',
@@ -30,14 +34,18 @@ export class EpisodeFormComponent {
   tags = signal<string[]>([]);
   currentTag = signal<string>('');
 
+  private readonly _episodeService = inject(EpisodeService);
+
   private readonly _stackService = inject(StackService);
+
+  private readonly _router = inject(Router);
   readonly stacks = this._stackService.stacks;
 
   readonly separatorKeysCodes = [ENTER, COMMA];
 
   private readonly _fb = inject(FormBuilder);
 
-  constructor(_fb: FormBuilder) {
+  constructor() {
     this.form = this._fb.group({
       stackId: ['', Validators.required],
       episodeData: this._fb.group({
@@ -47,8 +55,30 @@ export class EpisodeFormComponent {
         solution: ['', Validators.required],
         reasoning: ['', Validators.required],
       }),
-      snippet: [''],
+      snippets: [''],
     });
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const episode: Episode = {
+      id: uuidv4(),
+      stackId: this.form.value.stackId,
+      title: this.form.value.episodeData.title,
+      error: this.form.value.episodeData.error,
+      attempts: this.form.value.episodeData.attempts,
+      solution: this.form.value.episodeData.solution,
+      reasoning: this.form.value.episodeData.reasoning,
+      snippets: this.form.value.snippets,
+      tags: this.tags(),
+      createdAt: new Date(),
+    };
+
+    this._episodeService.add(episode);
+    this._router.navigate(['/stacks', this.form.value.stackId]);
   }
 
   addTag(event: MatChipInputEvent): void {
