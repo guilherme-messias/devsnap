@@ -12,7 +12,6 @@
   border-color: rgba(0, 0, 0, 0.08);
 }
 
-// Override Material: chips alinhados à paleta do tema
 ::ng-deep .episode-form-tags {
   .mat-mdc-chip-row {
     --mdc-chip-elevated-container-color: var(--color-bg-primary);
