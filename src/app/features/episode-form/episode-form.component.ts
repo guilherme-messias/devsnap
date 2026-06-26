@@ -31,7 +31,6 @@ import { Router } from '@angular/router';
 export class EpisodeFormComponent {
   form: FormGroup;
 
-  tags = signal<string[]>([]);
   currentTag = signal<string>('');
 
   private readonly _episodeService = inject(EpisodeService);
@@ -56,6 +55,7 @@ export class EpisodeFormComponent {
         reasoning: ['', Validators.required],
       }),
       snippets: [''],
+      tags: [[] as string[]],
     });
   }
 
@@ -73,7 +73,7 @@ export class EpisodeFormComponent {
       solution: this.form.value.episodeData.solution,
       reasoning: this.form.value.episodeData.reasoning,
       snippets: this.form.value.snippets,
-      tags: this.tags(),
+      tags: this.form.value.tags,
       createdAt: new Date(),
     };
 
@@ -81,15 +81,21 @@ export class EpisodeFormComponent {
     this._router.navigate(['/stacks', this.form.value.stackId]);
   }
 
+  get tagsValue(): string[] {
+    return this.form.controls['tags'].value ?? [];
+  }
+
   addTag(event: MatChipInputEvent): void {
     const value = event.value.trim();
     if (value) {
-      this.tags.update((tags) => [...tags, value]);
+      this.form.controls['tags'].setValue([...this.form.controls['tags'].value, value]);
     }
     this.currentTag.set('');
   }
 
   removeTag(tag: string): void {
-    this.tags.update((tags) => tags.filter((t) => t !== tag));
+    this.form.controls['tags'].setValue(
+      this.form.controls['tags'].value.filter((t: string) => t !== tag),
+    );
   }
 }

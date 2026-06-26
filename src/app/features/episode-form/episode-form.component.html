@@ -116,7 +116,7 @@
           <mat-label>Snippet</mat-label>
           <textarea
             matInput
-            formControlName="snippet"
+            formControlName="snippets"
             rows="4"
             placeholder="Cole aqui o trecho de código relevante"
           ></textarea>
@@ -125,7 +125,7 @@
         <mat-form-field class="episode-form-tags w-full" appearance="outline">
           <mat-label>Tags</mat-label>
           <mat-chip-grid #chipGrid aria-label="Tags do episódio">
-            @for (tag of tags(); track tag) {
+            @for (tag of tagsValue; track tag) {
               <mat-chip-row (removed)="removeTag(tag)">
                 {{ tag }}
                 <button matChipRemove [attr.aria-label]="'Remover tag ' + tag">
