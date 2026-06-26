@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,6 +29,8 @@ import { Router } from '@angular/router';
   ],
 })
 export class EpisodeFormComponent {
+  @Output() saved = new EventEmitter<void>();
+
   private readonly _episodeService = inject(EpisodeService);
   private readonly _stackService = inject(StackService);
   private readonly _router = inject(Router);
