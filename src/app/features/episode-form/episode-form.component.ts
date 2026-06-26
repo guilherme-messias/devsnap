@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { StackService } from '../../core/services/stack.service';
 
 @Component({
   selector: 'app-episode-form',
@@ -11,6 +12,9 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class EpisodeFormComponent {
   form: FormGroup;
+
+  private readonly _stackService = inject(StackService);
+  readonly stacks = this._stackService.stacks;
 
   private readonly _fb = inject(FormBuilder);
 
