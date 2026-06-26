@@ -1,64 +1,162 @@
-<form [formGroup]="form">
-  <mat-form-field appearance="outline">
-    <mat-label>Stack</mat-label>
-    <mat-select formControlName="stackId">
-      @for (stack of stacks(); track stack.id) {
-        <mat-option value="{{ stack.id }}">{{ stack.name }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="episode-form-card flex w-full max-w-2xl flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-2">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        Novo episódio
+      </span>
 
-  <div formGroupName="episodeData">
-    <mat-form-field appearance="outline">
-      <mat-label>"Título do episódio</mat-label>
-      <input matInput formControlName="title" />
-    </mat-form-field>
+      <h1
+        class="text-xl font-bold leading-tight md:text-2xl"
+        style="color: var(--color-text-primary)"
+      >
+        Registre o que você aprendeu
+      </h1>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Erro encontrado</mat-label>
-      <input matInput formControlName="error" />
-    </mat-form-field>
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Capture o erro, o que tentou e o que resolveu — enquanto ainda está fresco.
+      </p>
+    </header>
 
-    <mat-form-field appearance="outline">
-      <mat-label>O que você tentou</mat-label>
-      <input matInput formControlName="attempts" />
-    </mat-form-field>
+    <form [formGroup]="form" class="flex flex-col gap-6">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">Stack</h2>
+          <p class="text-sm" style="color: var(--color-text-secondary)">
+            Em qual stack esse episódio se encaixa?
+          </p>
+        </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>O que resolveu</mat-label>
-      <input matInput formControlName="solution" />
-    </mat-form-field>
+        @if (stacks().length === 0) {
+          <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            Nenhuma stack encontrada. Crie uma stack antes de registrar um episódio.
+          </p>
+        } @else {
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Stack</mat-label>
+            <mat-select formControlName="stackId">
+              @for (stack of stacks(); track stack.id) {
+                <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+      </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Por que funcionou</mat-label>
-      <input matInput formControlName="reasoning" />
-    </mat-form-field>
+      <div
+        formGroupName="episodeData"
+        class="episode-form-divider flex flex-col gap-4 border-t pt-6"
+      >
+        <div class="flex flex-col gap-1">
+          <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+            O episódio
+          </h2>
+          <p class="text-sm" style="color: var(--color-text-secondary)">
+            Descreva o problema e como você chegou à solução.
+          </p>
+        </div>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Título do episódio</mat-label>
+          <input matInput formControlName="title" placeholder="Ex.: NullReference no ngOnInit" />
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Erro encontrado</mat-label>
+          <textarea
+            matInput
+            formControlName="error"
+            rows="3"
+            placeholder="Qual foi o erro ou bloqueio?"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>O que você tentou</mat-label>
+          <textarea
+            matInput
+            formControlName="attempts"
+            rows="3"
+            placeholder="Abordagens que não funcionaram ou caminhos explorados"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>O que resolveu</mat-label>
+          <textarea
+            matInput
+            formControlName="solution"
+            rows="3"
+            placeholder="A solução que funcionou"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Por que funcionou</mat-label>
+          <textarea
+            matInput
+            formControlName="reasoning"
+            rows="3"
+            placeholder="O entendimento por trás da solução"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="episode-form-divider flex flex-col gap-4 border-t pt-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">Extras</h2>
+          <p class="text-sm" style="color: var(--color-text-secondary)">
+            Snippet de código e tags para facilitar a busca depois.
+          </p>
+        </div>
+
+        <mat-form-field class="w-full" appearance="outline">
+          <mat-label>Snippet</mat-label>
+          <textarea
+            matInput
+            formControlName="snippet"
+            rows="4"
+            placeholder="Cole aqui o trecho de código relevante"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="episode-form-tags w-full" appearance="outline">
+          <mat-label>Tags</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Tags do episódio">
+            @for (tag of tags(); track tag) {
+              <mat-chip-row (removed)="removeTag(tag)">
+                {{ tag }}
+                <button matChipRemove [attr.aria-label]="'Remover tag ' + tag">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+
+          <input
+            placeholder="Adicionar tag"
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addTag($event)"
+            [value]="currentTag()"
+          />
+          <mat-hint style="color: var(--color-text-secondary)"
+            >Pressione Enter ou vírgula para adicionar</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="w-full"
+        [disabled]="form.invalid || stacks().length === 0"
+      >
+        Salvar episódio
+      </button>
+    </form>
   </div>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Snippet</mat-label>
-    <input matInput formControlName="snippet" />
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-chip-grid #chipGrid>
-      @for (tag of tags(); track tag) {
-        <mat-chip-row (removed)="removeTag(tag)"
-          >{{ tag }}
-
-          <button matChipRemove>
-            <mat-icon>X</mat-icon>
-          </button>
-        </mat-chip-row>
-      }
-    </mat-chip-grid>
-
-    <input
-      placeholder="Adicionar tag"
-      [matChipInputFor]="chipGrid"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="addTag($event)"
-      [value]="currentTag()"
-    />
-  </mat-form-field>
-</form>
+</section>

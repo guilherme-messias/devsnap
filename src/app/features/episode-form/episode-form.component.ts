@@ -6,17 +6,22 @@ import { StackService } from '../../core/services/stack.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-episode-form',
   standalone: true,
   templateUrl: './episode-form.component.html',
+  styleUrl: './episode-form.component.scss',
   imports: [
     MatFormFieldModule,
     MatSelectModule,
     ReactiveFormsModule,
     MatChipsModule,
     MatIconModule,
+    MatInputModule,
+    MatButtonModule,
   ],
 })
 export class EpisodeFormComponent {
@@ -34,15 +39,14 @@ export class EpisodeFormComponent {
 
   constructor(_fb: FormBuilder) {
     this.form = this._fb.group({
+      stackId: ['', Validators.required],
       episodeData: this._fb.group({
-        stackId: ['', Validators.required],
         title: ['', Validators.required],
         error: ['', Validators.required],
         attempts: ['', Validators.required],
         solution: ['', Validators.required],
         reasoning: ['', Validators.required],
       }),
-
       snippet: [''],
     });
   }

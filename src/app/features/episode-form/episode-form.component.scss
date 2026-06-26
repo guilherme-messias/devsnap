@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  min-height: calc(100dvh - 57px);
+}
+
+.episode-form-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.episode-form-divider {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+// Override Material: chips alinhados à paleta do tema
+::ng-deep .episode-form-tags {
+  .mat-mdc-chip-row {
+    --mdc-chip-elevated-container-color: var(--color-bg-primary);
+    --mdc-chip-label-text-color: var(--color-text-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .episode-form-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .episode-form-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
