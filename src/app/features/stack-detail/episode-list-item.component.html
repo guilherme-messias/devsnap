@@ -1,16 +1,51 @@
-<div
-  class="flex flex-col gap-2 cursor-pointer"
+<a
+  class="episode-card flex h-full flex-col gap-3 rounded-xl p-4"
   [routerLink]="['/stacks', episode?.stackId, 'episodios', episode?.id]"
 >
-  <h2 class="text-lg font-bold">{{ episode?.title }}</h2>
-  <p class="text-sm text-gray-500">{{ episode?.error }}</p>
-  <p class="text-sm text-gray-500">{{ episode?.tags?.join(', ') }}</p>
+  <div class="flex items-start justify-between gap-2">
+    <h2
+      class="line-clamp-2 text-base font-semibold leading-snug"
+      style="color: var(--color-text-primary)"
+    >
+      {{ episode?.title }}
+    </h2>
 
-  @if (episode?.createdAt) {
-    <p class="text-sm text-gray-500">
-      {{ episode.createdAt | relativeDate }}
-    </p>
+    @if (episode?.reviewedAt) {
+      <mat-icon
+        class="episode-card__reviewed shrink-0"
+        aria-label="Episódio revisado"
+        style="color: var(--color-secondary)"
+      >
+        check_circle
+      </mat-icon>
+    }
+  </div>
+
+  <p class="line-clamp-2 text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+    {{ episode?.error }}
+  </p>
+
+  @if (episode?.tags?.length) {
+    <div class="flex flex-wrap gap-1">
+      @for (tag of episode?.tags; track tag) {
+        <span class="episode-tag text-xs">{{ tag }}</span>
+      }
+    </div>
   }
 
-  <app-pending-badge [level]="episode | urgencyLevel"></app-pending-badge>
-</div>
+  <div class="mt-auto flex items-center justify-between gap-2 pt-1">
+    @if (episode?.createdAt) {
+      <time
+        class="text-xs"
+        style="color: var(--color-text-secondary)"
+        [attr.datetime]="episode.createdAt"
+      >
+        {{ episode.createdAt | relativeDate }}
+      </time>
+    }
+
+    @if (!episode?.reviewedAt) {
+      <app-pending-badge [level]="episode | urgencyLevel" />
+    }
+  </div>
+</a>

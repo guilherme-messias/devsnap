@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.episode-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.16);
+    transform: translateY(-1px);
+  }
+
+  &__reviewed {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.episode-tag {
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .episode-card {
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+  }
+
+  .episode-tag {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
