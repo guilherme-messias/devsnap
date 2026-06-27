@@ -55,8 +55,11 @@ export class EpisodeDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this._episodeService.remove(this.episode());
-        this._router.navigate(['/stacks', this.episode()?.stackId]);
+        const episode = this.episode();
+        if (!episode) return;
+
+        this._episodeService.remove(episode);
+        this._router.navigate(['/stacks', episode.stackId]);
       }
     });
   }
