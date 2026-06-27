@@ -19,5 +19,5 @@ import { RelativeDatePipe } from '../../shared/pipes/relative-date.pipe';
   imports: [RelativeDatePipe],
 })
 export class AnnotationListComponent {
-  @Input() annotations: Annotation[];
+  @Input() annotations: Annotation[] = [];
 }
