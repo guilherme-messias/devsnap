@@ -46,5 +46,13 @@
     </div>
 
     <button mat-button (click)="markAsReviewed()">Marcar como revisado</button>
+    <button
+      mat-button
+      [routerLink]="['/stacks', episode()?.stackId, 'episodios', episode()?.id, 'editar']"
+    >
+      <mat-icon>edit</mat-icon>
+      Editar episódio
+    </button>
+    <button mat-button color="warn" (click)="deleteEpisode()">Excluir episódio</button>
   }
 </div>
