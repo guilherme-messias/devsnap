@@ -36,7 +36,9 @@ export class StackDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const stackId = this._route.snapshot.paramMap.get('id');
-    this.stack.set(this._stackService.getById(stackId));
+    if (stackId) {
+      this.stack.set(this._stackService.getById(stackId));
+    }
   }
 
   readonly filteredEpisodes = computed(() => {
