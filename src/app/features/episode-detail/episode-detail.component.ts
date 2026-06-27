@@ -35,4 +35,8 @@ export class EpisodeDetailComponent implements OnInit {
   getStackName(stackId: string): string {
     return this._stackService.getById(stackId)?.name ?? '';
   }
+
+  markAsReviewed(): void {
+    this._episodeService.markReviewed(this.episode()?.id ?? '');
+  }
 }

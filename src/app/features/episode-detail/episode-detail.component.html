@@ -26,23 +26,25 @@
         </p>
         <app-code-snippet [code]="episode()?.snippets ?? ''"></app-code-snippet>
       }
+
+      <mat-chip-grid #chipGrid aria-label="Tags do episódio">
+        @for (tag of episode()?.tags; track tag) {
+          <mat-chip>{{ tag }}</mat-chip>
+        }
+      </mat-chip-grid>
+
+      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de criação:</p>
+      <p>{{ episode()?.createdAt | date: 'dd/MM/yyyy' }}</p>
+
+      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de revisão:</p>
+      @if (episode()?.reviewedAt) {
+        <p>{{ episode()?.reviewedAt | date: 'dd/MM/yyyy' }}</p>
+      }
+
+      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Nome da stack:</p>
+      <p>{{ getStackName(episode()?.stackId ?? '') }}</p>
     </div>
 
-    <mat-chip-grid #chipGrid aria-label="Tags do episódio">
-      @for (tag of episode()?.tags; track tag) {
-        <mat-chip>{{ tag }}</mat-chip>
-      }
-    </mat-chip-grid>
-
-    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de criação:</p>
-    <p>{{ episode()?.createdAt | date: 'dd/MM/yyyy' }}</p>
-
-    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de revisão:</p>
-    @if (episode()?.reviewedAt) {
-      <p>{{ episode()?.reviewedAt | date: 'dd/MM/yyyy' }}</p>
-    }
-
-    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Nome da stack:</p>
-    <p>{{ getStackName(episode()?.stackId ?? '') }}</p>
+    <button mat-button (click)="markAsReviewed()">Marcar como revisado</button>
   }
 </div>
