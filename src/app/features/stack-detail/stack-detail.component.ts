@@ -49,6 +49,12 @@ export class StackDetailComponent {
     return episodes;
   });
 
+  readonly sortedEpisodes = computed(() => {
+    return this.filteredEpisodes()?.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  });
+
   updateFilter(filter: 'all' | 'pending' | 'reviewed'): void {
     this.filter.set(filter);
   }
