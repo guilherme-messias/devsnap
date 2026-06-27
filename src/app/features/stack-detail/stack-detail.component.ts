@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject, signal, Signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StackService } from '../../core/services/stack.service';
 import { Stack } from '../../core/models/stack.model';
@@ -12,8 +12,10 @@ export class StackDetailComponent {
   private readonly _route = inject(ActivatedRoute);
   private readonly _stackService = inject(StackService);
 
-  ngOnInit(): Signal<Stack | undefined> {
+  readonly stack = signal<Stack | undefined>(undefined);
+
+  ngOnInit(): void {
     const stackId = this._route.snapshot.paramMap.get('id');
-    return computed(() => this._stackService.getById(stackId));
+    this.stack.set(this._stackService.getById(stackId));
   }
 }
