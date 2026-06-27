@@ -1,12 +1,15 @@
 import { Component, computed, inject, signal, Signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { StackService } from '../../core/services/stack.service';
 import { Stack } from '../../core/models/stack.model';
 import { EpisodeService } from '../../core/services/episode.service';
+import { EpisodeListItemComponent } from './episode-list-item.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state.component';
 
 @Component({
   selector: 'app-stack-detail',
   standalone: true,
+  imports: [EpisodeListItemComponent, EmptyStateComponent, RouterLink],
   templateUrl: './stack-detail.component.html',
 })
 export class StackDetailComponent {

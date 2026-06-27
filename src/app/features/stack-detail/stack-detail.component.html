@@ -1,7 +1,23 @@
 <div>
   <h1>{{ stack()?.name }}</h1>
   <input type="text" (input)="updateSearchQuery($event)" placeholder="Pesquisar" />
+
+  <button mat-button [routerLink]="['/stacks', stack()?.id, 'episodios', 'novo']">
+    Novo episódio
+  </button>
+  <button mat-button [routerLink]="['/foco']">Modo Foco</button>
+
   <button mat-button (click)="updateFilter('all')">Todos</button>
   <button mat-button (click)="updateFilter('pending')">Pendentes</button>
   <button mat-button (click)="updateFilter('reviewed')">Revisados</button>
+</div>
+
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+  @if (sortedEpisodes().length === 0) {
+    <app-empty-state message="Nenhum episódio encontrado"></app-empty-state>
+  } @else {
+    @for (episode of sortedEpisodes(); track episode.id) {
+      <app-episode-list-item [episode]="episode"></app-episode-list-item>
+    }
+  }
 </div>

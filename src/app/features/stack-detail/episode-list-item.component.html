@@ -2,7 +2,7 @@
   class="flex flex-col gap-2 cursor-pointer"
   [routerLink]="['/stacks', episode?.stackId, 'episodios', episode?.id]"
 >
-  <h2>{{ episode?.title }}</h2>
+  <h2 class="text-lg font-bold">{{ episode?.title }}</h2>
   <p class="text-sm text-gray-500">{{ episode?.error }}</p>
   <p class="text-sm text-gray-500">{{ episode?.tags?.join(', ') }}</p>
 
