@@ -16,6 +16,7 @@ export class StackDetailComponent {
 
   readonly stack = signal<Stack | undefined>(undefined);
   readonly filter = signal<'all' | 'pending' | 'reviewed'>('all');
+  readonly searchQuery = signal('');
 
   ngOnInit(): void {
     const stackId = this._route.snapshot.paramMap.get('id');
@@ -27,7 +28,20 @@ export class StackDetailComponent {
     const stackId = this.stack()?.id;
     if (!stackId) return [];
 
-    const episodes = this._episodeService.getByStack(stackId);
+    let episodes = this._episodeService.getByStack(stackId);
+
+    const searchQuery = this.searchQuery().trim().toLowerCase();
+    if (searchQuery) {
+      episodes = episodes.filter(
+        (e) =>
+          e.title.toLowerCase().includes(searchQuery) ||
+          e.error.toLowerCase().includes(searchQuery) ||
+          e.solution.toLowerCase().includes(searchQuery) ||
+          e.reasoning.toLowerCase().includes(searchQuery) ||
+          e.snippets?.toLowerCase().includes(searchQuery) ||
+          e.tags?.some((t) => t.toLowerCase().includes(searchQuery)),
+      );
+    }
 
     if (!episodes) return [];
     if (filter === 'pending') return episodes.filter((e) => !e.reviewedAt);
@@ -37,5 +51,10 @@ export class StackDetailComponent {
 
   updateFilter(filter: 'all' | 'pending' | 'reviewed'): void {
     this.filter.set(filter);
+  }
+
+  updateSearchQuery(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.searchQuery.set(target.value);
   }
 }
