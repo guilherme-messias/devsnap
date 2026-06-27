@@ -1,0 +1,16 @@
+<div
+  class="flex flex-col gap-2 cursor-pointer"
+  [routerLink]="['/stacks', episode?.stackId, 'episodios', episode?.id]"
+>
+  <h2>{{ episode?.title }}</h2>
+  <p class="text-sm text-gray-500">{{ episode?.error }}</p>
+  <p class="text-sm text-gray-500">{{ episode?.tags?.join(', ') }}</p>
+
+  @if (episode?.createdAt) {
+    <p class="text-sm text-gray-500">
+      {{ episode.createdAt | relativeDate }}
+    </p>
+  }
+
+  <app-pending-badge [level]="episode | urgencyLevel"></app-pending-badge>
+</div>
