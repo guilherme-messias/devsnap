@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +25,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
   templateUrl: './stack-detail.component.html',
   styleUrl: './stack-detail.component.scss',
 })
-export class StackDetailComponent {
+export class StackDetailComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _stackService = inject(StackService);
   private readonly _episodeService = inject(EpisodeService);
