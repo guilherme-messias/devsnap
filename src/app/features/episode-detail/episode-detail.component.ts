@@ -60,4 +60,13 @@ export class EpisodeDetailComponent implements OnInit {
       }
     });
   }
+
+  goToNextPendingEpisode(): void {
+    const nextEpisode = this._episodeService
+      .getByStack(this.episode()?.stackId ?? '')
+      ?.find((e) => !e.reviewedAt);
+    if (nextEpisode) {
+      this._router.navigate(['/stacks', nextEpisode.stackId, 'episodios', nextEpisode.id]);
+    }
+  }
 }
