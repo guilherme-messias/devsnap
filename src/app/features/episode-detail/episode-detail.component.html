@@ -9,4 +9,40 @@
   @if (!solutionRevealed()) {
     <button mat-button (click)="revealSolution()">Ver solução</button>
   }
+
+  @if (solutionRevealed()) {
+    <div class="flex flex-col gap-4 mt-4">
+      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Solução:</p>
+      <p>{{ episode()?.solution }}</p>
+
+      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">
+        Por que funcionou:
+      </p>
+      <p>{{ episode()?.reasoning }}</p>
+
+      @if (episode()?.snippets) {
+        <p class="text-sm font-semibold" style="color: var(--color-text-primary)">
+          Código relevante:
+        </p>
+        <app-code-snippet [code]="episode()?.snippets ?? ''"></app-code-snippet>
+      }
+    </div>
+
+    <mat-chip-grid #chipGrid aria-label="Tags do episódio">
+      @for (tag of episode()?.tags; track tag) {
+        <mat-chip>{{ tag }}</mat-chip>
+      }
+    </mat-chip-grid>
+
+    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de criação:</p>
+    <p>{{ episode()?.createdAt | date: 'dd/MM/yyyy' }}</p>
+
+    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de revisão:</p>
+    @if (episode()?.reviewedAt) {
+      <p>{{ episode()?.reviewedAt | date: 'dd/MM/yyyy' }}</p>
+    }
+
+    <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Nome da stack:</p>
+    <p>{{ getStackName(episode()?.stackId ?? '') }}</p>
+  }
 </div>
