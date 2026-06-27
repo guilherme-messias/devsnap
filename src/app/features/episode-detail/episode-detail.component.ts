@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, inject, signal, input, computed } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { EpisodeService } from '../../core/services/episode.service';
-import { Episode } from '../../core/models/episode.model';
 import { CodeSnippetComponent } from '../../shared/components/code-snippet.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { DatePipe } from '@angular/common';
@@ -29,22 +28,20 @@ import { AnnotationFormComponent } from './annotation-form.component';
     AnnotationFormComponent,
   ],
 })
-export class EpisodeDetailComponent implements OnInit {
-  private readonly _route = inject(ActivatedRoute);
+export class EpisodeDetailComponent {
   private readonly _episodeService = inject(EpisodeService);
   private readonly _stackService = inject(StackService);
   private readonly _dialog = inject(MatDialog);
   private readonly _router = inject(Router);
 
-  readonly episode = signal<Episode | undefined>(undefined);
   readonly solutionRevealed = signal(false);
 
-  ngOnInit(): void {
-    const episodeId = this._route.snapshot.paramMap.get('eid');
-    if (episodeId) {
-      this.episode.set(this._episodeService.getById(episodeId));
-    }
-  }
+  readonly eid = input.required<string>();
+
+  readonly episode = computed(() => {
+    const id = this.eid();
+    return this._episodeService.episodes().find((e) => e.id === id);
+  });
 
   revealSolution(): void {
     this.solutionRevealed.set(true);
@@ -80,7 +77,7 @@ export class EpisodeDetailComponent implements OnInit {
   goToNextPendingEpisode(): void {
     const nextEpisode = this._episodeService
       .getByStack(this.episode()?.stackId ?? '')
-      .filter((e) => !e.reviewedAt)
+      .filter((e) => !e.reviewedAt && e.id !== this.episode()?.id)
       .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
       .at(0);
 
