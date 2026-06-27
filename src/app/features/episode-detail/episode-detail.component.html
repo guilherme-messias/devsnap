@@ -1,0 +1,12 @@
+<div>
+  <h1>{{ episode()?.title }}</h1>
+
+  <p class="text-sm text-gray-500">Erro encontrado:</p>
+  <p>{{ episode()?.error }}</p>
+
+  <p class="text-sm text-gray-500">Tente lembrar como você resolveu antes de expandir</p>
+
+  @if (!solutionRevealed()) {
+    <button mat-button (click)="revealSolution()">Ver solução</button>
+  }
+</div>
