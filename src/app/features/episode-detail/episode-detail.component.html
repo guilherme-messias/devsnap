@@ -1,59 +1,167 @@
-<div>
-  <h1>{{ episode()?.title }}</h1>
-
-  <p class="text-sm text-gray-500">Erro encontrado:</p>
-  <p>{{ episode()?.error }}</p>
-
-  <p class="text-sm text-gray-500">Tente lembrar como você resolveu antes de expandir</p>
-
-  @if (!solutionRevealed()) {
-    <button mat-button (click)="revealSolution()">Ver solução</button>
-  }
-
-  @if (solutionRevealed()) {
-    <div class="flex flex-col gap-4 mt-4">
-      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Solução:</p>
-      <p>{{ episode()?.solution }}</p>
-
-      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">
-        Por que funcionou:
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  @if (!episode()) {
+    <div class="episode-detail-card w-full max-w-2xl rounded-xl p-6 md:p-8">
+      <p class="py-8 text-center text-sm" style="color: var(--color-text-secondary)">
+        Episódio não encontrado.
       </p>
-      <p>{{ episode()?.reasoning }}</p>
-
-      @if (episode()?.snippets) {
-        <p class="text-sm font-semibold" style="color: var(--color-text-primary)">
-          Código relevante:
-        </p>
-        <app-code-snippet [code]="episode()?.snippets ?? ''"></app-code-snippet>
-      }
-
-      <mat-chip-grid #chipGrid aria-label="Tags do episódio">
-        @for (tag of episode()?.tags; track tag) {
-          <mat-chip>{{ tag }}</mat-chip>
-        }
-      </mat-chip-grid>
-
-      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de criação:</p>
-      <p>{{ episode()?.createdAt | date: 'dd/MM/yyyy' }}</p>
-
-      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Data de revisão:</p>
-      @if (episode()?.reviewedAt) {
-        <p>{{ episode()?.reviewedAt | date: 'dd/MM/yyyy' }}</p>
-      }
-
-      <p class="text-sm font-semibold" style="color: var(--color-text-primary)">Nome da stack:</p>
-      <p>{{ getStackName(episode()?.stackId ?? '') }}</p>
     </div>
-
-    <button mat-button (click)="markAsReviewed()">Marcar como revisado</button>
-    <button
-      mat-button
-      [routerLink]="['/stacks', episode()?.stackId, 'episodios', episode()?.id, 'editar']"
+  } @else {
+    <article
+      class="episode-detail-card flex w-full max-w-2xl flex-col gap-6 rounded-xl p-6 md:p-8"
     >
-      <mat-icon>edit</mat-icon>
-      Editar episódio
-    </button>
-    <button mat-button color="warn" (click)="deleteEpisode()">Excluir episódio</button>
+      <header class="flex flex-col gap-3">
+        <a
+          class="episode-detail-back inline-flex items-center gap-1 text-sm"
+          [routerLink]="['/stacks', episode()?.stackId]"
+        >
+          <mat-icon class="text-base" aria-hidden="true">arrow_back</mat-icon>
+          {{ getStackName(episode()?.stackId ?? '') }}
+        </a>
+
+        <div class="flex items-start justify-between gap-3">
+          <h1
+            class="text-xl font-bold leading-tight md:text-2xl"
+            style="color: var(--color-text-primary)"
+          >
+            {{ episode()?.title }}
+          </h1>
+
+          @if (episode()?.reviewedAt) {
+            <mat-icon
+              class="episode-detail-reviewed shrink-0"
+              aria-label="Episódio revisado"
+            >
+              check_circle
+            </mat-icon>
+          }
+        </div>
+      </header>
+
+      <section class="episode-detail-error flex flex-col gap-2 rounded-lg p-4">
+        <span class="episode-detail-section-label">Erro encontrado</span>
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
+          {{ episode()?.error }}
+        </p>
+      </section>
+
+      @if (!solutionRevealed()) {
+        <div
+          class="episode-detail-reveal-hint flex flex-col items-center gap-4 rounded-lg p-6 text-center"
+        >
+          <mat-icon class="episode-detail-reveal-hint__icon" aria-hidden="true">
+            psychology
+          </mat-icon>
+          <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            Tente lembrar como você resolveu antes de expandir a solução.
+          </p>
+          <button mat-flat-button color="primary" type="button" (click)="revealSolution()">
+            Ver solução
+          </button>
+        </div>
+      }
+
+      @if (solutionRevealed()) {
+        <div class="flex flex-col gap-4">
+          <section class="episode-detail-content-block flex flex-col gap-2 rounded-lg p-4">
+            <span class="episode-detail-section-label">Solução</span>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
+              {{ episode()?.solution }}
+            </p>
+          </section>
+
+          <section class="episode-detail-content-block flex flex-col gap-2 rounded-lg p-4">
+            <span class="episode-detail-section-label">Por que funcionou</span>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
+              {{ episode()?.reasoning }}
+            </p>
+          </section>
+
+          @if (episode()?.snippets) {
+            <section class="flex flex-col gap-2">
+              <span class="episode-detail-section-label">Código relevante</span>
+              <div class="episode-detail-snippet">
+                <app-code-snippet [code]="episode()?.snippets ?? ''"></app-code-snippet>
+              </div>
+            </section>
+          }
+
+          @if (episode()?.tags?.length) {
+            <section class="flex flex-col gap-2">
+              <span class="episode-detail-section-label">Tags</span>
+              <mat-chip-set class="episode-detail-tags" aria-label="Tags do episódio">
+                @for (tag of episode()?.tags; track tag) {
+                  <mat-chip>{{ tag }}</mat-chip>
+                }
+              </mat-chip-set>
+            </section>
+          }
+
+          <dl class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div class="flex flex-col gap-0.5">
+              <dt class="episode-detail-section-label">Criado em</dt>
+              <dd class="text-sm" style="color: var(--color-text-primary)">
+                {{ episode()?.createdAt | date: 'dd/MM/yyyy' }}
+              </dd>
+            </div>
+
+            <div class="flex flex-col gap-0.5">
+              <dt class="episode-detail-section-label">Revisado em</dt>
+              <dd class="text-sm" style="color: var(--color-text-primary)">
+                @if (episode()?.reviewedAt) {
+                  {{ episode()?.reviewedAt | date: 'dd/MM/yyyy' }}
+                } @else {
+                  <span style="color: var(--color-accent)">Pendente</span>
+                }
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div
+          class="episode-detail-divider flex flex-col gap-3 border-t pt-6 sm:flex-row sm:flex-wrap"
+        >
+          @if (!episode()?.reviewedAt) {
+            <button mat-flat-button color="primary" type="button" (click)="markAsReviewed()">
+              <mat-icon aria-hidden="true">check</mat-icon>
+              Marcar como revisado
+            </button>
+          }
+
+          <a
+            mat-stroked-button
+            [routerLink]="['/stacks', episode()?.stackId, 'episodios', episode()?.id, 'editar']"
+          >
+            <mat-icon aria-hidden="true">edit</mat-icon>
+            Editar
+          </a>
+
+          <button mat-stroked-button color="warn" type="button" (click)="deleteEpisode()">
+            <mat-icon aria-hidden="true">delete</mat-icon>
+            Excluir
+          </button>
+        </div>
+
+        <section class="episode-detail-divider flex flex-col gap-4 border-t pt-6">
+          <div class="flex flex-col gap-1">
+            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+              Anotações
+            </h2>
+            <p class="text-sm" style="color: var(--color-text-secondary)">
+              Registre observações extras sobre este episódio.
+            </p>
+          </div>
+
+          <app-annotation-list [annotations]="episode()?.annotations ?? []" />
+          <app-annotation-form [episode]="episode()!" />
+        </section>
+      }
+
+      <div class="episode-detail-divider border-t pt-6">
+        <button mat-stroked-button type="button" (click)="goToNextPendingEpisode()">
+          <mat-icon aria-hidden="true">skip_next</mat-icon>
+          Próximo episódio pendente
+        </button>
+      </div>
+    </article>
   }
-  <button mat-button (click)="goToNextPendingEpisode()">Próximo episódio pendente</button>
-</div>
+</section>

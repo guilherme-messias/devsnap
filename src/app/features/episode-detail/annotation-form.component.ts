@@ -10,13 +10,32 @@ import { EpisodeService } from '../../core/services/episode.service';
 @Component({
   selector: 'app-annotation-form',
   standalone: true,
+  styleUrl: './annotation-form.component.scss',
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="annotation-form-divider flex flex-col gap-4 border-t pt-4"
+    >
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>Nota</mat-label>
-        <textarea matInput formControlName="text" placeholder="Digite sua nota aqui"></textarea>
+        <textarea
+          matInput
+          formControlName="text"
+          rows="3"
+          placeholder="Digite sua nota aqui"
+        ></textarea>
       </mat-form-field>
-      <button mat-button type="submit">Adicionar nota</button>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="self-start"
+        [disabled]="form.invalid"
+      >
+        Adicionar nota
+      </button>
     </form>
   `,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],

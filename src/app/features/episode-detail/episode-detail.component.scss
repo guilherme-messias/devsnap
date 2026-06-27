@@ -1,0 +1,108 @@
+:host {
+  display: block;
+  min-height: calc(100dvh - 57px);
+}
+
+.episode-detail-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.episode-detail-divider {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.episode-detail-back {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.episode-detail-reviewed {
+  color: var(--color-secondary);
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.episode-detail-section-label {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.episode-detail-error {
+  background: var(--color-bg-primary);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.episode-detail-reveal-hint {
+  background: var(--color-bg-primary);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+
+  &__icon {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.episode-detail-content-block {
+  background: var(--color-bg-primary);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.episode-detail-tag {
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  background: var(--color-bg-surface);
+  color: var(--color-text-secondary);
+}
+
+.episode-detail-snippet {
+  ::ng-deep > div {
+    background: var(--color-bg-primary) !important;
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.5rem;
+    color: var(--color-text-primary) !important;
+    padding: 1rem;
+  }
+}
+
+::ng-deep .episode-detail-tags {
+  .mat-mdc-chip {
+    --mdc-chip-elevated-container-color: var(--color-bg-primary);
+    --mdc-chip-label-text-color: var(--color-text-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .episode-detail-card,
+  .episode-detail-error,
+  .episode-detail-reveal-hint,
+  .episode-detail-content-block {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .episode-detail-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .episode-detail-tag {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .episode-detail-snippet {
+    ::ng-deep > div {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

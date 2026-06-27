@@ -7,14 +7,27 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DatePipe } from '@angular/common';
 import { StackService } from '../../core/services/stack.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AnnotationListComponent } from './annotation-list.component';
+import { AnnotationFormComponent } from './annotation-form.component';
 
 @Component({
   selector: 'app-episode-detail',
   standalone: true,
   templateUrl: './episode-detail.component.html',
-  imports: [CodeSnippetComponent, MatChipsModule, DatePipe, RouterLink, MatIconModule],
+  styleUrl: './episode-detail.component.scss',
+  imports: [
+    CodeSnippetComponent,
+    MatChipsModule,
+    DatePipe,
+    RouterLink,
+    MatIconModule,
+    MatButtonModule,
+    AnnotationListComponent,
+    AnnotationFormComponent,
+  ],
 })
 export class EpisodeDetailComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
