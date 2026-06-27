@@ -1,9 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { StackService } from '../../core/services/stack.service';
 import { Stack } from '../../core/models/stack.model';
 import { EpisodeService } from '../../core/services/episode.service';
@@ -18,9 +16,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
     EmptyStateComponent,
     RouterLink,
     MatButtonModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
   ],
   templateUrl: './stack-detail.component.html',
   styleUrl: './stack-detail.component.scss',

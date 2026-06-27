@@ -8,23 +8,23 @@
     </span>
     <h1
       class="text-2xl font-bold leading-tight md:text-3xl"
-      style="color: var(--color-text-primary)"
+      style="color: var(--color-text-secondary)"
     >
       {{ stack()?.name }}
     </h1>
   </header>
 
   <div class="flex flex-col gap-4">
-    <mat-form-field class="w-full" appearance="outline">
-      <mat-label>Pesquisar episódios</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
+    <label class="stack-detail-search flex items-center gap-2 px-3 py-2.5">
+      <mat-icon class="stack-detail-search__icon shrink-0" aria-hidden="true">search</mat-icon>
       <input
-        matInput
         type="search"
-        placeholder="Título, erro, tags..."
+        class="stack-detail-search__input min-w-0 flex-1"
+        placeholder="Pesquisar por título, erro ou tags..."
+        aria-label="Pesquisar episódios"
         (input)="updateSearchQuery($event)"
       />
-    </mat-form-field>
+    </label>
 
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div
