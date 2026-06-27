@@ -1,3 +1,7 @@
 <div>
   <h1>{{ stack()?.name }}</h1>
+
+  <button mat-button (click)="updateFilter('all')">Todos</button>
+  <button mat-button (click)="updateFilter('pending')">Pendentes</button>
+  <button mat-button (click)="updateFilter('reviewed')">Revisados</button>
 </div>

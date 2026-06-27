@@ -34,4 +34,8 @@ export class StackDetailComponent {
     if (filter === 'reviewed') return episodes.filter((e) => e.reviewedAt);
     return episodes;
   });
+
+  updateFilter(filter: 'all' | 'pending' | 'reviewed'): void {
+    this.filter.set(filter);
+  }
 }
