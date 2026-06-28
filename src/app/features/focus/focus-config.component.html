@@ -3,6 +3,8 @@
     Nenhuma stack encontrada. Crie uma stack antes de registrar um episódio.
   </p>
 } @else {
+  <form [formGroup]="form">
+
   <mat-form-field class="w-full" appearance="outline">
     <mat-label>Stack</mat-label>
     <mat-select formControlName="stackId">
@@ -11,4 +13,8 @@
       }
     </mat-select>
   </mat-form-field>
+
+  <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
+
+  </form>
 }
