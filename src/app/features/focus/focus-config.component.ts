@@ -5,6 +5,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FocusSessionService } from '../../core/services/focus-session.service';
 import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-focus-config',
@@ -22,9 +24,13 @@ export class FocusConfigComponent {
   readonly form = new FormGroup({
     stackId: new FormControl<string | null>(null),
   });
+  readonly selectedStackId = toSignal(
+    this.form.controls.stackId.valueChanges.pipe(startWith(this.form.controls.stackId.value)),
+    { initialValue: this.form.controls.stackId.value },
+  );
 
   readonly availablePending = computed(() => {
-    const stackId = this.form.get('stackId')?.value;
+    const stackId = this.selectedStackId();
     if (!stackId) return [];
     return this._episodeService.getByStack(stackId).filter((e) => !e.reviewedAt);
   });
