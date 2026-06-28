@@ -4,17 +4,15 @@
   </p>
 } @else {
   <form [formGroup]="form">
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Stack</mat-label>
+      <mat-select formControlName="stackId">
+        @for (stack of stacks(); track stack.id) {
+          <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field class="w-full" appearance="outline">
-    <mat-label>Stack</mat-label>
-    <mat-select formControlName="stackId">
-      @for (stack of stacks(); track stack.id) {
-        <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
-
+    <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
   </form>
 }
