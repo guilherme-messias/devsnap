@@ -1,13 +1,72 @@
-<div>
-  <p>
-    {{ (session()?.currentIndex ?? 0) + 1 }} de {{ session()?.episodes?.length ?? 0 }} episódios
-  </p>
+<div class="focus-session flex min-h-[calc(100dvh-57px)] flex-col">
+  <header class="focus-session-header flex flex-col gap-3 px-4 py-4 md:px-6">
+    <div class="mx-auto flex w-full max-w-2xl flex-col gap-3">
+      <div class="flex items-center justify-between gap-4">
+        <span
+          class="text-xs font-semibold uppercase tracking-widest"
+          style="color: var(--color-primary)"
+        >
+          Modo Foco
+        </span>
 
-  @if (currentEpisode(); as episode) {
-    <app-episode-detail [eid]="episode.id" [focusMode]="true" />
+        <p class="text-sm" style="color: var(--color-text-secondary)">
+          <span class="font-semibold" style="color: var(--color-text-primary)">
+            {{ progressCurrent() }}
+          </span>
+          de {{ progressTotal() }} episódios
+        </p>
+      </div>
+
+      <div
+        class="focus-session-progress"
+        role="progressbar"
+        [attr.aria-valuenow]="progressCurrent()"
+        [attr.aria-valuemin]="1"
+        [attr.aria-valuemax]="progressTotal()"
+        [attr.aria-label]="
+          'Progresso da sessão: episódio ' + progressCurrent() + ' de ' + progressTotal()
+        "
+      >
+        <div class="focus-session-progress-fill" [style.width.%]="progressPercent()"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="focus-session-content flex-1">
+    @if (currentEpisode(); as episode) {
+      <app-episode-detail [eid]="episode.id" [focusMode]="true" />
+    } @else {
+      <section class="flex flex-col items-center px-4 py-8 md:py-12">
+        <div
+          class="focus-session-empty flex w-full max-w-2xl flex-col items-center gap-3 rounded-xl p-8 text-center"
+        >
+          <mat-icon class="focus-session-empty-icon" aria-hidden="true">hourglass_empty</mat-icon>
+          <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+            Carregando episódio da sessão…
+          </p>
+        </div>
+      </section>
+    }
+  </div>
+
+  @if (currentEpisode()) {
+    <footer class="focus-session-actions px-4 py-4 md:px-6">
+      <div class="mx-auto flex w-full max-w-2xl flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <button mat-flat-button color="primary" type="button" (click)="markReviewedAndNext()">
+          <mat-icon aria-hidden="true">check</mat-icon>
+          Marcar revisado e próximo
+        </button>
+
+        <button mat-stroked-button type="button" (click)="skipToNext()">
+          <mat-icon aria-hidden="true">skip_next</mat-icon>
+          Pular
+        </button>
+
+        <button mat-stroked-button type="button" (click)="endFocusSession()">
+          <mat-icon aria-hidden="true">close</mat-icon>
+          Encerrar sessão
+        </button>
+      </div>
+    </footer>
   }
-
-  <button (click)="markReviewedAndNext()">Marcar revisado e próximo</button>
-  <button (click)="skipToNext()">Pular</button>
-  <button (click)="endFocusSession()">Encerrar sessão</button>
 </div>

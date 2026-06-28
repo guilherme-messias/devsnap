@@ -1,0 +1,55 @@
+:host {
+  display: block;
+}
+
+.focus-session-header {
+  background: var(--color-bg-primary);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.focus-session-progress {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  height: 0.5rem;
+  overflow: hidden;
+}
+
+.focus-session-progress-fill {
+  background: var(--color-primary);
+  border-radius: 9999px;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.focus-session-empty {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.focus-session-empty-icon {
+  color: var(--color-text-secondary);
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.focus-session-actions {
+  background: var(--color-bg-surface);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .focus-session-header,
+  .focus-session-progress,
+  .focus-session-empty,
+  .focus-session-actions {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .focus-session-header,
+  .focus-session-actions {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+}
