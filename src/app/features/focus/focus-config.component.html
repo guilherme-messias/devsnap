@@ -13,6 +13,11 @@
       </mat-select>
     </mat-form-field>
 
-    <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
   </form>
+
+  <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
+  
+  <button (click)="focusSessionStart()" class="btn btn-primary w-full" [disabled]="form.invalid">
+    Iniciar Sessão de Foco
+  </button>
 }
