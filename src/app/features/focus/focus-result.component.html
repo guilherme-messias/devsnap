@@ -1,0 +1,35 @@
+<h1>Resultado do foco</h1>
+
+<p>Revisados: {{ reviewedCount() }}</p>
+<p>Total: {{ totalCount() }}</p>
+<p>Progresso: {{ progressPercent() }}%</p>
+
+<app-progress-bar [reviewed]="reviewedCount()" [total]="totalCount()" />
+
+@for (item of session()?.episodes; track $index) {
+  <div class="flex items-center gap-2">
+    <p>{{ item.title }}</p>
+    @if (item.reviewedAt) {
+      <mat-icon>check_circle</mat-icon>
+    } @else {
+      <mat-icon>hourglass_empty</mat-icon>
+    }
+  </div>
+
+  <hr />
+}
+
+<button mat-flat-button color="primary" type="button" (click)="startNewFocusSession()">
+  <mat-icon>center_focus_strong</mat-icon>
+  Iniciar nova sessão de foco
+</button>
+
+<button mat-flat-button color="primary" type="button" (click)="goToStack()">
+  <mat-icon>arrow_back</mat-icon>
+  Voltar para a stack
+</button>
+
+<button mat-flat-button color="primary" type="button" (click)="goToHome()">
+  <mat-icon>home</mat-icon>
+  Ir para o home
+</button>
