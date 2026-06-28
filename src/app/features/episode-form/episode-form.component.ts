@@ -42,6 +42,22 @@ export class EpisodeFormComponent {
   readonly separatorKeysCodes = [ENTER, COMMA];
   readonly form: FormGroup;
 
+  ngOnInit(): void {
+    if (this.initialData) {
+      this.form.patchValue(this.initialData);
+      this.form.controls['stackId'].setValue(this.initialData.stackId);
+      this.form.controls['episodeData'].patchValue({
+        title: this.initialData.title,
+        error: this.initialData.error,
+        attempts: this.initialData.attempts,
+        solution: this.initialData.solution,
+        reasoning: this.initialData.reasoning,
+      });
+      this.form.controls['snippets'].setValue(this.initialData.snippets);
+      this.form.controls['tags'].setValue(this.initialData.tags);
+    }
+  }
+
   constructor() {
     this.form = this._fb.group({
       stackId: ['', Validators.required],
