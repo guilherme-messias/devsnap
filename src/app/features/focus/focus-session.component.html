@@ -2,9 +2,12 @@
   <p>
     {{ (session()?.currentIndex ?? 0) + 1 }} de {{ session()?.episodes?.length ?? 0 }} episódios
   </p>
-  <p>{{ currentEpisode()?.title ?? 'Carregando...' }}</p>
 
+  @if (currentEpisode(); as episode) {
+    <app-episode-detail [eid]="episode.id" [focusMode]="true" />
+  }
+
+  <button (click)="markReviewedAndNext()">Marcar revisado e próximo</button>
+  <button (click)="skipToNext()">Pular</button>
   <button (click)="endFocusSession()">Encerrar sessão</button>
-
-  <app-episode-detail [eid]="currentEpisode()?.id ?? ''"></app-episode-detail>
 </div>

@@ -42,18 +42,29 @@ export const routes: Routes = [
       },
       {
         path: 'foco',
-        loadComponent: () =>
-          import('./features/focus/focus-config.component').then((m) => m.FocusConfigComponent),
-      },
-      {
-        path: 'foco/sessao',
-        loadComponent: () =>
-          import('./features/focus/focus-session.component').then((m) => m.FocusSessionComponent),
-      },
-      {
-        path: 'foco/resultado',
-        loadComponent: () =>
-          import('./features/focus/focus-result.component').then((m) => m.FocusResultComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/focus/focus-config.component').then(
+                (m) => m.FocusConfigComponent,
+              ),
+          },
+          {
+            path: 'sessao',
+            loadComponent: () =>
+              import('./features/focus/focus-session.component').then(
+                (m) => m.FocusSessionComponent,
+              ),
+          },
+          {
+            path: 'resultado',
+            loadComponent: () =>
+              import('./features/focus/focus-result.component').then(
+                (m) => m.FocusResultComponent,
+              ),
+          },
+        ],
       },
       {
         path: 'configuracoes',

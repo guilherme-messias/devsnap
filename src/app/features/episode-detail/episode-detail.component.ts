@@ -35,6 +35,7 @@ export class EpisodeDetailComponent {
   private readonly _router = inject(Router);
 
   readonly solutionRevealed = signal(false);
+  readonly focusMode = input<boolean>(false);
 
   readonly eid = input.required<string>();
 

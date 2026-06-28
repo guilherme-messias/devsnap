@@ -45,8 +45,11 @@ export class FocusConfigComponent {
     return this._episodeService.getByStack(stackId).filter((e) => !e.reviewedAt);
   });
 
-  focusSessionStart() {
-    this._focusSessionService.start(this.availablePending());
-    this._router.navigate(['/foco/sessao']);
+  focusSessionStart(): void {
+    const episodes = this.availablePending();
+    if (episodes.length === 0) return;
+
+    this._focusSessionService.start(episodes);
+    void this._router.navigate(['/foco/sessao']);
   }
 }

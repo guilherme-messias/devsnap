@@ -29,7 +29,18 @@ export class FocusSessionService {
     );
   }
 
+  get snapshot(): FocusSession | null {
+    return this._session$.value;
+  }
+
+  isActive(): boolean {
+    const session = this._session$.value;
+    return !!session && session.currentIndex < session.episodes.length;
+  }
+
   start(episodes: Episode[]): void {
+    if (episodes.length === 0) return;
+
     const shuffled = fisherYatesShuffle(episodes);
     this._session$.next({
       episodes: shuffled,

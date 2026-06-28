@@ -10,13 +10,15 @@
       class="episode-detail-card flex w-full max-w-2xl flex-col gap-6 rounded-xl p-6 md:p-8"
     >
       <header class="flex flex-col gap-3">
-        <a
-          class="episode-detail-back inline-flex items-center gap-1 text-sm"
-          [routerLink]="['/stacks', episode()?.stackId]"
-        >
-          <mat-icon class="text-base" aria-hidden="true">arrow_back</mat-icon>
-          {{ getStackName(episode()?.stackId ?? '') }}
-        </a>
+        @if (!focusMode()) {
+          <a
+            class="episode-detail-back inline-flex items-center gap-1 text-sm"
+            [routerLink]="['/stacks', episode()?.stackId]"
+          >
+            <mat-icon class="text-base" aria-hidden="true">arrow_back</mat-icon>
+            {{ getStackName(episode()?.stackId ?? '') }}
+          </a>
+        }
 
         <div class="flex items-start justify-between gap-3">
           <h1
@@ -117,51 +119,55 @@
           </dl>
         </div>
 
-        <div
-          class="episode-detail-divider flex flex-col gap-3 border-t pt-6 sm:flex-row sm:flex-wrap"
-        >
-          @if (!episode()?.reviewedAt) {
-            <button mat-flat-button color="primary" type="button" (click)="markAsReviewed()">
-              <mat-icon aria-hidden="true">check</mat-icon>
-              Marcar como revisado
-            </button>
-          }
-
-          <a
-            mat-stroked-button
-            [routerLink]="['/stacks', episode()?.stackId, 'episodios', episode()?.id, 'editar']"
+        @if (!focusMode()) {
+          <div
+            class="episode-detail-divider flex flex-col gap-3 border-t pt-6 sm:flex-row sm:flex-wrap"
           >
-            <mat-icon aria-hidden="true">edit</mat-icon>
-            Editar
-          </a>
+            @if (!episode()?.reviewedAt) {
+              <button mat-flat-button color="primary" type="button" (click)="markAsReviewed()">
+                <mat-icon aria-hidden="true">check</mat-icon>
+                Marcar como revisado
+              </button>
+            }
 
-          <button mat-stroked-button color="warn" type="button" (click)="deleteEpisode()">
-            <mat-icon aria-hidden="true">delete</mat-icon>
-            Excluir
-          </button>
-        </div>
+            <a
+              mat-stroked-button
+              [routerLink]="['/stacks', episode()?.stackId, 'episodios', episode()?.id, 'editar']"
+            >
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              Editar
+            </a>
 
-        <section class="episode-detail-divider flex flex-col gap-4 border-t pt-6">
-          <div class="flex flex-col gap-1">
-            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
-              Anotações
-            </h2>
-            <p class="text-sm" style="color: var(--color-text-secondary)">
-              Registre observações extras sobre este episódio.
-            </p>
+            <button mat-stroked-button color="warn" type="button" (click)="deleteEpisode()">
+              <mat-icon aria-hidden="true">delete</mat-icon>
+              Excluir
+            </button>
           </div>
 
-          <app-annotation-list [annotations]="episode()?.annotations ?? []" />
-          <app-annotation-form [episode]="episode()!" />
-        </section>
+          <section class="episode-detail-divider flex flex-col gap-4 border-t pt-6">
+            <div class="flex flex-col gap-1">
+              <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+                Anotações
+              </h2>
+              <p class="text-sm" style="color: var(--color-text-secondary)">
+                Registre observações extras sobre este episódio.
+              </p>
+            </div>
+
+            <app-annotation-list [annotations]="episode()?.annotations ?? []" />
+            <app-annotation-form [episode]="episode()!" />
+          </section>
+        }
       }
 
-      <div class="episode-detail-divider border-t pt-6">
-        <button mat-stroked-button type="button" (click)="goToNextPendingEpisode()">
-          <mat-icon aria-hidden="true">skip_next</mat-icon>
-          Próximo episódio pendente
-        </button>
-      </div>
+      @if (!focusMode()) {
+        <div class="episode-detail-divider border-t pt-6">
+          <button mat-stroked-button type="button" (click)="goToNextPendingEpisode()">
+            <mat-icon aria-hidden="true">skip_next</mat-icon>
+            Próximo episódio pendente
+          </button>
+        </div>
+      }
     </article>
   }
 </section>
