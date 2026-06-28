@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
     MatButtonModule,
   ],
 })
-export class EpisodeFormComponent {
+export class EpisodeFormComponent implements OnInit {
   @Input() initialData?: Episode;
   @Output() saved = new EventEmitter<void>();
 
