@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { FocusSessionService } from '../../core/services/focus-session.service';
 import { EpisodeDetailComponent } from '../episode-detail/episode-detail.component';
+import { EpisodeService } from '../../core/services/episode.service';
 
 @Component({
   selector: 'app-focus-session',
@@ -16,6 +17,7 @@ import { EpisodeDetailComponent } from '../episode-detail/episode-detail.compone
 })
 export class FocusSessionComponent {
   private readonly _focusSessionService = inject(FocusSessionService);
+  private readonly _episodeService = inject(EpisodeService);
   private readonly _router = inject(Router);
   private readonly _platformId = inject(PLATFORM_ID);
 
@@ -49,6 +51,9 @@ export class FocusSessionComponent {
   }
 
   markReviewedAndNext(): void {
+    const id = this.currentEpisode()?.id;
+    if (!id) return;
+    this._episodeService.markReviewed(id);
     this._focusSessionService.markCurrentReviewed();
     this._focusSessionService.next();
   }
