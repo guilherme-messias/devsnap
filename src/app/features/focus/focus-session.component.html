@@ -1,0 +1,8 @@
+<div>
+  <p>
+    {{ (session()?.currentIndex ?? 0) + 1 }} de {{ session()?.episodes?.length ?? 0 }} episódios
+  </p>
+  <p>{{ currentEpisode()?.title }}</p>
+
+  <button (click)="endFocusSession()">Encerrar sessão</button>
+</div>
