@@ -1,0 +1,14 @@
+@if (stacks().length === 0) {
+  <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+    Nenhuma stack encontrada. Crie uma stack antes de registrar um episódio.
+  </p>
+} @else {
+  <mat-form-field class="w-full" appearance="outline">
+    <mat-label>Stack</mat-label>
+    <mat-select formControlName="stackId">
+      @for (stack of stacks(); track stack.id) {
+        <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+}
