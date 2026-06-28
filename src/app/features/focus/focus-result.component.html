@@ -1,35 +1,159 @@
-<h1>Resultado do foco</h1>
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="focus-result-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-2">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        Modo Foco
+      </span>
 
-<p>Revisados: {{ reviewedCount() }}</p>
-<p>Total: {{ totalCount() }}</p>
-<p>Progresso: {{ progressPercent() }}%</p>
+      <h1
+        class="text-xl font-bold leading-tight md:text-2xl"
+        style="color: var(--color-text-primary)"
+      >
+        Resultado da sessão
+      </h1>
 
-<app-progress-bar [reviewed]="reviewedCount()" [total]="totalCount()" />
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Veja o que você revisou nesta sessão e escolha o próximo passo.
+      </p>
+    </header>
 
-@for (item of session()?.episodes; track $index) {
-  <div class="flex items-center gap-2">
-    <p>{{ item.title }}</p>
-    @if (item.reviewedAt) {
-      <mat-icon>check_circle</mat-icon>
+    @if (!session()) {
+      <div
+        class="focus-result-empty flex flex-col items-center gap-3 rounded-lg px-4 py-8 text-center"
+        role="status"
+      >
+        <mat-icon class="focus-result-empty-icon" aria-hidden="true">info</mat-icon>
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+          Nenhum resultado de sessão disponível.
+        </p>
+      </div>
+
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="w-full"
+        (click)="goToFocusConfig()"
+      >
+        <mat-icon aria-hidden="true">center_focus_strong</mat-icon>
+        Iniciar nova sessão
+      </button>
     } @else {
-      <mat-icon>hourglass_empty</mat-icon>
+      <div
+        class="focus-result-summary flex flex-col gap-4 rounded-lg px-4 py-4"
+        role="status"
+        aria-live="polite"
+      >
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="flex flex-col gap-1">
+            <span class="focus-result-stat-label">Revisados</span>
+            <span class="focus-result-stat-value focus-result-stat-value--success">
+              {{ reviewedCount() }}
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <span class="focus-result-stat-label">Total</span>
+            <span class="focus-result-stat-value">{{ totalCount() }}</span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <span class="focus-result-stat-label">Progresso</span>
+            <span class="focus-result-stat-value">{{ progressPercent() | number: '1.0-0' }}%</span>
+          </div>
+        </div>
+
+        <div
+          class="focus-result-progress"
+          role="progressbar"
+          [attr.aria-valuenow]="reviewedCount()"
+          [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="totalCount()"
+          [attr.aria-label]="
+            'Progresso da revisão: ' + reviewedCount() + ' de ' + totalCount() + ' episódios'
+          "
+        >
+          <div class="focus-result-progress-fill" [style.width.%]="progressPercent()"></div>
+        </div>
+      </div>
+
+      @if (session()!.episodes.length === 0) {
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+          Nenhum episódio foi incluído nesta sessão.
+        </p>
+      } @else {
+        <section class="flex flex-col gap-3">
+          <div class="flex flex-col gap-1">
+            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+              Episódios
+            </h2>
+            <p class="text-sm" style="color: var(--color-text-secondary)">
+              Status de cada episódio percorrido na sessão.
+            </p>
+          </div>
+
+          <ul class="focus-result-list flex flex-col gap-2">
+            @for (item of session()!.episodes; track item.id) {
+              <li class="focus-result-item flex items-center gap-3 rounded-lg px-4 py-3">
+                @if (isReviewedInSession(item.id)) {
+                  <mat-icon
+                    class="focus-result-item-icon focus-result-item-icon--success shrink-0"
+                    aria-label="Revisado na sessão"
+                  >
+                    check_circle
+                  </mat-icon>
+                } @else {
+                  <mat-icon
+                    class="focus-result-item-icon focus-result-item-icon--pending shrink-0"
+                    aria-label="Não revisado na sessão"
+                  >
+                    hourglass_empty
+                  </mat-icon>
+                }
+
+                <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+                  <p class="truncate text-sm font-medium" style="color: var(--color-text-primary)">
+                    {{ item.title }}
+                  </p>
+                  <span class="text-xs" style="color: var(--color-text-secondary)">
+                    @if (isReviewedInSession(item.id)) {
+                      Revisado
+                    } @else {
+                      Não revisado
+                    }
+                  </span>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <div class="flex flex-col gap-3">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          class="w-full"
+          (click)="startNewFocusSession()"
+        >
+          <mat-icon aria-hidden="true">center_focus_strong</mat-icon>
+          Iniciar nova sessão
+        </button>
+
+        <button mat-stroked-button type="button" class="w-full" (click)="goToStack()">
+          <mat-icon aria-hidden="true">arrow_back</mat-icon>
+          Voltar para a stack
+        </button>
+
+        <button mat-stroked-button type="button" class="w-full" (click)="goToHome()">
+          <mat-icon aria-hidden="true">home</mat-icon>
+          Ir para o home
+        </button>
+      </div>
     }
   </div>
-
-  <hr />
-}
-
-<button mat-flat-button color="primary" type="button" (click)="startNewFocusSession()">
-  <mat-icon>center_focus_strong</mat-icon>
-  Iniciar nova sessão de foco
-</button>
-
-<button mat-flat-button color="primary" type="button" (click)="goToStack()">
-  <mat-icon>arrow_back</mat-icon>
-  Voltar para a stack
-</button>
-
-<button mat-flat-button color="primary" type="button" (click)="goToHome()">
-  <mat-icon>home</mat-icon>
-  Ir para o home
-</button>
+</section>

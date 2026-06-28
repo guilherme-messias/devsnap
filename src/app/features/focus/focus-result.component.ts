@@ -1,20 +1,23 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { FocusSessionService } from '../../core/services/focus-session.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ProgressBarComponent } from '../../shared/components/progress-bar.component';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { FocusSessionService } from '../../core/services/focus-session.service';
 
 @Component({
   selector: 'app-focus-result',
   standalone: true,
   templateUrl: './focus-result.component.html',
-  imports: [ProgressBarComponent, MatIconModule],
+  styleUrl: './focus-result.component.scss',
+  imports: [DecimalPipe, MatButtonModule, MatIconModule],
 })
 export class FocusResultComponent {
   private readonly _focusSessionService = inject(FocusSessionService);
-  readonly session = toSignal(this._focusSessionService.session$, { initialValue: null });
   private readonly _router = inject(Router);
+
+  readonly session = toSignal(this._focusSessionService.session$, { initialValue: null });
 
   readonly reviewedCount = computed(() => this.session()?.reviewed.length ?? 0);
   readonly totalCount = computed(() => this.session()?.episodes.length ?? 0);
@@ -24,9 +27,16 @@ export class FocusResultComponent {
     return (this.reviewedCount() / total) * 100;
   });
 
+  isReviewedInSession(episodeId: string): boolean {
+    return this.session()?.reviewed.includes(episodeId) ?? false;
+  }
+
   startNewFocusSession(): void {
-    this._focusSessionService.start([]);
-    void this._router.navigate(['/foco/sessao']);
+    void this._router.navigate(['/foco']);
+  }
+
+  goToFocusConfig(): void {
+    void this._router.navigate(['/foco']);
   }
 
   goToStack(): void {
