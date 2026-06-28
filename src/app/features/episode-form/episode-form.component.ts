@@ -12,6 +12,7 @@ import { EpisodeService } from '../../core/services/episode.service';
 import { v4 as uuidv4 } from 'uuid';
 import { Episode } from '../../core/models/episode.model';
 import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-episode-form',
