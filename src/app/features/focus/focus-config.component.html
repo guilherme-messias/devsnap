@@ -1,23 +1,95 @@
-@if (stacks().length === 0) {
-  <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
-    Nenhuma stack encontrada. Crie uma stack antes de registrar um episódio.
-  </p>
-} @else {
-  <form [formGroup]="form">
-    <mat-form-field class="w-full" appearance="outline">
-      <mat-label>Stack</mat-label>
-      <mat-select formControlName="stackId">
-        @for (stack of stacks(); track stack.id) {
-          <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="focus-config-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-2">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        Modo Foco
+      </span>
 
-  </form>
+      <h1
+        class="text-xl font-bold leading-tight md:text-2xl"
+        style="color: var(--color-text-primary)"
+      >
+        Sessão de revisão
+      </h1>
 
-  <p>{{ availablePending().length }} episódios pendentes disponíveis</p>
-  
-  <button (click)="focusSessionStart()" class="btn btn-primary w-full" [disabled]="form.invalid">
-    Iniciar Sessão de Foco
-  </button>
-}
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Escolha uma stack e revise os episódios pendentes em sequência.
+      </p>
+    </header>
+
+    @if (stacks().length === 0) {
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Nenhuma stack encontrada. Crie uma stack antes de iniciar o Modo Foco.
+      </p>
+    } @else {
+      <form [formGroup]="form" class="focus-config-form flex flex-col gap-6">
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1">
+            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
+              Stack
+            </h2>
+            <p class="text-sm" style="color: var(--color-text-secondary)">
+              Qual stack você quer revisar agora?
+            </p>
+          </div>
+
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Stack</mat-label>
+            <mat-select formControlName="stackId">
+              @for (stack of stacks(); track stack.id) {
+                <mat-option [value]="stack.id">{{ stack.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="focus-config-status flex items-start gap-3 rounded-lg px-4 py-3"
+          role="status"
+          aria-live="polite"
+        >
+          @if (availablePending().length > 0) {
+            <mat-icon aria-hidden="true" class="focus-config-status-icon shrink-0">pending</mat-icon>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
+              <span class="font-semibold">{{ availablePending().length }}</span>
+              {{
+                availablePending().length === 1
+                  ? 'episódio pendente disponível'
+                  : 'episódios pendentes disponíveis'
+              }}
+            </p>
+          } @else if (selectedStackId()) {
+            <mat-icon
+              aria-hidden="true"
+              class="focus-config-status-icon focus-config-status-icon--success shrink-0"
+            >
+              check_circle
+            </mat-icon>
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+              Nenhum episódio pendente nesta stack.
+            </p>
+          } @else {
+            <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+              Selecione uma stack para ver os episódios pendentes.
+            </p>
+          }
+        </div>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          class="w-full"
+          (click)="focusSessionStart()"
+          [disabled]="form.invalid || availablePending().length === 0"
+        >
+          <mat-icon>center_focus_strong</mat-icon>
+          Iniciar Sessão de Foco
+        </button>
+      </form>
+    }
+  </div>
+</section>

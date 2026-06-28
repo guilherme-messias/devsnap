@@ -2,17 +2,27 @@ import { Component, computed, inject } from '@angular/core';
 import { EpisodeService } from '../../core/services/episode.service';
 import { StackService } from '../../core/services/stack.service';
 import { MatSelectModule } from '@angular/material/select';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FocusSessionService } from '../../core/services/focus-session.service';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { startWith } from 'rxjs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-focus-config',
   standalone: true,
   templateUrl: 'focus-config.component.html',
-  imports: [MatSelectModule, ReactiveFormsModule],
+  styleUrl: './focus-config.component.scss',
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+  ],
 })
 export class FocusConfigComponent {
   private readonly _stackService: StackService = inject(StackService);
@@ -22,7 +32,7 @@ export class FocusConfigComponent {
 
   readonly stacks = this._stackService.stacks;
   readonly form = new FormGroup({
-    stackId: new FormControl<string | null>(null),
+    stackId: new FormControl<string | null>(null, Validators.required),
   });
   readonly selectedStackId = toSignal(
     this.form.controls.stackId.valueChanges.pipe(startWith(this.form.controls.stackId.value)),
