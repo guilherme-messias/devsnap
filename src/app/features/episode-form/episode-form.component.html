@@ -1,24 +1,46 @@
 <section class="flex flex-col items-center px-4 py-8 md:py-12">
   <div class="episode-form-card flex w-full max-w-2xl flex-col gap-8 rounded-xl p-6 md:p-8">
-    <header class="flex flex-col gap-2">
-      <span
-        class="text-xs font-semibold uppercase tracking-widest"
-        style="color: var(--color-primary)"
-      >
-        Novo episódio
-      </span>
+    @if (initialData) {
+      <header class="flex flex-col gap-2">
+        <span
+          class="text-xs font-semibold uppercase tracking-widest"
+          style="color: var(--color-primary)"
+        >
+          Editar episódio
+        </span>
 
-      <h1
-        class="text-xl font-bold leading-tight md:text-2xl"
-        style="color: var(--color-text-primary)"
-      >
-        Registre o que você aprendeu
-      </h1>
+        <h1
+          class="text-xl font-bold leading-tight md:text-2xl"
+          style="color: var(--color-text-primary)"
+        >
+          Editar episódio
+        </h1>
 
-      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
-        Capture o erro, o que tentou e o que resolveu — enquanto ainda está fresco.
-      </p>
-    </header>
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+          Edite o episódio para refletir o que você aprendeu.
+        </p>
+      </header>
+    } @else {
+      <header class="flex flex-col gap-2">
+        <span
+          class="text-xs font-semibold uppercase tracking-widest"
+          style="color: var(--color-primary)"
+        >
+          Novo episódio
+        </span>
+
+        <h1
+          class="text-xl font-bold leading-tight md:text-2xl"
+          style="color: var(--color-text-primary)"
+        >
+          Registre o que você aprendeu
+        </h1>
+
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+          Capture o erro, o que tentou e o que resolveu — enquanto ainda está fresco.
+        </p>
+      </header>
+    }
 
     <form [formGroup]="form" class="flex flex-col gap-6" (ngSubmit)="onSubmit()">
       <div class="flex flex-col gap-4">
