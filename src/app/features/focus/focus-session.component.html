@@ -2,7 +2,9 @@
   <p>
     {{ (session()?.currentIndex ?? 0) + 1 }} de {{ session()?.episodes?.length ?? 0 }} episódios
   </p>
-  <p>{{ currentEpisode()?.title }}</p>
+  <p>{{ currentEpisode()?.title ?? 'Carregando...' }}</p>
 
   <button (click)="endFocusSession()">Encerrar sessão</button>
+
+  <app-episode-detail [eid]="currentEpisode()?.id ?? ''"></app-episode-detail>
 </div>
