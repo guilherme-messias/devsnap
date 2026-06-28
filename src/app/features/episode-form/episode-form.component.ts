@@ -91,7 +91,12 @@ export class EpisodeFormComponent {
       createdAt: new Date(),
     };
 
-    this._episodeService.add(episode);
+    if (this.initialData) {
+      this._episodeService.update(this.initialData, episode);
+    } else {
+      this._episodeService.add(episode);
+    }
+
     this._router.navigate(['/stacks', this.form.value.stackId]);
   }
 
