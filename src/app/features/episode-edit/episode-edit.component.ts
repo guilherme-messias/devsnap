@@ -1,7 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { EpisodeService } from '../../core/services/episode.service';
-import { ActivatedRoute } from '@angular/router';
-import { Episode } from '../../core/models/episode.model';
 import { EpisodeFormComponent } from '../episode-form/episode-form.component';
 
 @Component({
@@ -11,15 +9,12 @@ import { EpisodeFormComponent } from '../episode-form/episode-form.component';
   imports: [EpisodeFormComponent],
 })
 export class EpisodeEditComponent {
-  private readonly _route = inject(ActivatedRoute);
   private readonly _episodeService = inject(EpisodeService);
 
-  readonly episode = signal<Episode | undefined>(undefined);
+  readonly eid = input.required<string>();
 
-  ngOnInit(): void {
-    const episodeId = this._route.snapshot.paramMap.get('id');
-    if (episodeId) {
-      this.episode.set(this._episodeService.getById(episodeId));
-    }
-  }
+  readonly episode = computed(() => {
+    const id = this.eid();
+    return this._episodeService.episodes().find((e) => e.id === id);
+  });
 }
