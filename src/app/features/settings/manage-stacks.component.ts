@@ -26,11 +26,10 @@ export class ManageStacksComponent {
     const newName = prompt('Digite o novo nome da stack', stack.name);
     if (newName && newName.trim() !== stack.name) {
       this._stackService.update(stack, { name: newName });
-      this._router.navigate(['/settings']);
     } else {
       alert('Nome da stack não pode ser vazio ou igual ao nome atual. Por favor, tente novamente.');
-      this._router.navigate(['/settings']);
     }
+    this._router.navigate(['/settings']);
   }
 
   onDelete(stack: Stack): void {
