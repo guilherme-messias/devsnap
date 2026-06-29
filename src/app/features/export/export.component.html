@@ -1,0 +1,7 @@
+@for (stack of stacks(); track stack.id) {
+  <mat-checkbox
+    [checked]="selectedIds.has(stack.id)"
+    (change)="toggleSelection(stack.id, $event.checked)">
+    {{ stack.name }}
+  </mat-checkbox>
+}
