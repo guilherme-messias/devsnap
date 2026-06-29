@@ -52,4 +52,20 @@ export class ManageStacksComponent {
   onExport(): void {
     this._router.navigate(['/exportar']);
   }
+
+  onDeleteAccount(): void {
+    const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Excluir conta',
+        message: 'Tem certeza que deseja excluir sua conta?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        localStorage.clear();
+        this._router.navigate(['/onboarding']);
+      }
+    });
+  }
 }
