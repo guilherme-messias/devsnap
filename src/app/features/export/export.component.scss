@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.export-stack-item {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.export-actions-panel {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.export-success__icon {
+  color: var(--color-secondary);
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+}
+
+// Override Material: alinha checkbox e label em largura total no card
+::ng-deep .export-stack-checkbox {
+  .mdc-form-field {
+    width: 100%;
+  }
+
+  .mdc-label {
+    width: 100%;
+    padding-left: 0.25rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .export-stack-item,
+  .export-actions-panel {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

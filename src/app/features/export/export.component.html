@@ -1,14 +1,80 @@
-@for (stack of stacks(); track stack.id) {
-  <mat-checkbox
-    [checked]="selectedIds.has(stack.id)"
-    (change)="toggleSelection(stack.id, $event.checked)"
-  >
-    {{ stack.name }}
-  </mat-checkbox>
-}
+<section class="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+  <header class="flex flex-col gap-1">
+    <span
+      class="text-xs font-semibold uppercase tracking-widest"
+      style="color: var(--color-primary)"
+    >
+      Dados
+    </span>
+    <h1
+      class="text-2xl font-bold leading-tight md:text-3xl"
+      style="color: var(--color-text-primary)"
+    >
+      Exportar stacks
+    </h1>
+    <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+      Gere arquivos Markdown com os episódios de cada stack selecionada.
+    </p>
+  </header>
 
-@if (exported()) {
-  <p class="text-green-500">Exportação concluída com sucesso!</p>
-} @else {
-  <button mat-flat-button color="primary" (click)="onExport()">Exportar selecionados</button>
-}
+  @if (stacks().length === 0) {
+    <app-empty-state message="Nenhuma stack cadastrada para exportar." />
+  } @else {
+    <ul class="export-stack-list flex flex-col gap-2" role="list">
+      @for (stack of stacks(); track stack.id) {
+        @let count = episodeCount(stack.id);
+        <li class="export-stack-item rounded-xl px-4 py-3">
+          <mat-checkbox
+            class="export-stack-checkbox w-full"
+            [checked]="selectedIds.has(stack.id)"
+            (change)="toggleSelection(stack.id, $event.checked)"
+          >
+            <span class="flex min-w-0 flex-col gap-0.5">
+              <span
+                class="truncate text-base font-semibold leading-snug"
+                style="color: var(--color-text-primary)"
+              >
+                {{ stack.name }}
+              </span>
+              <span class="text-sm" style="color: var(--color-text-secondary)">
+                {{ count }} {{ count === 1 ? 'episódio' : 'episódios' }}
+              </span>
+            </span>
+          </mat-checkbox>
+        </li>
+      }
+    </ul>
+  }
+
+  <section class="export-actions-panel flex flex-col gap-3 rounded-xl p-4">
+    @if (exported()) {
+      <div class="export-success flex items-start gap-3" role="status" aria-live="polite">
+        <mat-icon aria-hidden="true" class="export-success__icon shrink-0">check_circle</mat-icon>
+        <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
+          Exportação concluída com sucesso! Os arquivos foram baixados para o seu dispositivo.
+        </p>
+      </div>
+    } @else {
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        @if (selectedIds.size > 0) {
+          {{ selectedIds.size }}
+          {{ selectedIds.size === 1 ? 'stack selecionada' : 'stacks selecionadas' }}.
+        } @else {
+          Selecione ao menos uma stack para exportar.
+        }
+      </p>
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          [disabled]="selectedIds.size === 0"
+          (click)="onExport()"
+        >
+          <mat-icon aria-hidden="true">download</mat-icon>
+          Exportar selecionados
+        </button>
+      </div>
+    }
+  </section>
+</section>
