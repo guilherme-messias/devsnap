@@ -8,12 +8,13 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { EmptyStateComponent } from '../../shared/components/empty-state.component';
 import { StackCardComponent } from './stack-card.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { CreateStackDialogComponent } from './create-stack-dialog.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [EmptyStateComponent, StackCardComponent, MatDialogModule],
+  imports: [EmptyStateComponent, StackCardComponent, MatDialogModule, MatButtonModule],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {

@@ -86,3 +86,9 @@ html {
     );
   }
 }
+
+// Fundo e texto globais — sincronizados com prefers-color-scheme
+body {
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
