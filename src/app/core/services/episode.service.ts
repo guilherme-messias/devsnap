@@ -63,4 +63,9 @@ export class EpisodeService {
   getById(id: string): Episode | undefined {
     return computed(() => this._episodes().find((e) => e.id === id))?.();
   }
+
+  removeByStack(stackId: string): void {
+    this._episodes.update((episodes) => episodes.filter((e) => e.stackId !== stackId));
+    this._persist();
+  }
 }

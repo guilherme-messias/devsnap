@@ -1,0 +1,10 @@
+@for (stack of stacks; track stack.id) {
+  <div>
+    <h3>{{ stack.name }}</h3>
+    <p>{{ stack.createdAt | date:'dd/MM/yyyy' }}</p>
+
+    <button (click)="onEdit(stack)">Editar</button>
+    
+    <button (click)="onDelete(stack)">Deletar</button>
+  </div>
+}
