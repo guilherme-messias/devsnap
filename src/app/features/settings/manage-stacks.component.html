@@ -4,7 +4,11 @@
     <p>{{ stack.createdAt | date:'dd/MM/yyyy' }}</p>
 
     <button (click)="onEdit(stack)">Editar</button>
-    
+
     <button (click)="onDelete(stack)">Deletar</button>
   </div>
 }
+
+<div>
+  <button mat-flat-button color="primary" (click)="onExport()">Exportar</button>
+</div>

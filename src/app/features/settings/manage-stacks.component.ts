@@ -48,4 +48,8 @@ export class ManageStacksComponent {
       }
     });
   }
+
+  onExport(): void {
+    this._router.navigate(['/exportar']);
+  }
 }
