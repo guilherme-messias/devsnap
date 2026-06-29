@@ -1,0 +1,18 @@
+@if (level === 'urgent') {
+  <span class="pending-badge pending-badge--urgent">
+    <mat-icon aria-hidden="true">warning</mat-icon>
+    Urgente
+  </span>
+}
+@if (level === 'moderate') {
+  <span class="pending-badge pending-badge--moderate">
+    <mat-icon aria-hidden="true">schedule</mat-icon>
+    Moderado
+  </span>
+}
+@if (level === 'ok') {
+  <span class="pending-badge pending-badge--ok">
+    <mat-icon aria-hidden="true">check_circle</mat-icon>
+    Em dia
+  </span>
+}

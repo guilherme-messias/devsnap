@@ -1,0 +1,44 @@
+:host {
+  display: inline-flex;
+  shrink: 0;
+}
+
+.pending-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 0.875rem;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &--urgent {
+    color: var(--color-accent);
+    background: var(--color-bg-primary);
+  }
+
+  &--moderate {
+    color: var(--color-text-secondary);
+    background: var(--color-bg-primary);
+  }
+
+  &--ok {
+    color: var(--color-secondary);
+    background: var(--color-bg-primary);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .pending-badge {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

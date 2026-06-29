@@ -1,21 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-pending-badge',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    @if (level === 'urgent') {
-      <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">Urgente</span>
-    }
-    @if (level === 'moderate') {
-      <span class="bg-yellow-400 text-white text-xs px-2 py-1 rounded-full">Moderado</span>
-    }
-    @if (level === 'ok') {
-      <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Em dia</span>
-    }
-  `,
+  imports: [MatIconModule],
+  templateUrl: './pending-badge.component.html',
+  styleUrl: './pending-badge.component.scss',
 })
 export class PendingBadgeComponent {
   @Input() level: 'urgent' | 'moderate' | 'ok' = 'ok';

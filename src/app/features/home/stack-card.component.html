@@ -1,12 +1,31 @@
-<div class="p-4 rounded-lg border border-gray-200">
-  <h3 class="text-lg font-bold">{{ stack.name }}</h3>
-  <p class="text-sm text-gray-500">{{ episodesForStack?.length }} episódios</p>
+<article class="stack-card flex flex-col gap-4 rounded-xl p-4">
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex min-w-0 flex-col gap-0.5">
+      <h3
+        class="truncate text-base font-semibold leading-snug"
+        style="color: var(--color-text-primary)"
+      >
+        {{ stack.name }}
+      </h3>
+      <p class="text-sm" style="color: var(--color-text-secondary)">
+        @let count = episodesForStack().length;
+        {{ count }} {{ count === 1 ? 'episódio' : 'episódios' }}
+      </p>
+    </div>
+
+    <app-pending-badge [level]="episodesForStack() | urgencyLevel" />
+  </div>
 
   <app-progress-bar
     [reviewed]="episodesForStack() | pendingCount"
-    [total]="episodesForStack().length"
-  ></app-progress-bar>
-  <app-pending-badge [level]="episodesForStack() | urgencyLevel"> </app-pending-badge>
-  <button [routerLink]="['/stacks', stack.id]">Entrar</button>
-  <button [routerLink]="['/foco']">Modo Foco</button>
-</div>
+    [total]="episodesForStack().length || 1"
+  />
+
+  <div class="flex flex-wrap gap-2">
+    <a mat-flat-button color="primary" [routerLink]="['/stacks', stack.id]"> Entrar </a>
+    <a mat-stroked-button [routerLink]="['/foco']">
+      <mat-icon aria-hidden="true">center_focus_strong</mat-icon>
+      Modo Foco
+    </a>
+  </div>
+</article>

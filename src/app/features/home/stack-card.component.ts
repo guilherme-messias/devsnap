@@ -6,6 +6,8 @@ import { UrgencyLevelPipe } from '../../shared/pipes/urgency-level.pipe';
 import { ProgressBarComponent } from '../../shared/components/progress-bar.component';
 import { PendingCountPipe } from '../../shared/pipes/pending-count.pipe';
 import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-stack-card',
@@ -16,8 +18,11 @@ import { RouterLink } from '@angular/router';
     ProgressBarComponent,
     PendingCountPipe,
     RouterLink,
+    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './stack-card.component.html',
+  styleUrl: './stack-card.component.scss',
 })
 export class StackCardComponent {
   @Input() stack!: Stack;

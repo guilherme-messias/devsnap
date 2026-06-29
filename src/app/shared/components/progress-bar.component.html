@@ -1,0 +1,9 @@
+<div
+  class="progress-bar"
+  role="progressbar"
+  [attr.aria-valuenow]="reviewed"
+  aria-valuemin="0"
+  [attr.aria-valuemax]="total"
+>
+  <div class="progress-bar__fill" [style.width.%]="total ? (reviewed / total) * 100 : 0"></div>
+</div>
