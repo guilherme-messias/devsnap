@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { StackService } from '../../core/services/stack.service';
 import { EpisodeService } from '../../core/services/episode.service';
 import { ExportService } from '../../core/services/export.service';
@@ -17,6 +17,7 @@ export class ExportComponent {
 
   readonly stacks = this._stackService.stacks;
   readonly selectedIds = new Set<string>();
+  readonly exported = signal<boolean>(false);
 
   toggleSelection(id: string, checked: boolean): void {
     if (checked) {
@@ -24,5 +25,15 @@ export class ExportComponent {
     } else {
       this.selectedIds.delete(id);
     }
+  }
+
+  onExport(): void {
+    const selectedStacks = this.stacks().filter((s) => this.selectedIds.has(s.id));
+    const allEpisodes = this._episodeService.episodes();
+    const episodes = allEpisodes.filter((e) => selectedStacks.some((s) => s.id === e.stackId));
+    this._exportService.exportMultiple(selectedStacks, episodes);
+
+    this.selectedIds.clear();
+    this.exported.set(true);
   }
 }

@@ -1,7 +1,14 @@
 @for (stack of stacks(); track stack.id) {
   <mat-checkbox
     [checked]="selectedIds.has(stack.id)"
-    (change)="toggleSelection(stack.id, $event.checked)">
+    (change)="toggleSelection(stack.id, $event.checked)"
+  >
     {{ stack.name }}
   </mat-checkbox>
+}
+
+@if (exported()) {
+  <p class="text-green-500">Exportação concluída com sucesso!</p>
+} @else {
+  <button mat-flat-button color="primary" (click)="onExport()">Exportar selecionados</button>
 }
