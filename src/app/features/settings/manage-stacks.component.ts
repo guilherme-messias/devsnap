@@ -2,8 +2,10 @@ import { Component, inject, Input } from '@angular/core';
 import { Stack } from '../../core/models/stack.model';
 import { DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state.component';
 import { StackService } from '../../core/services/stack.service';
 import { Router } from '@angular/router';
 import { EpisodeService } from '../../core/services/episode.service';
@@ -12,7 +14,8 @@ import { EpisodeService } from '../../core/services/episode.service';
   selector: 'app-manage-stacks',
   standalone: true,
   templateUrl: './manage-stacks.component.html',
-  imports: [DatePipe, MatButtonModule],
+  styleUrl: './manage-stacks.component.scss',
+  imports: [DatePipe, MatButtonModule, MatIconModule, EmptyStateComponent],
 })
 export class ManageStacksComponent {
   @Input() stacks: Stack[] = [];
@@ -57,7 +60,7 @@ export class ManageStacksComponent {
     const dialogRef = this._dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Excluir conta',
-        message: 'Tem certeza que deseja excluir sua conta?',
+        message: 'Tem certeza que deseja excluir sua conta? Esta ação é irreversível.',
       },
     });
 

@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.manage-stack-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+
+  &__delete {
+    color: var(--color-accent);
+  }
+}
+
+.manage-stacks-panel {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.manage-stacks-danger-btn {
+  color: var(--color-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .manage-stack-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .manage-stacks-panel {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

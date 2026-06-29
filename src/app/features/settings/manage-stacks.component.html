@@ -1,18 +1,93 @@
-@for (stack of stacks; track stack.id) {
-  <div>
-    <h3>{{ stack.name }}</h3>
-    <p>{{ stack.createdAt | date:'dd/MM/yyyy' }}</p>
+<section class="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+  <header class="flex flex-col gap-1">
+    <span
+      class="text-xs font-semibold uppercase tracking-widest"
+      style="color: var(--color-primary)"
+    >
+      Configurações
+    </span>
+    <h1
+      class="text-2xl font-bold leading-tight md:text-3xl"
+      style="color: var(--color-text-primary)"
+    >
+      Gerenciar stacks
+    </h1>
+  </header>
 
-    <button (click)="onEdit(stack)">Editar</button>
+  @if (stacks.length === 0) {
+    <app-empty-state message="Nenhuma stack cadastrada." />
+  } @else {
+    <ul class="flex flex-col gap-3" role="list">
+      @for (stack of stacks; track stack.id) {
+        <li class="manage-stack-card flex flex-col gap-3 rounded-xl p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex min-w-0 flex-col gap-1">
+            <h2
+              class="truncate text-base font-semibold leading-snug"
+              style="color: var(--color-text-primary)"
+            >
+              {{ stack.name }}
+            </h2>
+            @if (stack.createdAt) {
+              <time
+                class="text-sm"
+                style="color: var(--color-text-secondary)"
+                [attr.datetime]="stack.createdAt"
+              >
+                Criada em {{ stack.createdAt | date: 'dd/MM/yyyy' }}
+              </time>
+            }
+          </div>
 
-    <button (click)="onDelete(stack)">Deletar</button>
+          <div class="flex shrink-0 flex-wrap gap-2">
+            <button mat-stroked-button type="button" (click)="onEdit(stack)">
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              Editar
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              class="manage-stack-card__delete"
+              aria-label="Excluir stack {{ stack.name }}"
+              (click)="onDelete(stack)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  <div class="flex flex-col gap-4">
+    <section class="manage-stacks-panel flex flex-col gap-3 rounded-xl p-4">
+      <h2 class="text-sm font-semibold" style="color: var(--color-text-primary)">Dados</h2>
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Exporte suas stacks e episódios para backup.
+      </p>
+      <div>
+        <button mat-flat-button color="primary" type="button" (click)="onExport()">
+          <mat-icon aria-hidden="true">download</mat-icon>
+          Exportar
+        </button>
+      </div>
+    </section>
+
+    <section class="manage-stacks-panel flex flex-col gap-3 rounded-xl p-4">
+      <h2 class="text-sm font-semibold" style="color: var(--color-text-primary)">Zona de perigo</h2>
+      <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+        Exclui permanentemente todos os dados armazenados neste dispositivo.
+      </p>
+      <div>
+        <button
+          mat-stroked-button
+          type="button"
+          class="manage-stacks-danger-btn"
+          (click)="onDeleteAccount()"
+        >
+          <mat-icon aria-hidden="true">delete_forever</mat-icon>
+          Excluir conta
+        </button>
+      </div>
+    </section>
   </div>
-}
-
-<div>
-  <button mat-flat-button color="primary" (click)="onExport()">Exportar</button>
-</div>
-
-<div>
-  <button mat-flat-button color="primary" (click)="onDeleteAccount()">Excluir conta</button>
-</div>
+</section>
