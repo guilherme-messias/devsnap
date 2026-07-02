@@ -20,3 +20,22 @@ export const authGuard = () => {
 
   return router.parseUrl('/onboarding');
 };
+
+export const onboardingGuard = () => {
+  const router = inject(Router);
+  const platformId = inject(PLATFORM_ID);
+
+  const isOnboarded = () => {
+    if (!isPlatformBrowser(platformId)) {
+      return false;
+    }
+    const raw = localStorage.getItem('devsnap:stacks');
+    return raw ? JSON.parse(raw).length > 0 : false;
+  };
+
+  if (!isOnboarded()) {
+    return true;
+  }
+
+  return router.parseUrl('/home');
+};

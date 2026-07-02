@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-// import { authGuard } from './guards/auth.guard';
+import { authGuard, onboardingGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   {
     path: '',
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: 'home',
@@ -46,9 +46,7 @@ export const routes: Routes = [
           {
             path: '',
             loadComponent: () =>
-              import('./features/focus/focus-config.component').then(
-                (m) => m.FocusConfigComponent,
-              ),
+              import('./features/focus/focus-config.component').then((m) => m.FocusConfigComponent),
           },
           {
             path: 'sessao',
@@ -60,9 +58,7 @@ export const routes: Routes = [
           {
             path: 'resultado',
             loadComponent: () =>
-              import('./features/focus/focus-result.component').then(
-                (m) => m.FocusResultComponent,
-              ),
+              import('./features/focus/focus-result.component').then((m) => m.FocusResultComponent),
           },
         ],
       },
@@ -81,6 +77,7 @@ export const routes: Routes = [
 
   {
     path: 'onboarding',
+    canActivate: [onboardingGuard],
     loadComponent: () =>
       import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
   },
