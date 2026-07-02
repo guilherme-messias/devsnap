@@ -10,10 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
   template: `
     @if (annotations.length === 0) {
       <div class="flex flex-col items-center gap-2 py-6 text-center">
-        <mat-icon aria-hidden="true" style="color: var(--color-text-secondary)">
+        <mat-icon aria-hidden="true" aria-label="Nenhuma anotação registrada ainda." style="color: var(--color-text-secondary)">
           sticky_note_2
         </mat-icon>
-        <p class="text-sm" style="color: var(--color-text-secondary)">
+        <p class="text-sm" aria-label="Nenhuma anotação registrada ainda." style="color: var(--color-text-secondary)">
           Nenhuma anotação registrada ainda.
         </p>
       </div>

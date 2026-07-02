@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
       class="sticky top-0 z-[100] flex items-center justify-between px-4 py-3 md:px-6"
       style="background: var(--color-bg-primary)"
     >
-      <a routerLink="/home" class="flex shrink-0 items-center gap-2" aria-label="DevSnap — início">
+      <a routerLink="/home" class="flex shrink-0 items-center gap-2">
         <img src="images/logo.svg" alt="" class="h-8 w-8" width="32" height="32" />
         <span
           class="text-lg font-semibold tracking-tight"

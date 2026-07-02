@@ -28,9 +28,7 @@
       <form [formGroup]="form" class="focus-config-form flex flex-col gap-6">
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1">
-            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">
-              Stack
-            </h2>
+            <h2 class="text-base font-semibold" style="color: var(--color-text-primary)">Stack</h2>
             <p class="text-sm" style="color: var(--color-text-secondary)">
               Qual stack você quer revisar agora?
             </p>
@@ -52,7 +50,11 @@
           aria-live="polite"
         >
           @if (availablePending().length > 0) {
-            <mat-icon aria-hidden="true" class="focus-config-status-icon shrink-0">pending</mat-icon>
+            <mat-icon
+              aria-hidden="true"
+              class="focus-config-status-icon shrink-0"
+              >pending</mat-icon
+            >
             <p class="text-sm leading-relaxed" style="color: var(--color-text-primary)">
               <span class="font-semibold">{{ availablePending().length }}</span>
               {{
@@ -86,7 +88,7 @@
           (click)="focusSessionStart()"
           [disabled]="form.invalid || availablePending().length === 0"
         >
-          <mat-icon>center_focus_strong</mat-icon>
+          <mat-icon aria-hidden="true">center_focus_strong</mat-icon>
           Iniciar Sessão de Foco
         </button>
       </form>

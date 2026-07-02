@@ -146,18 +146,19 @@
 
         <mat-form-field class="episode-form-tags w-full" appearance="outline">
           <mat-label>Tags</mat-label>
-          <mat-chip-grid #chipGrid aria-label="Tags do episódio">
+          <mat-chip-grid #chipGrid aria-label="Tags do episódio" aria-labelledby="tags-do-episódio">
             @for (tag of tagsValue; track tag) {
               <mat-chip-row (removed)="removeTag(tag)">
                 {{ tag }}
                 <button matChipRemove [attr.aria-label]="'Remover tag ' + tag">
-                  <mat-icon>close</mat-icon>
+                  <mat-icon aria-hidden="true">close</mat-icon>
                 </button>
               </mat-chip-row>
             }
           </mat-chip-grid>
 
           <input
+            id="tags-do-episódio"
             placeholder="Adicionar tag"
             [matChipInputFor]="chipGrid"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
