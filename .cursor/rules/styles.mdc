@@ -161,25 +161,15 @@ Breakpoints do projeto:
 
 Todo componente que exibe dados deve ter **três estados** implementados:
 
-### 7.1 Estado de carregamento (skeleton)
-
-```html
-@if (loading()) {
-<app-skeleton-card />
-} @else {
-<!-- conteúdo real -->
-}
-```
-
-### 7.2 Estado vazio
+### 7.1 Estado vazio
 
 ```html
 @if (items().length === 0) {
-<app-empty-state message="Nenhum episódio registrado ainda."  />
+<app-empty-state message="Nenhum episódio registrado ainda." />
 }
 ```
 
-### 7.3 Estado com dados
+### 7.2 Estado com dados
 
 Conteúdo normal.
 
