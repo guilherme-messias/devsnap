@@ -78,7 +78,7 @@
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
     @if (sortedEpisodes().length === 0) {
       <div class="col-span-full">
-        <app-empty-state message="Nenhum episódio encontrado." />
+        <app-empty-state message="Nenhum episódio encontrado." [ctaLabel]="'Criar episódio'" [ctaClick]="onCreateEpisode" />
       </div>
     } @else {
       @for (episode of sortedEpisodes(); track episode.id) {

@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { StackService } from '../../core/services/stack.service';
@@ -25,6 +25,7 @@ export class StackDetailComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _stackService = inject(StackService);
   private readonly _episodeService = inject(EpisodeService);
+  private readonly _router = inject(Router);
 
   readonly stack = signal<Stack | undefined>(undefined);
   readonly filter = signal<'all' | 'pending' | 'reviewed'>('all');
@@ -36,6 +37,10 @@ export class StackDetailComponent implements OnInit {
       this.stack.set(this._stackService.getById(stackId));
     }
   }
+
+  readonly onCreateEpisode = (): void => {
+    this._router.navigate(['/stacks', this.stack()?.id, 'episodios', 'novo']);
+  };
 
   readonly filteredEpisodes = computed(() => {
     const filter = this.filter();

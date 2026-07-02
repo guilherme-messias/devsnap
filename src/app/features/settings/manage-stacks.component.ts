@@ -9,6 +9,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
 import { StackService } from '../../core/services/stack.service';
 import { Router } from '@angular/router';
 import { EpisodeService } from '../../core/services/episode.service';
+import { CreateStackDialogComponent } from '../home/create-stack-dialog.component';
 
 @Component({
   selector: 'app-manage-stacks',
@@ -24,6 +25,12 @@ export class ManageStacksComponent {
   private readonly _stackService = inject(StackService);
   private readonly _episodeService = inject(EpisodeService);
   private readonly _router = inject(Router);
+
+  readonly onCreateStack = (): void => {
+    this._dialog.open(CreateStackDialogComponent, {
+      width: '400px',
+    });
+  };
 
   onEdit(stack: Stack): void {
     const newName = prompt('Digite o novo nome da stack', stack.name);

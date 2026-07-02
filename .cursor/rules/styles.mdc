@@ -175,7 +175,7 @@ Todo componente que exibe dados deve ter **três estados** implementados:
 
 ```html
 @if (items().length === 0) {
-<app-empty-state message="Nenhum episódio registrado ainda." />
+<app-empty-state message="Nenhum episódio registrado ainda."  />
 }
 ```
 

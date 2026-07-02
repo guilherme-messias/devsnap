@@ -6,6 +6,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { EmptyStateComponent } from '../../shared/components/empty-state.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateStackDialogComponent } from '../home/create-stack-dialog.component';
 
 @Component({
   selector: 'app-export',
@@ -15,6 +17,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
   styleUrl: './export.component.scss',
 })
 export class ExportComponent {
+  private readonly _dialog: MatDialog = inject(MatDialog);
   private readonly _stackService = inject(StackService);
   private readonly _episodeService = inject(EpisodeService);
   private readonly _exportService = inject(ExportService);
@@ -22,6 +25,12 @@ export class ExportComponent {
   readonly stacks = this._stackService.stacks;
   readonly selectedIds = new Set<string>();
   readonly exported = signal<boolean>(false);
+
+  readonly onCreateStack = (): void => {
+    this._dialog.open(CreateStackDialogComponent, {
+      width: '400px',
+    });
+  };
 
   episodeCount(stackId: string): number {
     return this._episodeService.episodes().filter((e) => e.stackId === stackId).length;

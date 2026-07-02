@@ -15,7 +15,7 @@
   </header>
 
   @if (stacks.length === 0) {
-    <app-empty-state message="Nenhuma stack cadastrada." />
+    <app-empty-state message="Nenhuma stack cadastrada." [ctaLabel]="'Criar stack'" [ctaClick]="onCreateStack" />
   } @else {
     <ul class="flex flex-col gap-3" role="list">
       @for (stack of stacks; track stack.id) {

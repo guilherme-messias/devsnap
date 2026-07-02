@@ -18,7 +18,7 @@
   </header>
 
   @if (stacks().length === 0) {
-    <app-empty-state message="Nenhuma stack cadastrada para exportar." />
+    <app-empty-state message="Nenhuma stack cadastrada para exportar." [ctaLabel]="'Criar stack'" [ctaClick]="onCreateStack" />
   } @else {
     <ul class="export-stack-list flex flex-col gap-2" role="list">
       @for (stack of stacks(); track stack.id) {
