@@ -98,7 +98,11 @@ export class EpisodeFormComponent implements OnInit {
       this._episodeService.add(episode);
     }
 
-    this._router.navigate(['/stacks', this.form.value.stackId]);
+    this.saved.emit();
+
+    if (!this.saved.observed) {
+      this._router.navigate(['/stacks', this.form.value.stackId]);
+    }
   }
 
   get tagsValue(): string[] {
