@@ -21,6 +21,7 @@ export class FabCaptureComponent {
   openDialog(): void {
     this._dialog.open(QuickCaptureDialogComponent, {
       width: '400px',
+      maxHeight: '90dvh',
     });
   }
 }

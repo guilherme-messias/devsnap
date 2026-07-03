@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-quick-capture-dialog',
   standalone: true,
   templateUrl: './quick-capture-dialog.component.html',
+  styleUrls: ['./quick-capture-dialog.component.scss'],
   imports: [MatDialogModule, EpisodeFormComponent],
 })
 export class QuickCaptureDialogComponent {
