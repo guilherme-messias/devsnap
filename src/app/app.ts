@@ -18,7 +18,7 @@ export class App implements OnInit {
   private readonly keyboardShortcutService: KeyboardShortcutService =
     inject(KeyboardShortcutService);
   private readonly router: Router = inject(Router);
-  private readonly hiddenRoutes = ['/foco/sessao', '/foco/resultado', '/onboarding'];
+  private readonly hiddenRoutes = ['/foco/sessao', '/foco/resultado', '/onboarding', '/stacks'];
 
   ngOnInit(): void {
     this.keyboardShortcutService.init();
