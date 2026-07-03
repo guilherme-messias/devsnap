@@ -4,3 +4,11 @@
   right: 24px;
   z-index: 200;
 }
+
+button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}

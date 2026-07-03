@@ -10,7 +10,7 @@ import { QuickCaptureDialogComponent } from '../../features/episode-form/quick-c
   imports: [MatIconModule, MatButtonModule],
   styleUrl: './fab-capture.component.scss',
   template: `
-    <button mat-flat-button color="primary" aria-label="Capturar tela" (click)="openDialog()">
+    <button mat-icon-button aria-label="Capturar tela" (click)="openDialog()">
       <mat-icon>add</mat-icon>
     </button>
   `,
