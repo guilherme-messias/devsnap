@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { KeyboardShortcutService } from './core/services/keyboard-shortcut.service';
 import { HeaderComponent } from './shared/components/header.component';
 import { FabCaptureComponent } from './shared/components/fab-capture.component';
@@ -12,17 +12,12 @@ import { filter, map } from 'rxjs';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('meu-app');
 
-  private readonly keyboardShortcutService: KeyboardShortcutService =
-    inject(KeyboardShortcutService);
-  private readonly router: Router = inject(Router);
+  private readonly _keyboardShortcutService = inject(KeyboardShortcutService);
+  private readonly router = inject(Router);
   private readonly hiddenRoutes = ['/foco/sessao', '/foco/resultado', '/onboarding', '/stacks'];
-
-  ngOnInit(): void {
-    this.keyboardShortcutService.init();
-  }
 
   fabHidden = toSignal(
     this.router.events.pipe(
