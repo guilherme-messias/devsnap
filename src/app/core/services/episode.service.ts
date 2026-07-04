@@ -43,6 +43,15 @@ export class EpisodeService {
     this._persist();
   }
 
+  reset(): void {
+    this._episodes.set([]);
+  }
+
+  removeAll(): void {
+    this.reset();
+    this._persist();
+  }
+
   update(episode: Episode, changes: Partial<Episode>): void {
     this._episodes.update((episodes) =>
       episodes.map((e) => (e.id === episode.id ? { ...e, ...changes } : e)),

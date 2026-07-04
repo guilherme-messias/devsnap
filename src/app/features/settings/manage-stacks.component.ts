@@ -9,6 +9,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state.compone
 import { StackService } from '../../core/services/stack.service';
 import { Router } from '@angular/router';
 import { EpisodeService } from '../../core/services/episode.service';
+import { FocusSessionService } from '../../core/services/focus-session.service';
 import { CreateStackDialogComponent } from '../home/create-stack-dialog.component';
 
 @Component({
@@ -24,6 +25,7 @@ export class ManageStacksComponent {
   private readonly _dialog = inject(MatDialog);
   private readonly _stackService = inject(StackService);
   private readonly _episodeService = inject(EpisodeService);
+  private readonly _focusSessionService = inject(FocusSessionService);
   private readonly _router = inject(Router);
 
   readonly onCreateStack = (): void => {
@@ -73,6 +75,9 @@ export class ManageStacksComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this._episodeService.reset();
+        this._stackService.reset();
+        this._focusSessionService.end();
         localStorage.clear();
         this._router.navigate(['/onboarding']);
       }

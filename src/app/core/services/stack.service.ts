@@ -30,6 +30,15 @@ export class StackService {
     this._persist();
   }
 
+  reset(): void {
+    this._stacks.set([]);
+  }
+
+  removeAll(): void {
+    this.reset();
+    this._persist();
+  }
+
   update(stack: Stack, changes: Partial<Stack>): void {
     this._stacks.update((stacks) =>
       stacks.map((s) => (s.id === stack.id ? { ...s, ...changes } : s)),
