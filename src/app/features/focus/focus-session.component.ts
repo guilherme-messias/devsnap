@@ -47,7 +47,7 @@ export class FocusSessionComponent {
   }
 
   endFocusSession(): void {
-    this._focusSessionService.end();
+    this._router.navigate(['/foco/resultado']);
   }
 
   markReviewedAndNext(): void {
