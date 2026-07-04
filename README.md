@@ -2,8 +2,7 @@
 
 Diário técnico de aprendizado para desenvolvedores. Registre problemas resolvidos de forma estruturada, revise com intenção e exporte seu conhecimento em Markdown.
 
-<!-- Adicione um GIF ou screenshot aqui -->
-<!-- ![DevSnap](docs/assets/preview.gif) -->
+![DevSnap](docs/assets/preview.gif)
 
 ---
 
