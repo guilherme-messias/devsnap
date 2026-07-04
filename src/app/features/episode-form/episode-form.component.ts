@@ -93,7 +93,16 @@ export class EpisodeFormComponent implements OnInit {
     };
 
     if (this.initialData) {
-      this._episodeService.update(this.initialData, episode);
+      this._episodeService.update(this.initialData, {
+        title: this.form.value.episodeData.title,
+        stackId: this.form.value.stackId,
+        error: this.form.value.episodeData.error,
+        attempts: this.form.value.episodeData.attempts,
+        solution: this.form.value.episodeData.solution,
+        reasoning: this.form.value.episodeData.reasoning,
+        snippets: this.form.value.snippets,
+        tags: this.form.value.tags,
+      });
     } else {
       this._episodeService.add(episode);
     }
