@@ -1,59 +1,97 @@
-# MeuApp
+# DevSnap
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+Diário técnico de aprendizado para desenvolvedores. Registre problemas resolvidos de forma estruturada, revise com intenção e exporte seu conhecimento em Markdown.
 
-## Development server
+<!-- Adicione um GIF ou screenshot aqui -->
+<!-- ![DevSnap](docs/assets/preview.gif) -->
 
-To start a local development server, run:
+---
+
+## Sobre
+
+Desenvolvedores resolvem dezenas de problemas por semana, mas raramente documentam o contexto — o erro, as tentativas, a solução e o raciocínio. Sem esse registro, o mesmo bloqueio reaparece semanas depois e o aprendizado se perde entre abas, chats e anotações soltas.
+
+O DevSnap propõe um ciclo fechado: **capturar → estruturar → revisar → exportar**. Cada registro (episódio) segue um schema fixo, é organizado por stack tecnológica e pode ser revisado em sessões dedicadas. A persistência é local-first via `localStorage`.
+
+---
+
+## Funcionalidades
+
+- Organização por stacks
+- Registro estruturado de episódios (erro, tentativas, solução, raciocínio, snippets e tags)
+- Revisão em duas etapas com active recall
+- Modo Foco com episódios pendentes em ordem embaralhada
+- Anotações incrementais por episódio
+- Indicadores de urgência para pendências antigas
+- Filtros e busca na listagem de episódios
+- Exportação de stacks para Markdown
+- Captura rápida via FAB ou atalho `Ctrl+Alt+N`
+
+---
+
+## Tecnologias
+
+| Tecnologia       | Finalidade                                             |
+| ---------------- | ------------------------------------------------------ |
+| Angular 22       | Framework SPA com standalone components e lazy loading |
+| TypeScript       | Tipagem estática dos models e services                 |
+| Angular Signals  | Estado reativo para CRUD e derived state               |
+| RxJS             | Sessão efêmera do Modo Foco (`BehaviorSubject`)        |
+| Angular Material | UI — dialogs, forms, chips, snackbar                   |
+| Tailwind CSS 4   | Layout responsivo e espaçamento                        |
+| SCSS             | Theming via CSS variables e dark mode                  |
+| ngx-markdown     | Renderização de snippets de código                     |
+| file-saver       | Download de arquivos `.md` no browser                  |
+| Vitest           | Testes unitários                                       |
+
+---
+
+## Arquitetura
+
+```text
+src/app/
+├── core/
+│   ├── models/          Stack, Episode, Annotation
+│   └── services/        Stack, Episode, FocusSession, Export, KeyboardShortcut
+├── features/
+│   ├── home/            Dashboard de stacks
+│   ├── stack-detail/    Lista filtrada de episódios
+│   ├── episode-form/    Formulário + captura rápida
+│   ├── episode-detail/  Visualização e anotações
+│   ├── focus/           Config → Sessão → Resultado
+│   ├── export/          Download em Markdown
+│   └── settings/        Gestão de stacks
+├── shared/
+│   ├── components/      Header, FAB, empty-state, dialogs
+│   └── pipes/           Urgency, pending-count, relative-date
+└── guards/              authGuard, onboardingGuard
+```
+
+---
+
+## Como executar
 
 ```bash
+git clone git@github.com:guilherme-messias/meu-app-angular.git
+cd meu-app-angular
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Acesse `http://localhost:4200`.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Roadmap
 
-```bash
-ng generate component component-name
-```
+- Backend em ASP.NET Core
+- PostgreSQL
+- Autenticação
+- Sincronização entre dispositivos
+- Notificações de revisão
+- Algoritmo de repetição espaçada
+- Deploy em produção
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Este projeto foi desenvolvido para consolidar conhecimentos em Angular enquanto resolve um problema real enfrentado por desenvolvedores.
