@@ -13,7 +13,7 @@ import { filter, map } from 'rxjs';
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('meu-app');
+  protected readonly title = signal('devsnap');
 
   private readonly _keyboardShortcutService = inject(KeyboardShortcutService);
   private readonly router = inject(Router);

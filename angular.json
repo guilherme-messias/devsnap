@@ -8,7 +8,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "meu-app": {
+    "devsnap": {
       "projectType": "application",
       "schematics": {
         "component": {
@@ -68,10 +68,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "meu-app:build:production"
+              "buildTarget": "devsnap:build:production"
             },
             "development": {
-              "buildTarget": "meu-app:build:development"
+              "buildTarget": "devsnap:build:development"
             }
           },
           "defaultConfiguration": "development"

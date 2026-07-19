@@ -71,8 +71,8 @@ src/app/
 ## Como executar
 
 ```bash
-git clone git@github.com:guilherme-messias/meu-app-angular.git
-cd meu-app-angular
+git clone git@github.com:guilherme-messias/devsnap-angular.git
+cd devsnap-angular
 npm install
 ng serve
 ```
