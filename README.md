@@ -51,7 +51,6 @@ O DevSnap propõe um ciclo fechado: **capturar → estruturar → revisar → ex
 | Angular SSR      | Renderização no servidor (Express)                     |
 | ngx-markdown     | Renderização de snippets de código                     |
 | file-saver       | Download de arquivos `.md` no browser                  |
-| Vitest           | Testes unitários                                       |
 
 ---
 
@@ -100,10 +99,9 @@ npm run build
 npm run serve:ssr:devsnap
 ```
 
-### Testes e lint
+### Lint
 
 ```bash
-npm test
 npm run lint
 ```
 
