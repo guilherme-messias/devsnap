@@ -2,7 +2,7 @@
 
 Diário técnico de aprendizado para desenvolvedores. Registre problemas resolvidos de forma estruturada, revise com intenção e exporte seu conhecimento em Markdown.
 
-**Em produção:** [https://devsnap-c9lf.onrender.com](https://devsnap-c9lf.onrender.com)
+**Em produção:** [https://devsnap-5690.onrender.com/](https://devsnap-5690.onrender.com/)
 
 ![DevSnap](docs/assets/preview.gif)
 
@@ -10,7 +10,7 @@ Diário técnico de aprendizado para desenvolvedores. Registre problemas resolvi
 
 ## Usar
 
-Abra o app em [devsnap-c9lf.onrender.com](https://devsnap-c9lf.onrender.com). Os dados ficam no seu navegador (`localStorage`) — sem conta e sem servidor de sincronização por enquanto.
+Abra o app em [devsnap-5690.onrender.com](https://devsnap-5690.onrender.com/). Os dados ficam no seu navegador (`localStorage`) — sem conta e sem servidor de sincronização por enquanto.
 
 ---
 
