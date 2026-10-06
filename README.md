@@ -56,15 +56,22 @@ O DevSnap propõe um ciclo fechado: **capturar → estruturar → revisar → ex
 
 ## Arquitetura
 
+
 ```text
 src/app/
 ├── core/
+│   ├── guards/          authGuard, onboardingGuard
 │   ├── models/          Stack, Episode, Annotation
 │   └── services/        Stack, Episode, FocusSession, Export, KeyboardShortcut
 ├── features/
+│   └── <feature>/
+│       ├── pages/       Containers roteados
+│       ├── components/  UI privada da feature
+│       ├── routes.ts    Rotas lazy (loadChildren)
+│       └── index.ts     API pública
 │   ├── home/            Dashboard de stacks
 │   ├── stack-detail/    Lista filtrada de episódios
-│   ├── episode-form/    Formulário + captura rápida
+│   ├── episode-form/    Página thin do formulário
 │   ├── episode-edit/    Edição de episódio
 │   ├── episode-detail/  Visualização e anotações
 │   ├── focus/           Config → Sessão → Resultado
@@ -72,10 +79,16 @@ src/app/
 │   ├── settings/        Gestão de stacks
 │   └── onboarding/      Primeira configuração
 ├── shared/
-│   ├── components/      Header, FAB, empty-state, dialogs
+│   ├── components/      Header, FAB, empty-state, dialogs, episode-form, create-stack
 │   └── pipes/           Urgency, pending-count, relative-date
-└── guards/              authGuard, onboardingGuard
+└── app.routes.ts        loadChildren + redirects/guards
 ```
+
+### Regras de dependência
+
+- Features → `core` e `shared` (via `@app/*`)
+- Features → outras features **somente** via `index.ts` (API pública)
+- `core` e `shared` **nunca** importam `features`
 
 ---
 

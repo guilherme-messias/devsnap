@@ -1,6 +1,6 @@
 import { afterNextRender, inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { QuickCaptureDialogComponent } from '../../features/episode-form/quick-capture-dialog.component';
+import { QuickCaptureDialogComponent } from '@app/shared/components/quick-capture-dialog.component';
 
 @Injectable({ providedIn: 'root' })
 export class KeyboardShortcutService {

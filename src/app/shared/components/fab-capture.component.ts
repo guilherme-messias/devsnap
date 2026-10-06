@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { QuickCaptureDialogComponent } from '../../features/episode-form/quick-capture-dialog.component';
+import { QuickCaptureDialogComponent } from './quick-capture-dialog.component';
 
 @Component({
   selector: 'app-fab-capture',
