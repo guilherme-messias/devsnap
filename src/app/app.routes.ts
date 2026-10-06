@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, onboardingGuard } from './guards/auth.guard';
+import { authGuard, onboardingGuard } from '@app/core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -10,67 +10,36 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
-      },
-      {
-        path: 'stacks/:id',
-        loadComponent: () =>
-          import('./features/stack-detail/stack-detail.component').then(
-            (m) => m.StackDetailComponent,
-          ),
+        loadChildren: () => import('./features/home').then((m) => m.HOME_ROUTES),
       },
       {
         path: 'stacks/:id/episodios/novo',
-        loadComponent: () =>
-          import('./features/episode-form/episode-form.component').then(
-            (m) => m.EpisodeFormComponent,
-          ),
-      },
-      {
-        path: 'stacks/:id/episodios/:eid',
-        loadComponent: () =>
-          import('./features/episode-detail/episode-detail.component').then(
-            (m) => m.EpisodeDetailComponent,
-          ),
+        loadChildren: () => import('./features/episode-form').then((m) => m.EPISODE_FORM_ROUTES),
       },
       {
         path: 'stacks/:id/episodios/:eid/editar',
-        loadComponent: () =>
-          import('./features/episode-edit/episode-edit.component').then(
-            (m) => m.EpisodeEditComponent,
-          ),
+        loadChildren: () => import('./features/episode-edit').then((m) => m.EPISODE_EDIT_ROUTES),
+      },
+      {
+        path: 'stacks/:id/episodios/:eid',
+        loadChildren: () =>
+          import('./features/episode-detail').then((m) => m.EPISODE_DETAIL_ROUTES),
+      },
+      {
+        path: 'stacks/:id',
+        loadChildren: () => import('./features/stack-detail').then((m) => m.STACK_DETAIL_ROUTES),
       },
       {
         path: 'foco',
-        children: [
-          {
-            path: '',
-            loadComponent: () =>
-              import('./features/focus/focus-config.component').then((m) => m.FocusConfigComponent),
-          },
-          {
-            path: 'sessao',
-            loadComponent: () =>
-              import('./features/focus/focus-session.component').then(
-                (m) => m.FocusSessionComponent,
-              ),
-          },
-          {
-            path: 'resultado',
-            loadComponent: () =>
-              import('./features/focus/focus-result.component').then((m) => m.FocusResultComponent),
-          },
-        ],
+        loadChildren: () => import('./features/focus').then((m) => m.FOCUS_ROUTES),
       },
       {
         path: 'configuracoes',
-        loadComponent: () =>
-          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
+        loadChildren: () => import('./features/settings').then((m) => m.SETTINGS_ROUTES),
       },
       {
         path: 'exportar',
-        loadComponent: () =>
-          import('./features/export/export.component').then((m) => m.ExportComponent),
+        loadChildren: () => import('./features/export').then((m) => m.EXPORT_ROUTES),
       },
     ],
   },
@@ -78,7 +47,6 @@ export const routes: Routes = [
   {
     path: 'onboarding',
     canActivate: [onboardingGuard],
-    loadComponent: () =>
-      import('./features/onboarding/onboarding.component').then((m) => m.OnboardingComponent),
+    loadChildren: () => import('./features/onboarding').then((m) => m.ONBOARDING_ROUTES),
   },
 ];
