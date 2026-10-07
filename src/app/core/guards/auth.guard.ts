@@ -1,41 +1,27 @@
-import { inject, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { CanActivateFn, MaybeAsync, GuardResult } from "@angular/router";
+import { inject } from "@angular/core";
+import { UserTokenStoreService } from "../services/user-token-store.service";
+import { UserApiService } from "../services/user-api.service";
+import { Router } from "@angular/router";
+import { map, catchError, of } from "rxjs";
 
-export const authGuard = () => {
-  const router = inject(Router);
-  const platformId = inject(PLATFORM_ID);
+export const authGuard: CanActivateFn = (route, state): MaybeAsync<GuardResult> => {
 
-  const isAuthenticated = () => {
-    if (!isPlatformBrowser(platformId)) {
-      return false;
-    }
-    const raw = localStorage.getItem('devsnap:stacks');
-    return raw ? JSON.parse(raw).length > 0 : false;
-  };
+  const userTokenStore = inject(UserTokenStoreService)
+  const userApi = inject(UserApiService)
+  const router = inject(Router)
 
-  if (isAuthenticated()) {
-    return true;
+  const loginRouter = router.createUrlTree(['/login'])
+  const HAS_TOKEN = userTokenStore.hasToken()
+  if (!HAS_TOKEN) {
+    return loginRouter
   }
 
-  return router.parseUrl('/onboarding');
-};
-
-export const onboardingGuard = () => {
-  const router = inject(Router);
-  const platformId = inject(PLATFORM_ID);
-
-  const isOnboarded = () => {
-    if (!isPlatformBrowser(platformId)) {
-      return false;
-    }
-    const raw = localStorage.getItem('devsnap:stacks');
-    return raw ? JSON.parse(raw).length > 0 : false;
-  };
-
-  if (!isOnboarded()) {
-    return true;
-  }
-
-  return router.parseUrl('/home');
-};
+  return userApi.validateToken().pipe(
+    map(() => true),
+    catchError(() => {
+      userTokenStore.removeToken()
+      return of(loginRouter)
+    })
+  )
+}
