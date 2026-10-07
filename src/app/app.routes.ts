@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, onboardingGuard } from '@app/core/guards/auth.guard';
+import { authGuard } from '@app/core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -46,7 +46,7 @@ export const routes: Routes = [
 
   {
     path: 'onboarding',
-    canActivate: [onboardingGuard],
+    canActivate: [authGuard],
     loadChildren: () => import('./features/onboarding').then((m) => m.ONBOARDING_ROUTES),
   },
 ];
