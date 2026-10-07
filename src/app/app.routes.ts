@@ -49,4 +49,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./features/onboarding').then((m) => m.ONBOARDING_ROUTES),
   },
+
+  // {
+  //   path: '**',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full',
+  // },
 ];
