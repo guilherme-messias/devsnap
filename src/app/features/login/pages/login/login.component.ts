@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { email, form, minLength, pattern, required } from '@angular/forms/signals';
+import { email, form, minLength, pattern, required, FormField } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +11,7 @@ interface LoginModel {
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormField],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

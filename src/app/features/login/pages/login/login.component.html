@@ -1,3 +1,6 @@
+@let email = loginForm.email();
+@let password = loginForm.password();
+
 <section class="flex flex-col items-center px-4 py-8 md:py-12">
   <div class="login-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
     <header class="flex flex-col gap-4 text-center">
@@ -32,25 +35,34 @@
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>E-mail</mat-label>
         <input
-          [field]="loginForm.email"
+          [formField]="loginForm.email"
           matInput
           type="email"
-          name="email"
           placeholder="seu@email.com"
           autocomplete="email"
         />
+        @if(email.touched() && email.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ email.errors()[0].message }}
+          </p>
+        }
       </mat-form-field>
+
 
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>Senha</mat-label>
         <input
-          [field]="loginForm.password"
+          [formField]="loginForm.password"
           matInput
           type="password"
-          name="password"
           placeholder="Digite sua senha"
           autocomplete="current-password"
         />
+        @if(password.touched() && password.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ password.errors()[0].message }}
+          </p>
+        }
       </mat-form-field>
 
       <button mat-flat-button color="primary" type="submit" class="w-full">Entrar</button>
