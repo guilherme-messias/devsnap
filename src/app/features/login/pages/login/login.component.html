@@ -1,0 +1,61 @@
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="login-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-4 text-center">
+      <img
+        src="images/logo.svg"
+        alt=""
+        class="mx-auto h-10 w-10"
+        width="40"
+        height="40"
+      />
+
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        DevSnap
+      </span>
+
+      <h1
+        class="text-2xl font-bold leading-tight md:text-3xl"
+        style="color: var(--color-text-primary)"
+      >
+        Entrar
+      </h1>
+
+      <p class="text-sm leading-relaxed md:text-base" style="color: var(--color-text-secondary)">
+        Acesse sua conta para continuar registrando e revisando seus episódios de aprendizado.
+      </p>
+    </header>
+
+    <form class="flex flex-col gap-4">
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          placeholder="seu@email.com"
+          autocomplete="email"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          type="password"
+          name="password"
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+        />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" class="w-full">Entrar</button>
+
+      <a href="#" class="login-link self-center text-sm font-medium underline-offset-2 hover:underline">
+        Esqueci a senha
+      </a>
+    </form>
+  </div>
+</section>
