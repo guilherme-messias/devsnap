@@ -9,8 +9,8 @@ export const guestGuard: CanActivateFn = (route, state): MaybeAsync<GuardResult>
 
   const HAS_TOKEN = userTokenStore.hasToken()
   if (HAS_TOKEN) {
-    return true
+    return router.createUrlTree(['/'])
   }
   
-  return router.createUrlTree(['/'])
+  return true
 }
