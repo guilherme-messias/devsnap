@@ -65,11 +65,17 @@
         }
       </mat-form-field>
 
-      <button mat-flat-button color="primary" type="submit" class="w-full">Entrar</button>
+      <button mat-flat-button color="primary" type="submit" class="w-full" (click)="login()">Entrar</button>
 
       <a href="#" class="login-link self-center text-sm font-medium underline-offset-2 hover:underline">
         Esqueci a senha
       </a>
+
+      @if(loginErrorMessage()) {
+        <p class="text-sm text-red-500">
+          {{ loginErrorMessage() }}
+        </p>
+      }
     </form>
   </div>
 </section>
