@@ -41,6 +41,11 @@ export class LoginComponent {
   });
 
   login() {
+    if (this.loginForm().invalid()) {
+      this.loginForm().markAsTouched();
+      return;
+    }
+
     const { email, password } = this.loginModel();
     this._userApi.login(email, password).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: () => {
