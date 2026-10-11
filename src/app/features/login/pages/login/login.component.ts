@@ -40,20 +40,26 @@ export class LoginComponent {
     pattern(fieldPath.password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, { message: 'Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial' });
   });
 
-  login() {
+  login(event: Event) {
+    event.preventDefault();
+
     if (this.loginForm().invalid()) {
       this.loginForm().markAsTouched();
       return;
     }
+
+    this.loginErrorMessage.set('');
 
     const { email, password } = this.loginModel();
     this._userApi.login(email, password).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
       next: () => {
         this._router.navigate(['/']);
       },
-      error: (error) => {
-        this.loginErrorMessage.set(error.error.message);
-      }
+      error: (error: { error?: { message?: string } }) => {
+        this.loginErrorMessage.set(
+          error?.error?.message ?? 'Não foi possível entrar. Tente novamente.',
+        );
+      },
     });
   }
 }

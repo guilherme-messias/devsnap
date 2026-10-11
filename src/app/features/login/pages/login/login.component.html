@@ -31,7 +31,7 @@
       </p>
     </header>
 
-    <form class="flex flex-col gap-4">
+    <form class="flex flex-col gap-4" (submit)="login($event)">
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>E-mail</mat-label>
         <input
@@ -65,7 +65,7 @@
         }
       </mat-form-field>
 
-      <button mat-flat-button color="primary" type="submit" class="w-full" (click)="login()">Entrar</button>
+      <button mat-flat-button color="primary" type="submit" class="w-full">Entrar</button>
 
       <a href="#" class="login-link self-center text-sm font-medium underline-offset-2 hover:underline">
         Esqueci a senha
