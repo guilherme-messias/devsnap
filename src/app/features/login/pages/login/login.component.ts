@@ -40,9 +40,7 @@ export class LoginComponent {
     pattern(fieldPath.password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, { message: 'Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial' });
   });
 
-  login(event: Event) {
-    event.preventDefault();
-
+  login() {
     if (this.loginForm().invalid()) {
       this.loginForm().markAsTouched();
       return;

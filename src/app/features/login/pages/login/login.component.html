@@ -31,7 +31,13 @@
       </p>
     </header>
 
-    <form class="flex flex-col gap-4" (submit)="login($event)">
+    <div class="flex flex-col gap-4">
+      @if(loginErrorMessage()) {
+        <p class="text-sm text-red-500">
+          {{ loginErrorMessage() }}
+        </p>
+      }
+      
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>E-mail</mat-label>
         <input
@@ -47,7 +53,6 @@
           </p>
         }
       </mat-form-field>
-
 
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>Senha</mat-label>
@@ -65,17 +70,13 @@
         }
       </mat-form-field>
 
-      <button mat-flat-button color="primary" type="submit" class="w-full">Entrar</button>
+      <button mat-flat-button color="primary" type="button" class="w-full" (click)="login()">
+        Entrar
+      </button>
 
       <a href="#" class="login-link self-center text-sm font-medium underline-offset-2 hover:underline">
         Esqueci a senha
       </a>
-
-      @if(loginErrorMessage()) {
-        <p class="text-sm text-red-500">
-          {{ loginErrorMessage() }}
-        </p>
-      }
-    </form>
+    </div>
   </div>
 </section>
