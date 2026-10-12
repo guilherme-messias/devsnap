@@ -28,6 +28,7 @@ export class LoginComponent {
     email: '',
     password: '',
   });
+  isLoading = signal<boolean>(false);
 
   loginErrorMessage = signal<string>('');
 
@@ -47,6 +48,7 @@ export class LoginComponent {
     }
 
     this.loginErrorMessage.set('');
+    this.isLoading.set(true);
 
     const { email, password } = this.loginModel();
     this._userApi.login(email, password).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
@@ -54,6 +56,7 @@ export class LoginComponent {
         this._router.navigate(['/']);
       },
       error: (error: { error?: { message?: string } }) => {
+        this.isLoading.set(false);
         this.loginErrorMessage.set(
           error?.error?.message ?? 'Não foi possível entrar. Tente novamente.',
         );
