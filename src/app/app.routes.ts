@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@app/core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -46,9 +47,16 @@ export const routes: Routes = [
 
   {
     path: 'onboarding',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     loadChildren: () => import('./features/onboarding').then((m) => m.ONBOARDING_ROUTES),
   },
+
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadChildren: () => import('./features/login').then((m) => m.LOGIN_ROUTES),
+  },
+
 
   // {
   //   path: '**',

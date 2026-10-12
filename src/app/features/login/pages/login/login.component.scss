@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  min-height: calc(100dvh - 57px);
+}
+
+.login-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.login-link {
+  color: var(--color-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .login-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
