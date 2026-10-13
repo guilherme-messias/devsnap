@@ -2,8 +2,9 @@ import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { UserTokenSuccessAuthResponse } from "../models/user-token-success-auth-response.model";
 import { UserLoginSuccessResponse } from "../models/user-login-success-response.model";
-import { tap } from "rxjs";
+import { map, tap } from "rxjs";
 import { UserTokenStoreService } from "./user-token-store.service";
+import { UserRegisterSuccessResponse } from "../models/user-register-success-response.model";
 
 @Injectable({ providedIn: 'root' })
 export class UserApiService {
@@ -21,5 +22,9 @@ export class UserApiService {
        this._UserTokenStore.setToken(response.accessToken);
       })
     );
+  }
+
+  register(name: string, email: string, password: string, role: string) {
+    return this._httpClient.post<UserRegisterSuccessResponse>(`${this.apiUrl}/auth/register`, { name, email, password, role })
   }
 }

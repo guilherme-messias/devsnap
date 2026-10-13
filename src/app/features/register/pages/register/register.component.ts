@@ -1,9 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { form, required, email, minLength, pattern, FormField, validate } from '@angular/forms/signals';
+import { UserApiService } from '../../../../core/services/user-api.service';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface RegisterModel {
   name: string;
@@ -20,6 +23,11 @@ interface RegisterModel {
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  private readonly _userApi = inject(UserApiService);
+  private readonly _router = inject(Router);
+  private readonly _destroyRef = inject(DestroyRef);
+
+
   registerModel = signal<RegisterModel>({
     name: '',
     email: '',
@@ -56,4 +64,28 @@ export class RegisterComponent {
   })
   }
   );
+
+  register() {
+    if (this.registerForm().invalid()) {
+      this.registerForm().markAsTouched();
+      return;
+    }
+
+    this.registerErrorMessage.set('');
+    this.isLoading.set(true);
+
+    const { name, email, password, role } = this.registerModel();
+      this._userApi.register(name, email, password, role).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+        next: () => {
+          this._router.navigate(['/login']);
+        },
+        error: (error: { error?: { message?: string } }) => {
+          this.isLoading.set(false);
+          this.registerErrorMessage.set(
+            error?.error?.message ?? 'Não foi possível criar a conta. Tente novamente.',
+          );
+        },
+      });
+  }
+
 }

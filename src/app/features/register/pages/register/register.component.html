@@ -34,6 +34,11 @@
     </header>
 
     <div class="flex flex-col gap-4">
+      @if(registerErrorMessage()) {
+        <p class="text-sm text-red-500">
+          {{ registerErrorMessage() }}
+        </p>
+      }
       <mat-form-field class="w-full" appearance="outline">
         <mat-label>Nome</mat-label>
         <input
@@ -98,7 +103,7 @@
         }
       </mat-form-field>
 
-      <button mat-flat-button color="primary" type="button" class="w-full">
+      <button mat-flat-button color="primary" type="button" class="w-full" (click)="register()" [disabled]="registerForm().invalid() || isLoading()">
         Criar conta
       </button>
 
