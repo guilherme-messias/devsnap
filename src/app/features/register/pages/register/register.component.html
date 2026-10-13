@@ -1,3 +1,8 @@
+@let name = registerForm.name();
+@let email = registerForm.email();
+@let password = registerForm.password();
+@let confirmPassword = registerForm.confirmPassword();
+
 <section class="flex flex-col items-center px-4 py-8 md:py-12">
   <div class="register-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
     <header class="flex flex-col gap-4 text-center">
@@ -38,6 +43,11 @@
           placeholder="Seu nome"
           autocomplete="name"
         />
+        @if(name.touched() && name.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ name.errors()[0].message }}
+          </p>
+        }
       </mat-form-field>
 
       <mat-form-field class="w-full" appearance="outline">
@@ -49,6 +59,11 @@
           placeholder="seu@email.com"
           autocomplete="email"
         />
+        @if(email.touched() && email.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ email.errors()[0].message }}
+          </p>
+        }
       </mat-form-field>
 
       <mat-form-field class="w-full" appearance="outline">
@@ -60,6 +75,27 @@
           placeholder="Digite sua senha"
           autocomplete="new-password"
         />
+        @if(password.touched() && password.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ password.errors()[0].message }}
+          </p>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Confirmar senha</mat-label>
+        <input
+          [formField]="registerForm.confirmPassword"
+          matInput
+          type="password"
+          placeholder="Digite sua senha novamente"
+          autocomplete="new-password"
+        />
+        @if(confirmPassword.touched() && confirmPassword.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ confirmPassword.errors()[0].message }}
+          </p>
+        }
       </mat-form-field>
 
       <button mat-flat-button color="primary" type="button" class="w-full">
