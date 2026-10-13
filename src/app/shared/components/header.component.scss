@@ -6,6 +6,19 @@ header {
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
 }
 
+.header-avatar {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.85;
+    outline: none;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   header {
     border-bottom-color: rgba(255, 255, 255, 0.1);

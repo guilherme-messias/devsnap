@@ -92,3 +92,31 @@ body {
   background: var(--color-bg-primary);
   color: var(--color-text-primary);
 }
+
+// ===========================
+// Header — menu do avatar (overlay Material)
+// ===========================
+.header-user-menu.mat-mdc-menu-panel,
+.header-user-menu .mat-mdc-menu-panel {
+  background: var(--color-bg-surface) !important;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.5rem;
+  min-width: 10rem;
+}
+
+.header-user-menu .mat-mdc-menu-item {
+  color: var(--color-text-primary);
+  min-height: 2.75rem;
+}
+
+.header-user-menu .header-user-menu__icon {
+  color: var(--color-text-secondary);
+  margin-right: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-user-menu.mat-mdc-menu-panel,
+  .header-user-menu .mat-mdc-menu-panel {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
