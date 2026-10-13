@@ -57,6 +57,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/login').then((m) => m.LOGIN_ROUTES),
   },
 
+  {
+    path: 'register',
+    canActivate: [guestGuard],
+    loadChildren: () => import('./features/register').then((m) => m.REGISTER_ROUTES),
+  },
 
   // {
   //   path: '**',

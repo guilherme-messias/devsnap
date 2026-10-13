@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserApiService } from '../../../../core/services/user-api.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface LoginModel {
@@ -14,7 +14,7 @@ interface LoginModel {
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormField],
+  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormField, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

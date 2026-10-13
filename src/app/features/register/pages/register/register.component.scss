@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  min-height: calc(100dvh - 57px);
+}
+
+.register-card {
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.register-link {
+  color: var(--color-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .register-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

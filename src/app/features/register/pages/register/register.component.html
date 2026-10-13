@@ -1,0 +1,118 @@
+@let name = registerForm.name();
+@let email = registerForm.email();
+@let password = registerForm.password();
+@let confirmPassword = registerForm.confirmPassword();
+
+<section class="flex flex-col items-center px-4 py-8 md:py-12">
+  <div class="register-card flex w-full max-w-lg flex-col gap-8 rounded-xl p-6 md:p-8">
+    <header class="flex flex-col gap-4 text-center">
+      <img
+        src="images/logo.svg"
+        alt=""
+        class="mx-auto h-10 w-10"
+        width="40"
+        height="40"
+      />
+
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
+      >
+        DevSnap
+      </span>
+
+      <h1
+        class="text-2xl font-bold leading-tight md:text-3xl"
+        style="color: var(--color-text-primary)"
+      >
+        Criar conta
+      </h1>
+
+      <p class="text-sm leading-relaxed md:text-base" style="color: var(--color-text-secondary)">
+        Cadastre-se para começar a registrar e revisar seus episódios de aprendizado.
+      </p>
+    </header>
+
+    <div class="flex flex-col gap-4">
+      @if(registerErrorMessage()) {
+        <p class="text-sm text-red-500">
+          {{ registerErrorMessage() }}
+        </p>
+      }
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input
+          [formField]="registerForm.name"
+          matInput
+          type="text"
+          placeholder="Seu nome"
+          autocomplete="name"
+        />
+        @if(name.touched() && name.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ name.errors()[0].message }}
+          </p>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input
+          [formField]="registerForm.email"
+          matInput
+          type="email"
+          placeholder="seu@email.com"
+          autocomplete="email"
+        />
+        @if(email.touched() && email.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ email.errors()[0].message }}
+          </p>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input
+          [formField]="registerForm.password"
+          matInput
+          type="password"
+          placeholder="Digite sua senha"
+          autocomplete="new-password"
+        />
+        @if(password.touched() && password.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ password.errors()[0].message }}
+          </p>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Confirmar senha</mat-label>
+        <input
+          [formField]="registerForm.confirmPassword"
+          matInput
+          type="password"
+          placeholder="Digite sua senha novamente"
+          autocomplete="new-password"
+        />
+        @if(confirmPassword.touched() && confirmPassword.invalid()) {
+          <p class="text-sm text-red-500">
+            {{ confirmPassword.errors()[0].message }}
+          </p>
+        }
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="button" class="w-full" (click)="register()" [disabled]="registerForm().invalid() || isLoading()">
+        Criar conta
+      </button>
+
+      <a
+        routerLink="/login"
+        class="register-link self-center text-sm font-medium underline-offset-2 hover:underline"
+      >
+        Já tenho uma conta
+      </a>
+    </div>
+  </div>
+</section>
