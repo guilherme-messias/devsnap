@@ -35,7 +35,12 @@
     </button>
 
     <mat-menu #userMenu="matMenu" panelClass="header-user-menu">
-      <button mat-menu-item class="header-user-menu__item">
+      <button
+        type="button"
+        mat-menu-item
+        class="header-user-menu__item"
+        (click)="logout()"
+      >
         <mat-icon class="header-user-menu__icon">logout</mat-icon>
         <span>Sair</span>
       </button>

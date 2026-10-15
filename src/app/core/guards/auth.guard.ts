@@ -6,7 +6,6 @@ import { Router } from "@angular/router";
 import { map, catchError, of } from "rxjs";
 
 export const authGuard: CanActivateFn = (route, state): MaybeAsync<GuardResult> => {
-
   const userTokenStore = inject(UserTokenStoreService)
   const userApi = inject(UserApiService)
   const router = inject(Router)
