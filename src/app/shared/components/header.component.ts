@@ -1,50 +1,23 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserTokenStoreService } from '@app/core/services/user-token-store.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatIconModule],
-  template: `
-    <header
-      class="sticky top-0 z-[100] flex items-center justify-between px-4 py-3 md:px-6"
-      style="background: var(--color-bg-primary)"
-    >
-      <a routerLink="/home" class="flex shrink-0 items-center gap-2">
-        <img src="images/logo.svg" alt="" class="h-8 w-8" width="32" height="32" />
-        <span class="text-lg font-semibold tracking-tight" style="color: var(--color-text-primary)">
-          DevSnap
-        </span>
-      </a>
-
-      <div class="flex items-center gap-1">
-        <div
-          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
-          style="background: var(--color-bg-surface); color: var(--color-text-secondary)"
-          role="img"
-          aria-label="Configurações"
-        >
-          <a
-            routerLink="/configuracoes"
-            class="flex h-full w-full items-center justify-center cursor-pointer"
-          >
-            <mat-icon>settings</mat-icon>
-          </a>
-        </div>
-
-        <div
-          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
-          style="background: var(--color-bg-surface); color: var(--color-text-secondary)"
-          role="img"
-          aria-label="Avatar do usuário"
-        >
-          <mat-icon>person</mat-icon>
-        </div>
-      </div>
-    </header>
-  `,
+  imports: [RouterLink, MatButtonModule, MatIconModule, MatMenuModule],
+  templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  private readonly _router = inject(Router)
+  private readonly _userTokenStore = inject(UserTokenStoreService)
+  
+  logout(): void {
+    this._userTokenStore.removeToken();
+    this._router.navigate(['/login'])
+  }
+}
