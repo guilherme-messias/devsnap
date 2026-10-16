@@ -5,10 +5,11 @@ import { UserLoginSuccessResponse } from "../models/user-login-success-response.
 import { map, tap } from "rxjs";
 import { UserTokenStoreService } from "./user-token-store.service";
 import { UserRegisterSuccessResponse } from "../models/user-register-success-response.model";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class UserApiService {
-  private readonly apiUrl = 'https://devsnap-api.onrender.com'
+  private readonly apiUrl = environment.apiUrl
   private readonly _httpClient = inject(HttpClient);
   private readonly _UserTokenStore = inject(UserTokenStoreService);
 
