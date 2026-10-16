@@ -31,7 +31,9 @@ export class OnboardingComponent {
     this._stackService.add({
       id: uuidv4(),
       name: this.form.get('name')?.value || '',
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      userId: '123',
     });
     this._router.navigate(['/stacks', this._stackService.stacks().at(-1)?.id]);
   }

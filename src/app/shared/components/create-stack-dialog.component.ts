@@ -36,7 +36,9 @@ export class CreateStackDialogComponent {
     this._stackService.add({
       id: uuidv4(),
       name: this.form.controls.name.value.trim(),
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      userId: '123',
     });
     this._dialogRef.close();
   }
