@@ -1,5 +1,7 @@
 export interface Stack {
   id: string;
   name: string;
-  createdAt: Date;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
 }

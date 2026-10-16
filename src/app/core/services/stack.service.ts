@@ -49,4 +49,8 @@ export class StackService {
   getById(id: string): Stack | undefined {
     return computed(() => this._stacks().find((s) => s.id === id))?.();
   }
+
+  replaceAll(stacks: Stack[]): void {
+    this._stacks.set(stacks);
+  }
 }

@@ -1,5 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Episode } from '@app/core/models/episode.model';
@@ -9,6 +9,8 @@ import { StackService } from '@app/core/services/stack.service';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 import { StackCardComponent } from '../../components/stack-card/stack-card.component';
+import { StackApiService } from '@app/core/services/stack-api.service';
+import { StackResponse } from '@app/core/models/stack-response.model';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,8 @@ export class HomeComponent {
   private readonly _dialog: MatDialog = inject(MatDialog);
   private readonly _stackService: StackService = inject(StackService);
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
+  private readonly _stackApiService: StackApiService = inject(StackApiService);
+  private readonly _destroyRef = inject(DestroyRef);
 
   readonly stacks = toSignal(toObservable(this._stackService.stacks), { initialValue: [] as Stack[] });
   readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
@@ -31,6 +35,22 @@ export class HomeComponent {
       width: '400px',
     });
   };
+
+  constructor() {
+    this._stackApiService.getStacks().pipe(
+      takeUntilDestroyed(this._destroyRef),
+    )
+      .subscribe({
+        next: (data: StackResponse) => {
+          this._stackService.replaceAll(data.stacks);
+        },
+        error: (err) => {
+          // aqui chega falha de rede/HTTP
+        },
+      });
+  }
+
+
 
   welcomeMessage = computed(() => {
     const pendingCount = this._episodeService.pending()?.filter(

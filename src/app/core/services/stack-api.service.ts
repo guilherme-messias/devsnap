@@ -9,6 +9,6 @@ export class StackApiService {
   private readonly _httpClient = inject(HttpClient);
 
   getStacks() {
-    return this._httpClient.get<StackResponse[]>(`${this.apiUrl}/stacks`);
+    return this._httpClient.get<StackResponse>(`${this.apiUrl}/stacks`);
   }
 }
