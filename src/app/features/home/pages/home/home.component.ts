@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { EmptyStateComponent } from '@app/shared/components/empty-state.componen
 import { StackCardComponent } from '../../components/stack-card/stack-card.component';
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { StackResponse } from '@app/core/models/stack-response.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,9 @@ export class HomeComponent {
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
   private readonly _stackApiService: StackApiService = inject(StackApiService);
   private readonly _destroyRef = inject(DestroyRef);
+  private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
+
+  readonly loadFailed = signal(false);
 
   readonly stacks = toSignal(toObservable(this._stackService.stacks), { initialValue: [] as Stack[] });
   readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
@@ -44,13 +48,16 @@ export class HomeComponent {
         next: (data: StackResponse) => {
           this._stackService.replaceAll(data.stacks);
         },
-        error: (err) => {
-          // aqui chega falha de rede/HTTP
+        error: () => {
+          this.loadFailed.set(true);
+          this._snackBar.open(
+            'Não foi possível carregar suas stacks. Verifique a conexão e recarregue a página.',
+            'OK',
+            { duration: 6000 },
+          );
         },
       });
   }
-
-
 
   welcomeMessage = computed(() => {
     const pendingCount = this._episodeService.pending()?.filter(
