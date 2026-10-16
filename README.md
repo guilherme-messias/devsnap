@@ -105,6 +105,18 @@ npm start
 
 Acesse `http://localhost:4200`.
 
+### Ambiente (`apiUrl`)
+
+A URL da API fica em `src/environments/`, na propriedade `apiUrl` (string entre aspas). O Angular troca o arquivo conforme a configuração de build:
+
+| Arquivo | Quando é usado | Valor atual |
+| ------- | -------------- | ----------- |
+| `environment.development.ts` | `npm start` / build `development` | `'https://devsnap-api.onrender.com'` |
+| `environment.production.ts` | `npm run build` / build `production` | `'https://devsnap-api.onrender.com'` |
+| `environment.ts` | base (substituído pelos acima) | `'https://api.seudominio.com'` |
+
+Para apontar para outra API local ou remota, altere `apiUrl` no arquivo do ambiente correspondente.
+
 ### Build e SSR
 
 ```bash
