@@ -30,6 +30,8 @@ export class CreateStackDialogComponent {
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
   });
 
+  errorMessage = signal<string>('');
+
   save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -44,7 +46,10 @@ export class CreateStackDialogComponent {
       .subscribe({
         next: () => {
           this._dialogRef.close();
-        },
+        }, 
+        error: (error: { error?: { message?: string } }) => {
+          this.errorMessage.set(error?.error?.message ?? 'Não foi possível criar a stack. Tente novamente.');
+        }
       });
   }
 

@@ -6,6 +6,11 @@
       <mat-label>Nome</mat-label>
       <input matInput formControlName="name" placeholder="Digite o nome da stack" />
     </mat-form-field>
+    @if(errorMessage()) {
+      <p class="text-sm text-red-500">
+        {{ errorMessage() }}
+      </p>
+    }
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
