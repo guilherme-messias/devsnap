@@ -13,7 +13,11 @@ export class StackApiService {
     return this._httpClient.get<StackResponse>(`${this.apiUrl}/stacks`);
   }
 
-  createStack(stackData: FormData) {
+  createStack(stackName: string) {
+    const stackData = {
+      name: stackName,
+    };
+
     return this._httpClient.post<Stack>(`${this.apiUrl}/stacks`, stackData);
   }
 }

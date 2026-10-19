@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { StackApiService } from '@app/core/services/stack-api.service';
 import { StackService } from '@app/core/services/stack.service';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-create-stack-dialog',
@@ -22,6 +23,8 @@ import { v4 as uuidv4 } from 'uuid';
 export class CreateStackDialogComponent {
   private readonly _stackService: StackService = inject(StackService);
   private readonly _dialogRef = inject(MatDialogRef<CreateStackDialogComponent>);
+  private readonly _stackApiService: StackApiService = inject(StackApiService);
+  private readonly _destroyRef = inject(DestroyRef);
 
   readonly form = new FormGroup({
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -33,13 +36,16 @@ export class CreateStackDialogComponent {
       return;
     }
 
-    this._stackService.add({
-      id: uuidv4(),
-      name: this.form.controls.name.value.trim(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      userId: '123',
-    });
-    this._dialogRef.close();
+    const stackName = this.form.controls.name.value.trim();
+
+    this._stackApiService.createStack(stackName).pipe(
+      takeUntilDestroyed(this._destroyRef),
+    )
+      .subscribe({
+        next: () => {
+          this._dialogRef.close();
+        },
+      });
   }
+
 }
