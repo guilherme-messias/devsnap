@@ -19,7 +19,7 @@
     }
   </header>
 
-  @if (stacks().length === 0 && !loadFailed()) {
+  @if (stacks().length === 0 && !loadFailed() && !isLoading()) {
     <app-empty-state
       [message]="'Nenhuma stack encontrada'"
       [ctaLabel]="'Criar stack'"
@@ -27,7 +27,7 @@
     />
   }
   
-  @if(stacks().length > 0) {
+  @if(stacks().length > 0 && !isLoading()) {
     <div class="flex justify-center">
       <button mat-flat-button color="primary" type="button" (click)="onCreateStack()">
         Criar stack

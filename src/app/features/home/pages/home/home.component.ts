@@ -28,6 +28,7 @@ export class HomeComponent {
   private readonly _snackBar: MatSnackBar = inject(MatSnackBar);
 
   readonly loadFailed = signal(false);
+  readonly isLoading = signal(true);
 
   readonly stacks = toSignal(toObservable(this._stackService.stacks), { initialValue: [] as Stack[] });
   readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
@@ -47,9 +48,11 @@ export class HomeComponent {
       .subscribe({
         next: (data: StackResponse) => {
           this._stackService.replaceAll(data.stacks);
+          this.isLoading.set(false);
         },
         error: () => {
           this.loadFailed.set(true);
+          this.isLoading.set(false);
           this._snackBar.open(
             'Não foi possível carregar suas stacks. Verifique a conexão e recarregue a página.',
             'OK',
