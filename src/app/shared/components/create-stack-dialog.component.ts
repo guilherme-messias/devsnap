@@ -6,7 +6,6 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { StackApiService } from '@app/core/services/stack-api.service';
-import { StackService } from '@app/core/services/stack.service';
 
 @Component({
   selector: 'app-create-stack-dialog',
@@ -21,7 +20,6 @@ import { StackService } from '@app/core/services/stack.service';
   ],
 })
 export class CreateStackDialogComponent {
-  private readonly _stackService: StackService = inject(StackService);
   private readonly _dialogRef = inject(MatDialogRef<CreateStackDialogComponent>);
   private readonly _stackApiService: StackApiService = inject(StackApiService);
   private readonly _destroyRef = inject(DestroyRef);
