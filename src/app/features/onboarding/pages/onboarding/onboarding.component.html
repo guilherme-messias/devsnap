@@ -74,6 +74,11 @@
       </div>
 
       <mat-form-field class="w-full" appearance="outline">
+        @if (errorMessage()) {
+          <p class="text-sm text-red-500">
+            {{ errorMessage() }}
+          </p>
+        }
         <mat-label>Nome da stack</mat-label>
         <input
           matInput
