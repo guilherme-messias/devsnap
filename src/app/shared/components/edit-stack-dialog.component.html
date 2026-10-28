@@ -1,0 +1,52 @@
+<div class="edit-stack-dialog flex flex-col gap-1 px-6 pt-6">
+  <span
+    class="text-xs font-semibold uppercase tracking-widest"
+    style="color: var(--color-primary)"
+  >
+    Configurações
+  </span>
+  <h2
+    mat-dialog-title
+    class="edit-stack-dialog__title !p-0 text-xl font-bold leading-tight"
+    style="color: var(--color-text-primary)"
+  >
+    Editar stack
+  </h2>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="flex flex-col gap-3">
+    <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+      Altere o nome da stack. Os episódios vinculados serão mantidos.
+    </p>
+
+    <mat-form-field class="w-full" appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Digite o novo nome da stack"
+        autocomplete="off"
+        required
+      />
+      @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+        <mat-error>O nome da stack é obrigatório.</mat-error>
+      }
+    </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="edit-stack-dialog__error flex items-center gap-2 text-sm" role="alert">
+        <mat-icon aria-hidden="true">error</mat-icon>
+        {{ errorMessage() }}
+      </p>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end" align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      <mat-icon aria-hidden="true">save</mat-icon>
+      Salvar
+    </button>
+  </mat-dialog-actions>
+</form>

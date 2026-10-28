@@ -10,6 +10,7 @@ import { FocusSessionService } from '@app/core/services/focus-session.service';
 import { StackService } from '@app/core/services/stack.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog.component';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
+import { EditStackDialogComponent } from '@app/shared/components/edit-stack-dialog.component';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 
 @Component({
@@ -35,13 +36,10 @@ export class ManageStacksComponent {
   };
 
   onEdit(stack: Stack): void {
-    const newName = prompt('Digite o novo nome da stack', stack.name);
-    if (newName && newName.trim() !== stack.name) {
-      this._stackService.update(stack, { name: newName });
-    } else {
-      alert('Nome da stack não pode ser vazio ou igual ao nome atual. Por favor, tente novamente.');
-    }
-    this._router.navigate(['/settings']);
+    this._dialog.open(EditStackDialogComponent, {
+      width: '400px',
+      data: { name: stack.name },
+    });
   }
 
   onDelete(stack: Stack): void {
