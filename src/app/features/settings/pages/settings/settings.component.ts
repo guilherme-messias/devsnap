@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { StackService } from '@app/core/services/stack.service';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { StackApiService } from '@app/core/services/stack-api.service';
 import { ManageStacksComponent } from '../../components/manage-stacks/manage-stacks.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -9,6 +11,12 @@ import { ManageStacksComponent } from '../../components/manage-stacks/manage-sta
   templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
-  private readonly _stackService = inject(StackService);
-  readonly stacks = this._stackService.stacks;
+  private readonly _stackApiService = inject(StackApiService);
+
+  readonly isLoading = signal(true);
+
+  readonly stacks = toSignal(
+    this._stackApiService.getStacks().pipe(finalize(() => this.isLoading.set(false))),
+    { initialValue: { stacks: [] } },
+  );
 }
