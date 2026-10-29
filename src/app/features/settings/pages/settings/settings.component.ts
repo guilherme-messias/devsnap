@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { ManageStacksComponent } from '../../components/manage-stacks/manage-stacks.component';
-import { finalize } from 'rxjs';
+import { finalize, startWith, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -13,10 +13,21 @@ import { finalize } from 'rxjs';
 export class SettingsComponent {
   private readonly _stackApiService = inject(StackApiService);
 
+  private refresh$ = new Subject<void>();
+
   readonly isLoading = signal(true);
 
-  readonly stacks = toSignal(
-    this._stackApiService.getStacks().pipe(finalize(() => this.isLoading.set(false))),
+  stacks = toSignal(
+    this.refresh$.pipe(
+      startWith(void 0),
+      switchMap(() =>
+        this._stackApiService.getStacks().pipe(finalize(() => this.isLoading.set(false))),
+      ),
+    ),
     { initialValue: { stacks: [] } },
   );
+
+  reloadStacks(): void {
+    this.refresh$.next();
+  }
 }

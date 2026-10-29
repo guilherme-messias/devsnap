@@ -1,3 +1,3 @@
 @if (!isLoading()) {
-  <app-manage-stacks [stacks]="stacks().stacks"></app-manage-stacks>
+  <app-manage-stacks [stacks]="stacks().stacks" (stacksChanged)="reloadStacks()"></app-manage-stacks>
 }

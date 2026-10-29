@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +28,7 @@ export class ManageStacksComponent {
   private readonly _episodeService = inject(EpisodeService);
   private readonly _focusSessionService = inject(FocusSessionService);
   private readonly _router = inject(Router);
+  readonly stacksChanged = output<void>();
 
   readonly onCreateStack = (): void => {
     this._dialog.open(CreateStackDialogComponent, {
@@ -36,9 +37,13 @@ export class ManageStacksComponent {
   };
 
   onEdit(stack: Stack): void {
-    this._dialog.open(EditStackDialogComponent, {
+    const dialogRef = this._dialog.open(EditStackDialogComponent, {
       width: '400px',
       data: { id: stack.id, name: stack.name },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.stacksChanged.emit();
     });
   }
 
