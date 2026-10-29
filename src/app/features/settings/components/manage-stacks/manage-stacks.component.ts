@@ -38,7 +38,7 @@ export class ManageStacksComponent {
   onEdit(stack: Stack): void {
     this._dialog.open(EditStackDialogComponent, {
       width: '400px',
-      data: { name: stack.name },
+      data: { id: stack.id, name: stack.name },
     });
   }
 
