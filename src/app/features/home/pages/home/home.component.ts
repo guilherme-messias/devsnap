@@ -44,8 +44,8 @@ export class HomeComponent {
       .getStacks()
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: (stacks: StackResponse) => {
-          this.stacks.set(stacks.stacks);
+        next: (stackResponse: StackResponse) => {
+          this.stacks.set(stackResponse.stacks);
           this.isLoading.set(false);
         },
         error: () => {
