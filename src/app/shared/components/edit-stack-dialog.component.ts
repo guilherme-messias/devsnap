@@ -52,7 +52,7 @@ export class EditStackDialogComponent {
         },
         error: (error: { error?: { message?: string } }) => {
           this.errorMessage.set(
-            error?.error?.message ?? 'Não foi possível criar a stack. Tente novamente.',
+            error?.error?.message ?? 'Não foi possível editar a stack. Tente novamente.',
           );
         },
       });
