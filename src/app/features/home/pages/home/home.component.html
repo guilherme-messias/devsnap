@@ -26,8 +26,8 @@
       [ctaClick]="onCreateStack"
     />
   }
-  
-  @if(stacks().length > 0 && !isLoading()) {
+
+  @if (stacks().length > 0 && !isLoading()) {
     <div class="flex justify-center">
       <button mat-flat-button color="primary" type="button" (click)="onCreateStack()">
         Criar stack

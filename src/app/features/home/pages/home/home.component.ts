@@ -3,15 +3,14 @@ import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-i
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Episode } from '@app/core/models/episode.model';
-import { Stack } from '@app/core/models/stack.model';
 import { EpisodeService } from '@app/core/services/episode.service';
-import { StackService } from '@app/core/services/stack.service';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 import { StackCardComponent } from '../../components/stack-card/stack-card.component';
 import { StackApiService } from '@app/core/services/stack-api.service';
-import { StackResponse } from '@app/core/models/stack-response.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Stack } from '@app/core/models/stack.model';
+import { StackResponse } from '@app/core/models/stack-response.model';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +20,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomeComponent {
   private readonly _dialog: MatDialog = inject(MatDialog);
-  private readonly _stackService: StackService = inject(StackService);
   private readonly _episodeService: EpisodeService = inject(EpisodeService);
   private readonly _stackApiService: StackApiService = inject(StackApiService);
   private readonly _destroyRef = inject(DestroyRef);
@@ -30,7 +28,7 @@ export class HomeComponent {
   readonly loadFailed = signal(false);
   readonly isLoading = signal(true);
 
-  readonly stacks = toSignal(toObservable(this._stackService.stacks), { initialValue: [] as Stack[] });
+  readonly stacks = signal<Stack[]>([]);
   readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
     initialValue: [] as Episode[],
   });
@@ -42,12 +40,12 @@ export class HomeComponent {
   };
 
   constructor() {
-    this._stackApiService.getStacks().pipe(
-      takeUntilDestroyed(this._destroyRef),
-    )
+    this._stackApiService
+      .getStacks()
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
-        next: (data: StackResponse) => {
-          this._stackService.replaceAll(data.stacks);
+        next: (stacks: StackResponse) => {
+          this.stacks.set(stacks.stacks);
           this.isLoading.set(false);
         },
         error: () => {
