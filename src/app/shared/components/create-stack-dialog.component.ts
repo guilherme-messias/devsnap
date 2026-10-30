@@ -28,7 +28,8 @@ export class CreateStackDialogComponent {
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
   });
 
-  errorMessage = signal<string>('');
+  readonly errorMessage = signal<string>('');
+  readonly isLoading = signal(false);
 
   save(): void {
     if (this.form.invalid) {
@@ -38,17 +39,21 @@ export class CreateStackDialogComponent {
 
     const stackName = this.form.controls.name.value.trim();
 
-    this._stackApiService.createStack(stackName).pipe(
-      takeUntilDestroyed(this._destroyRef),
-    )
+    this.isLoading.set(true);
+    this._stackApiService
+      .createStack(stackName)
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
+          this.isLoading.set(false);
           this._dialogRef.close();
-        }, 
+        },
         error: (error: { error?: { message?: string } }) => {
-          this.errorMessage.set(error?.error?.message ?? 'Não foi possível criar a stack. Tente novamente.');
-        }
+          this.isLoading.set(false);
+          this.errorMessage.set(
+            error?.error?.message ?? 'Não foi possível criar a stack. Tente novamente.',
+          );
+        },
       });
   }
-
 }

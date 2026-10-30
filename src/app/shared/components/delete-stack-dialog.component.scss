@@ -12,6 +12,15 @@
 .delete-stack-dialog__confirm {
   background: var(--color-accent);
   color: var(--color-bg-primary);
+
+  // O fundo customizado sobrescreve o estilo disabled do Material
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    background: color-mix(in srgb, var(--color-text-secondary) 15%, transparent);
+    color: color-mix(in srgb, var(--color-text-secondary) 60%, transparent);
+    border: 0.5px dashed rgba(127, 127, 127, 0.4);
+    cursor: not-allowed;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

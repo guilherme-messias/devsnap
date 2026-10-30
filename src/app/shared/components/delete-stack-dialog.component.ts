@@ -19,16 +19,20 @@ export class DeleteStackDialogComponent {
   readonly data = inject<{ id: string; name: string }>(MAT_DIALOG_DATA);
 
   readonly errorMessage = signal<string>('');
+  readonly isLoading = signal(false);
 
   confirm(): void {
+    this.isLoading.set(true);
     this._stackApiService
       .deleteStack(this.data.id)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: () => {
+          this.isLoading.set(false);
           this._dialogRef.close(true);
         },
         error: (error: { error?: { message?: string } }) => {
+          this.isLoading.set(false);
           this.errorMessage.set(
             error?.error?.message ?? 'Não foi possível excluir a stack. Tente novamente.',
           );

@@ -6,7 +6,7 @@
       <mat-label>Nome</mat-label>
       <input matInput formControlName="name" placeholder="Digite o nome da stack" />
     </mat-form-field>
-    @if(errorMessage()) {
+    @if (errorMessage()) {
       <p class="text-sm text-red-500">
         {{ errorMessage() }}
       </p>
@@ -15,12 +15,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">Cancelar</button>
-    <button
-      mat-flat-button
-      color="primary"
-      type="submit"
-      [disabled]="form.invalid"
-    >
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading()">
       Criar
     </button>
   </mat-dialog-actions>

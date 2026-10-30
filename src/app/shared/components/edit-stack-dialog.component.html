@@ -44,7 +44,7 @@
 
   <mat-dialog-actions class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end" align="end">
     <button mat-button mat-dialog-close type="button">Cancelar</button>
-    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading()">
       <mat-icon aria-hidden="true">save</mat-icon>
       Salvar
     </button>

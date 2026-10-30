@@ -1,8 +1,5 @@
 <div class="delete-stack-dialog flex flex-col gap-1 px-6 pt-6">
-  <span
-    class="text-xs font-semibold uppercase tracking-widest"
-    style="color: var(--color-primary)"
-  >
+  <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--color-primary)">
     Configurações
   </span>
   <h2
@@ -17,7 +14,8 @@
 <mat-dialog-content class="flex flex-col gap-3">
   <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
     Tem certeza que deseja excluir a stack
-    <strong style="color: var(--color-text-primary)">{{ data.name }}</strong>?
+    <strong style="color: var(--color-text-primary)">{{ data.name }}</strong
+    >?
   </p>
 
   <p class="delete-stack-dialog__warning flex items-start gap-2 text-sm" role="alert">
@@ -40,6 +38,7 @@
     type="button"
     class="delete-stack-dialog__confirm"
     (click)="confirm()"
+    [disabled]="isLoading()"
   >
     <mat-icon aria-hidden="true">delete</mat-icon>
     Excluir
