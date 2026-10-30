@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  background: var(--color-bg-surface);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: inherit;
+}
+
+.delete-stack-dialog__warning {
+  color: var(--color-accent);
+}
+
+.delete-stack-dialog__confirm {
+  background: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

@@ -1,0 +1,47 @@
+<div class="delete-stack-dialog flex flex-col gap-1 px-6 pt-6">
+  <span
+    class="text-xs font-semibold uppercase tracking-widest"
+    style="color: var(--color-primary)"
+  >
+    Configurações
+  </span>
+  <h2
+    mat-dialog-title
+    class="!p-0 text-xl font-bold leading-tight"
+    style="color: var(--color-text-primary)"
+  >
+    Excluir stack
+  </h2>
+</div>
+
+<mat-dialog-content class="flex flex-col gap-3">
+  <p class="text-sm leading-relaxed" style="color: var(--color-text-secondary)">
+    Tem certeza que deseja excluir a stack
+    <strong style="color: var(--color-text-primary)">{{ data.name }}</strong>?
+  </p>
+
+  <p class="delete-stack-dialog__warning flex items-start gap-2 text-sm" role="alert">
+    <mat-icon class="shrink-0" aria-hidden="true">warning</mat-icon>
+    Todos os episódios vinculados a esta stack também serão excluídos. Esta ação é irreversível.
+  </p>
+
+  @if (errorMessage()) {
+    <p class="delete-stack-dialog__warning flex items-center gap-2 text-sm" role="alert">
+      <mat-icon class="shrink-0" aria-hidden="true">error</mat-icon>
+      {{ errorMessage() }}
+    </p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end" align="end">
+  <button mat-button mat-dialog-close type="button">Cancelar</button>
+  <button
+    mat-flat-button
+    type="button"
+    class="delete-stack-dialog__confirm"
+    (click)="confirm()"
+  >
+    <mat-icon aria-hidden="true">delete</mat-icon>
+    Excluir
+  </button>
+</mat-dialog-actions>

@@ -10,6 +10,7 @@ import { FocusSessionService } from '@app/core/services/focus-session.service';
 import { StackService } from '@app/core/services/stack.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog.component';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
+import { DeleteStackDialogComponent } from '@app/shared/components/delete-stack-dialog.component';
 import { EditStackDialogComponent } from '@app/shared/components/edit-stack-dialog.component';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 
@@ -48,19 +49,13 @@ export class ManageStacksComponent {
   }
 
   onDelete(stack: Stack): void {
-    const dialogRef = this._dialog.open(ConfirmDialogComponent, {
-      data: {
-        title: 'Excluir stack',
-        message: `Tem certeza que deseja excluir a stack "${stack.name}"?`,
-      },
+    const dialogRef = this._dialog.open(DeleteStackDialogComponent, {
+      width: '400px',
+      data: { id: stack.id, name: stack.name },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this._episodeService.removeByStack(stack.id);
-        this._stackService.remove(stack);
-        this._router.navigate(['/settings']);
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.stacksChanged.emit();
     });
   }
 
