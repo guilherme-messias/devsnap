@@ -27,4 +27,8 @@ export class StackApiService {
     };
     return this._httpClient.patch<Stack>(`${this.apiUrl}/stacks/${stackId}`, stackData);
   }
+
+  deleteStack(stackId: string) {
+    return this._httpClient.delete(`${this.apiUrl}/stacks/${stackId}`);
+  }
 }
