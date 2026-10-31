@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { StackResponse } from '../models/stack-response.model';
+import { StackListResponse } from '../models/stack-list-response.model';
 import { Stack } from '../models/stack.model';
+import { StackDetailResponse } from '../models/stack-detail-response.model';
 
 @Injectable({ providedIn: 'root' })
 export class StackApiService {
@@ -10,11 +11,11 @@ export class StackApiService {
   private readonly _httpClient = inject(HttpClient);
 
   getStacks() {
-    return this._httpClient.get<StackResponse>(`${this.apiUrl}/stacks`);
+    return this._httpClient.get<StackListResponse>(`${this.apiUrl}/stacks`);
   }
 
   getStackById(stackId: string) {
-    return this._httpClient.get<Stack>(`${this.apiUrl}/stacks/${stackId}`);
+    return this._httpClient.get<StackDetailResponse>(`${this.apiUrl}/stacks/${stackId}`);
   }
 
   createStack(stackName: string) {
