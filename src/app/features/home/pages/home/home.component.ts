@@ -9,8 +9,7 @@ import { EmptyStateComponent } from '@app/shared/components/empty-state.componen
 import { StackCardComponent } from '../../components/stack-card/stack-card.component';
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StackResponse } from '@app/core/models/stack-response.model';
-import { finalize, startWith, Subject, switchMap, Observable, catchError } from 'rxjs';
+import { finalize, startWith, Subject, switchMap, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
