@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { EpisodeService } from '@app/core/services/episode.service';
+import { EpisodeApiService } from '@app/core/services/episode-api.service';
 import { EpisodeFormComponent } from '@app/shared/components/episode-form.component';
 
 @Component({
@@ -9,12 +9,12 @@ import { EpisodeFormComponent } from '@app/shared/components/episode-form.compon
   imports: [EpisodeFormComponent],
 })
 export class EpisodeEditComponent {
-  private readonly _episodeService = inject(EpisodeService);
+  private readonly _episodeApiService = inject(EpisodeApiService);
 
   readonly eid = input.required<string>();
 
   readonly episode = computed(() => {
     const id = this.eid();
-    return this._episodeService.episodes().find((e) => e.id === id);
+    return this._episodeApiService.getEpisodeById(id);
   });
 }
