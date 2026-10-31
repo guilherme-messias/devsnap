@@ -19,7 +19,7 @@
     }
   </header>
 
-  @if (stacks().length === 0 && !loadFailed() && !isLoading()) {
+  @if (stacks().stacks.length === 0 && !loadFailed() && !isLoading()) {
     <app-empty-state
       [message]="'Nenhuma stack encontrada'"
       [ctaLabel]="'Criar stack'"
@@ -27,7 +27,7 @@
     />
   }
 
-  @if (stacks().length > 0 && !isLoading()) {
+  @if (stacks().stacks.length > 0 && !isLoading()) {
     <div class="flex justify-center">
       <button mat-flat-button color="primary" type="button" (click)="onCreateStack()">
         Criar stack
@@ -35,7 +35,7 @@
     </div>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      @for (stack of stacks(); track stack.id) {
+      @for (stack of stacks().stacks; track stack.id) {
         <app-stack-card [stack]="stack" />
       }
     </div>
