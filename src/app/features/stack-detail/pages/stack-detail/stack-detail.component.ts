@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Stack } from '@app/core/models/stack.model';
 import { EpisodeService } from '@app/core/services/episode.service';
-import { StackService } from '@app/core/services/stack.service';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 import { EpisodeListItemComponent } from '../../components/episode-list-item/episode-list-item.component';
 
@@ -23,7 +22,7 @@ import { EpisodeListItemComponent } from '../../components/episode-list-item/epi
 })
 export class StackDetailComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
-  private readonly _stackService = inject(StackService);
+  private readonly _stackApiService: StackApiService = inject(StackApiService);
   private readonly _episodeService = inject(EpisodeService);
   private readonly _router = inject(Router);
 
@@ -34,7 +33,7 @@ export class StackDetailComponent implements OnInit {
   ngOnInit(): void {
     const stackId = this._route.snapshot.paramMap.get('id');
     if (stackId) {
-      this.stack.set(this._stackService.getById(stackId));
+      this.stack.set(this._stackApiService.getById(stackId));
     }
   }
 

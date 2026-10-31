@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { StackApiService } from '@app/core/services/stack-api.service';
-import { StackService } from '@app/core/services/stack.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
