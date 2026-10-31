@@ -1,89 +1,97 @@
-<section class="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
-  <header class="flex flex-col gap-1">
-    <span
-      class="text-xs font-semibold uppercase tracking-widest"
-      style="color: var(--color-primary)"
-    >
-      Stack
-    </span>
-    <h1
-      class="text-2xl font-bold leading-tight md:text-3xl"
-      style="color: var(--color-text-primary)"
-    >
-      {{ stack()?.name }}
-    </h1>
-  </header>
+@let currentStack = stack()?.stack;
 
-  <div class="flex flex-col gap-4">
-    <label class="stack-detail-search flex items-center gap-2 px-3 py-2.5">
-      <mat-icon class="stack-detail-search__icon shrink-0" aria-hidden="true">search</mat-icon>
-      <input
-        type="search"
-        class="stack-detail-search__input min-w-0 flex-1"
-        placeholder="Pesquisar por título, erro ou tags..."
-        aria-label="Pesquisar episódios"
-        (input)="updateSearchQuery($event)"
-      />
-    </label>
-
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div
-        class="stack-detail-filters flex flex-wrap gap-1"
-        role="group"
-        aria-label="Filtrar episódios"
+@if (currentStack != null) {
+  <section class="flex flex-col gap-6 px-4 py-6 md:px-6 md:py-8">
+    <header class="flex flex-col gap-1">
+      <span
+        class="text-xs font-semibold uppercase tracking-widest"
+        style="color: var(--color-primary)"
       >
-        <button
-          type="button"
-          class="stack-detail-filter"
-          [class.stack-detail-filter--active]="filter() === 'all'"
-          (click)="updateFilter('all')"
-        >
-          Todos
-        </button>
-        <button
-          type="button"
-          class="stack-detail-filter"
-          [class.stack-detail-filter--active]="filter() === 'pending'"
-          (click)="updateFilter('pending')"
-        >
-          Pendentes
-        </button>
-        <button
-          type="button"
-          class="stack-detail-filter"
-          [class.stack-detail-filter--active]="filter() === 'reviewed'"
-          (click)="updateFilter('reviewed')"
-        >
-          Revisados
-        </button>
-      </div>
+        Stack
+      </span>
+      <h1
+        class="text-2xl font-bold leading-tight md:text-3xl"
+        style="color: var(--color-text-primary)"
+      >
+        {{ currentStack.name }}
+      </h1>
+    </header>
 
-      <div class="flex flex-wrap gap-2">
-        <a
-          mat-flat-button
-          color="primary"
-          [routerLink]="['/stacks', stack()?.id, 'episodios', 'novo']"
+    <div class="flex flex-col gap-4">
+      <label class="stack-detail-search flex items-center gap-2 px-3 py-2.5">
+        <mat-icon class="stack-detail-search__icon shrink-0" aria-hidden="true">search</mat-icon>
+        <input
+          type="search"
+          class="stack-detail-search__input min-w-0 flex-1"
+          placeholder="Pesquisar por título, erro ou tags..."
+          aria-label="Pesquisar episódios"
+          (input)="updateSearchQuery($event)"
+        />
+      </label>
+
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div
+          class="stack-detail-filters flex flex-wrap gap-1"
+          role="group"
+          aria-label="Filtrar episódios"
         >
-          <mat-icon>add</mat-icon>
-          Novo episódio
-        </a>
-        <a mat-stroked-button [routerLink]="['/foco']">
-          <mat-icon>center_focus_strong</mat-icon>
-          Modo Foco
-        </a>
+          <button
+            type="button"
+            class="stack-detail-filter"
+            [class.stack-detail-filter--active]="filter() === 'all'"
+            (click)="updateFilter('all')"
+          >
+            Todos
+          </button>
+          <button
+            type="button"
+            class="stack-detail-filter"
+            [class.stack-detail-filter--active]="filter() === 'pending'"
+            (click)="updateFilter('pending')"
+          >
+            Pendentes
+          </button>
+          <button
+            type="button"
+            class="stack-detail-filter"
+            [class.stack-detail-filter--active]="filter() === 'reviewed'"
+            (click)="updateFilter('reviewed')"
+          >
+            Revisados
+          </button>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <a
+            mat-flat-button
+            color="primary"
+            [routerLink]="['/stacks', currentStack.id, 'episodios', 'novo']"
+          >
+            <mat-icon>add</mat-icon>
+            Novo episódio
+          </a>
+          <a mat-stroked-button [routerLink]="['/foco']">
+            <mat-icon>center_focus_strong</mat-icon>
+            Modo Foco
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-    @if (sortedEpisodes().length === 0) {
-      <div class="col-span-full">
-        <app-empty-state message="Nenhum episódio encontrado." [ctaLabel]="'Criar episódio'" [ctaClick]="onCreateEpisode" />
-      </div>
-    } @else {
-      @for (episode of sortedEpisodes(); track episode.id) {
-        <app-episode-list-item [episode]="episode" />
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      @if (sortedEpisodes().length === 0) {
+        <div class="col-span-full">
+          <app-empty-state
+            message="Nenhum episódio encontrado."
+            [ctaLabel]="'Criar episódio'"
+            [ctaClick]="onCreateEpisode"
+          />
+        </div>
+      } @else {
+        @for (episode of sortedEpisodes(); track episode.id) {
+          <app-episode-list-item [episode]="episode" />
+        }
       }
-    }
-  </div>
-</section>
+    </div>
+  </section>
+}

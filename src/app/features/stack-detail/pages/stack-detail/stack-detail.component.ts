@@ -2,10 +2,11 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Stack } from '@app/core/models/stack.model';
 import { EpisodeService } from '@app/core/services/episode.service';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 import { EpisodeListItemComponent } from '../../components/episode-list-item/episode-list-item.component';
+import { StackApiService } from '@app/core/services/stack-api.service';
+import { StackDetailResponse } from '@app/core/models/stack-detail-response.model';
 
 @Component({
   selector: 'app-stack-detail',
@@ -26,24 +27,36 @@ export class StackDetailComponent implements OnInit {
   private readonly _episodeService = inject(EpisodeService);
   private readonly _router = inject(Router);
 
-  readonly stack = signal<Stack | undefined>(undefined);
+  readonly stack = signal<StackDetailResponse | null>(null);
   readonly filter = signal<'all' | 'pending' | 'reviewed'>('all');
   readonly searchQuery = signal('');
 
   ngOnInit(): void {
     const stackId = this._route.snapshot.paramMap.get('id');
-    if (stackId) {
-      this.stack.set(this._stackApiService.getById(stackId));
+    if (!stackId) {
+      this._router.navigate(['/']);
+      return;
     }
+
+    this._stackApiService.getStackById(stackId).subscribe({
+      next: (response) => {
+        if (!response?.stack) {
+          this._router.navigate(['/']);
+          return;
+        }
+        this.stack.set(response);
+      },
+      error: () => this._router.navigate(['/']),
+    });
   }
 
   readonly onCreateEpisode = (): void => {
-    this._router.navigate(['/stacks', this.stack()?.id, 'episodios', 'novo']);
+    this._router.navigate(['/stacks', this.stack()?.stack?.id, 'episodios', 'novo']);
   };
 
   readonly filteredEpisodes = computed(() => {
     const filter = this.filter();
-    const stackId = this.stack()?.id;
+    const stackId = this.stack()?.stack?.id;
     if (!stackId) return [];
 
     let episodes = this._episodeService.getByStack(stackId);
