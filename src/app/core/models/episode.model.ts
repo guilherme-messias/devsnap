@@ -1,20 +1,26 @@
-export interface Annotation {
+interface Stack {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Annotation {
   id: string;
   text: string;
-  createdAt: Date;
+  episodeId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Episode {
   id: string;
-  stackId: string;
   title: string;
+  stackId: string;
+  stack: Stack;
   error: string;
-  attempts: string;
   solution: string;
-  reasoning: string;
-  snippets?: string;
-  tags?: string[];
-  annotations?: Annotation[];
-  reviewedAt?: Date;
-  createdAt: Date;
+  annotations: Annotation[];
+  createdAt: string;
+  updatedAt: string;
 }
