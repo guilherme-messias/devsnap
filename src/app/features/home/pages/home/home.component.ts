@@ -10,7 +10,7 @@ import { StackCardComponent } from '../../components/stack-card/stack-card.compo
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StackResponse } from '@app/core/models/stack-response.model';
-import { finalize, startWith, Subject, switchMap, Observable } from 'rxjs';
+import { finalize, startWith, Subject, switchMap, Observable, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +29,6 @@ export class HomeComponent {
   readonly loadFailed = signal(false);
   readonly isLoading = signal(true);
 
-  // readonly stacks = signal<Stack[]>([]);
   readonly episodes = toSignal(toObservable(this._episodeService.episodes), {
     initialValue: [] as Episode[],
   });
@@ -38,6 +37,8 @@ export class HomeComponent {
     this._dialog.open(CreateStackDialogComponent, {
       width: '400px',
     });
+
+    this._dialog.afterAllClosed.subscribe(() => this.reloadStacks());
   };
 
   stacks = toSignal(
@@ -45,16 +46,16 @@ export class HomeComponent {
       startWith(void 0),
       switchMap(() =>
         this._stackApiService.getStacks().pipe(
-          // catchError(() => {
-          //   this.loadFailed.set(true);
-          //   this.isLoading.set(false);
-          //   this._snackBar.open(
-          //     'Não foi possível carregar suas stacks. Verifique a conexão e recarregue a página.',
-          //     'OK',
-          //     { duration: 6000 },
-          //   );
-          //   return [];
-          // }),
+          catchError(() => {
+            this.loadFailed.set(true);
+            this.isLoading.set(false);
+            this._snackBar.open(
+              'Não foi possível carregar suas stacks. Verifique a conexão e recarregue a página.',
+              'OK',
+              { duration: 6000 },
+            );
+            return [];
+          }),
           finalize(() => this.isLoading.set(false)),
         ),
       ),
