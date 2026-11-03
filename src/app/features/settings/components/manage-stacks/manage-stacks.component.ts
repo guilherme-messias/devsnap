@@ -5,9 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { Stack } from '@app/core/models/stack.model';
-import { EpisodeService } from '@app/core/services/episode.service';
-import { FocusSessionService } from '@app/core/services/focus-session.service';
-import { StackService } from '@app/core/services/stack.service';
+import { UserApiService } from '@app/core/services/user-api.service';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog.component';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
 import { DeleteStackDialogComponent } from '@app/shared/components/delete-stack-dialog.component';
@@ -25,9 +23,7 @@ export class ManageStacksComponent {
   @Input() stacks: Stack[] = [];
 
   private readonly _dialog = inject(MatDialog);
-  private readonly _stackService = inject(StackService);
-  private readonly _episodeService = inject(EpisodeService);
-  private readonly _focusSessionService = inject(FocusSessionService);
+  private readonly _userApiService = inject(UserApiService);
   private readonly _router = inject(Router);
   readonly stacksChanged = output<void>();
 
@@ -73,11 +69,10 @@ export class ManageStacksComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this._episodeService.reset();
-        this._stackService.reset();
-        this._focusSessionService.end();
-        localStorage.clear();
-        this._router.navigate(['/onboarding']);
+        this._userApiService.deleteAccount().subscribe(() => {
+          localStorage.clear();
+          this._router.navigate(['/onboarding']);
+        });
       }
     });
   }
