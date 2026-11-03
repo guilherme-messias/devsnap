@@ -1,5 +1,5 @@
 import { Stack } from './stack.model';
 
-export interface StackDetailResponse  {
+export interface StackDetailResponse {
   stack: Stack;
 }
