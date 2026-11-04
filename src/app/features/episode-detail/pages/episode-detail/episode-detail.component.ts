@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +12,7 @@ import { CodeSnippetComponent } from '@app/shared/components/code-snippet.compon
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog.component';
 import { AnnotationFormComponent } from '../../components/annotation-form/annotation-form.component';
 import { AnnotationListComponent } from '../../components/annotation-list/annotation-list.component';
+import { EpisodeApiService } from '@app/core/services/episode-api.service';
 
 @Component({
   selector: 'app-episode-detail',
@@ -30,7 +32,7 @@ import { AnnotationListComponent } from '../../components/annotation-list/annota
 })
 export class EpisodeDetailComponent {
   private readonly _episodeService = inject(EpisodeService);
-  private readonly _stackService = inject(StackService);
+  private readonly _episodeApiService = inject(EpisodeApiService);
   private readonly _dialog = inject(MatDialog);
   private readonly _router = inject(Router);
 
@@ -48,8 +50,13 @@ export class EpisodeDetailComponent {
     this.solutionRevealed.set(true);
   }
 
-  getStackName(stackId: string): string {
-    return this._stackService.getById(stackId)?.name ?? '';
+  getStackName(): Subscription {
+    return this._episodeApiService.getEpisodeById(this.eid()).subscribe({
+      next: (ep) => {
+        ep.episode.stack.name;
+      },
+      error: () => '',
+    });
   }
 
   markAsReviewed(): void {
