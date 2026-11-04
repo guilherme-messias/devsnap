@@ -1,4 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { StackApiService } from '@app/core/services/stack-api.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -10,7 +11,6 @@ import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Episode } from '@app/core/models/episode.model';
 import { EpisodeService } from '@app/core/services/episode.service';
-import { StackService } from '@app/core/services/stack.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -33,12 +33,12 @@ export class EpisodeFormComponent implements OnInit {
   @Output() saved = new EventEmitter<void>();
 
   private readonly _episodeService = inject(EpisodeService);
-  private readonly _stackService = inject(StackService);
+  private readonly _stackApiService = inject(StackApiService);
   private readonly _router = inject(Router);
   private readonly _fb = inject(FormBuilder);
 
   readonly currentTag = signal<string>('');
-  readonly stacks = this._stackService.stacks;
+  readonly stacks = this._stackApiService.getStacks();
   readonly separatorKeysCodes = [ENTER, COMMA];
   readonly form: FormGroup;
 
