@@ -3,9 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { StackListResponse } from '@app/core/models/stack-list-response.model';
 import { EpisodeService } from '@app/core/services/episode.service';
 import { ExportService } from '@app/core/services/export.service';
-import { StackService } from '@app/core/services/stack.service';
+import { StackApiService } from '@app/core/services/stack-api.service';
 import { CreateStackDialogComponent } from '@app/shared/components/create-stack-dialog.component';
 import { EmptyStateComponent } from '@app/shared/components/empty-state.component';
 
@@ -18,11 +19,20 @@ import { EmptyStateComponent } from '@app/shared/components/empty-state.componen
 })
 export class ExportComponent {
   private readonly _dialog: MatDialog = inject(MatDialog);
-  private readonly _stackService = inject(StackService);
+  private readonly _stackApiService = inject(StackApiService);
   private readonly _episodeService = inject(EpisodeService);
   private readonly _exportService = inject(ExportService);
 
-  readonly stacks = this._stackService.stacks;
+  readonly stacks = signal<StackListResponse | null>(null);
+  readonly isLoading = signal<boolean>(true);
+
+  constructor() {
+    this._stackApiService.getStacks().subscribe({
+      next: (stacks) => {
+        this.stacks.set(stacks);
+      },
+    });
+  }
   readonly selectedIds = new Set<string>();
   readonly exported = signal<boolean>(false);
 
@@ -45,9 +55,12 @@ export class ExportComponent {
   }
 
   onExport(): void {
-    const selectedStacks = this.stacks().filter((s) => this.selectedIds.has(s.id));
+    const selectedStacks =
+      this.stacks()?.stacks?.filter((s: { id: string }) => this.selectedIds.has(s.id)) ?? [];
     const allEpisodes = this._episodeService.episodes();
-    const episodes = allEpisodes.filter((e) => selectedStacks.some((s) => s.id === e.stackId));
+    const episodes = allEpisodes.filter((e) =>
+      selectedStacks.some((s: { id: string }) => s.id === e.stackId),
+    );
     this._exportService.exportMultiple(selectedStacks, episodes);
 
     this.selectedIds.clear();

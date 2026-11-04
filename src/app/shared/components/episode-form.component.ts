@@ -12,6 +12,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Episode } from '@app/core/models/episode.model';
 import { EpisodeService } from '@app/core/services/episode.service';
 import { v4 as uuidv4 } from 'uuid';
+import { StackListResponse } from '@app/core/models/stack-list-response.model';
 
 @Component({
   selector: 'app-episode-form',
@@ -38,11 +39,17 @@ export class EpisodeFormComponent implements OnInit {
   private readonly _fb = inject(FormBuilder);
 
   readonly currentTag = signal<string>('');
-  readonly stacks = this._stackApiService.getStacks();
+  readonly stacks = signal<StackListResponse | null>(null);
   readonly separatorKeysCodes = [ENTER, COMMA];
   readonly form: FormGroup;
 
   ngOnInit(): void {
+    this._stackApiService.getStacks().subscribe({
+      next: (stacks) => {
+        this.stacks.set(stacks);
+      },
+    });
+
     if (this.initialData) {
       this.form.patchValue(this.initialData);
       this.form.controls['stackId'].setValue(this.initialData.stackId);
