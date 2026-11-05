@@ -8,6 +8,7 @@ import {
   signal,
   SimpleChanges,
 } from '@angular/core';
+import { EpisodeApiService } from '@app/core/services/episode-api.service';
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,9 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { Episode } from '@app/core/models/episode.model';
-import { EpisodeService } from '@app/core/services/episode.service';
-import { v4 as uuidv4 } from 'uuid';
 import { StackListResponse } from '@app/core/models/stack-list-response.model';
+import { episodeRequest } from '@app/core/models/episode-request';
 
 @Component({
   selector: 'app-episode-form',
@@ -37,8 +37,8 @@ export class EpisodeFormComponent implements OnChanges {
   @Input() initialData?: Episode;
   @Output() saved = new EventEmitter<void>();
 
-  private readonly _episodeService = inject(EpisodeService);
   private readonly _stackApiService = inject(StackApiService);
+  private readonly _episodeApiService = inject(EpisodeApiService);
   private readonly _router = inject(Router);
   private readonly _fb = inject(FormBuilder);
 
@@ -88,29 +88,18 @@ export class EpisodeFormComponent implements OnChanges {
       return;
     }
 
+    const request: episodeRequest = {
+      title: formValue.episodeData.title,
+      stackId: formValue.stackId,
+      error: formValue.episodeData.error,
+      solution: formValue.episodeData.solution,
+    };
+
     if (this.initialData) {
-      this._episodeService.update(this.initialData, {
-        stack,
-        stackId: formValue.stackId,
-        title: formValue.episodeData.title,
-        error: formValue.episodeData.error,
-        solution: formValue.episodeData.solution,
-        updatedAt: new Date().toISOString(),
-      });
+      const episodeId = this.initialData.id;
+      this._episodeApiService.updateEpisode(request, episodeId);
     } else {
-      const now = new Date().toISOString();
-      const episode: Episode = {
-        id: uuidv4(),
-        title: formValue.episodeData.title,
-        stackId: formValue.stackId,
-        stack,
-        error: formValue.episodeData.error,
-        solution: formValue.episodeData.solution,
-        annotations: [],
-        createdAt: now,
-        updatedAt: now,
-      };
-      this._episodeService.add(episode);
+      this._episodeApiService.createEpisode(request);
     }
 
     this.saved.emit();
