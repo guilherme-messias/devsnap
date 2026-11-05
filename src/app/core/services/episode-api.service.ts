@@ -4,13 +4,7 @@ import { environment } from '../../../environments/environment';
 import { EpisodeListResponse } from '../models/episode-list-response.model';
 import { EpisodeDetailResponse } from '../models/episode-detail-response.model';
 import { Episode } from '../models/episode.model';
-
-interface episodeRequest {
-  title: string;
-  stackId: string;
-  error: string;
-  solution: string;
-}
+import { episodeRequest } from '../models/episode-request';
 
 @Injectable({ providedIn: 'root' })
 export class EpisodeApiService {
