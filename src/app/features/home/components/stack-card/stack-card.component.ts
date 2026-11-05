@@ -6,7 +6,7 @@ import { Stack } from '@app/core/models/stack.model';
 import { EpisodeService } from '@app/core/services/episode.service';
 import { PendingBadgeComponent } from '@app/shared/components/pending-badge.component';
 import { ProgressBarComponent } from '@app/shared/components/progress-bar.component';
-import { PendingCountPipe } from '@app/shared/pipes/pending-count.pipe';
+import { ReviewedCountPipe } from '@app/shared/pipes/reviewed-count.pipe';
 import { UrgencyLevelPipe } from '@app/shared/pipes/urgency-level.pipe';
 
 @Component({
@@ -16,7 +16,7 @@ import { UrgencyLevelPipe } from '@app/shared/pipes/urgency-level.pipe';
     PendingBadgeComponent,
     UrgencyLevelPipe,
     ProgressBarComponent,
-    PendingCountPipe,
+    ReviewedCountPipe,
     RouterLink,
     MatButtonModule,
     MatIconModule,

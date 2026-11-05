@@ -1,16 +1,21 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { Episode } from '../../core/models/episode.model';
+import { EpisodeService } from '../../core/services/episode.service';
 
 type UrgencyLevel = 'urgent' | 'moderate' | 'ok';
 
 @Pipe({ name: 'urgencyLevel', standalone: true })
 export class UrgencyLevelPipe implements PipeTransform {
+  private readonly _episodeService = inject(EpisodeService);
+
   transform(value: Episode | Episode[] | null | undefined): UrgencyLevel {
     const episodes = this._toEpisodes(value);
     const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
 
     const pendingCount = episodes.filter(
-      (e) => !e.reviewedAt && new Date(e.createdAt).getTime() < weekAgo,
+      (episode) =>
+        !this._episodeService.isReviewed(episode.id) &&
+        new Date(episode.createdAt).getTime() < weekAgo,
     ).length;
 
     if (pendingCount === 0) return 'ok';

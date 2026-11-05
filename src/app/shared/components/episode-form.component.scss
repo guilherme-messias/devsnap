@@ -12,13 +12,6 @@
   border-color: rgba(0, 0, 0, 0.08);
 }
 
-::ng-deep .episode-form-tags {
-  .mat-mdc-chip-row {
-    --mdc-chip-elevated-container-color: var(--color-bg-primary);
-    --mdc-chip-label-text-color: var(--color-text-primary);
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   .episode-form-card {
     border-color: rgba(255, 255, 255, 0.1);

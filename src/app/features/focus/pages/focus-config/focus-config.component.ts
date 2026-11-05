@@ -42,7 +42,9 @@ export class FocusConfigComponent {
   readonly availablePending = computed(() => {
     const stackId = this.selectedStackId();
     if (!stackId) return [];
-    return this._episodeService.getByStack(stackId).filter((e) => !e.reviewedAt);
+    return this._episodeService
+      .getByStack(stackId)
+      .filter((episode) => !this._episodeService.isReviewed(episode.id));
   });
 
   focusSessionStart(): void {

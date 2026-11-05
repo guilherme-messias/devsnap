@@ -1,11 +1,6 @@
-interface Stack {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Stack } from './stack.model';
 
-interface Annotation {
+export interface Annotation {
   id: string;
   text: string;
   episodeId: string;

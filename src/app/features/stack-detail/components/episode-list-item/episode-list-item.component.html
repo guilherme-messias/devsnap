@@ -10,7 +10,7 @@
       {{ episode?.title }}
     </h2>
 
-    @if (episode?.reviewedAt) {
+    @if (episode && episodeService.isReviewed(episode.id)) {
       <mat-icon
         class="episode-card__reviewed shrink-0"
         aria-label="Episódio revisado"
@@ -25,14 +25,6 @@
     {{ episode?.error }}
   </p>
 
-  @if (episode?.tags?.length) {
-    <div class="flex flex-wrap gap-1">
-      @for (tag of episode?.tags; track tag) {
-        <span class="episode-tag text-xs">{{ tag }}</span>
-      }
-    </div>
-  }
-
   <div class="mt-auto flex items-center justify-between gap-2 pt-1">
     @if (episode?.createdAt) {
       <time
@@ -44,7 +36,7 @@
       </time>
     }
 
-    @if (!episode?.reviewedAt) {
+    @if (episode && !episodeService.isReviewed(episode.id)) {
       <app-pending-badge [level]="episode | urgencyLevel" />
     }
   </div>

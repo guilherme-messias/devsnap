@@ -59,15 +59,19 @@ export class AnnotationFormComponent {
       return this.form.markAllAsTouched();
     }
 
+    const now = new Date().toISOString();
     this._episodeService.update(this.episode, {
       annotations: [
         ...(this.episode.annotations ?? []),
         {
           id: uuidv4(),
           text: this.form.value.text,
-          createdAt: new Date(),
+          episodeId: this.episode.id,
+          createdAt: now,
+          updatedAt: now,
         },
       ],
+      updatedAt: now,
     });
 
     this.form.reset();

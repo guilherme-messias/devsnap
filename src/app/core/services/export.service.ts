@@ -32,13 +32,7 @@ export class ExportService {
     const parts: string[] = [`## ${index + 1}. ${episode.title}`, this.buildEpisodeMeta(episode)];
 
     this.appendSection(parts, 'Erro encontrado', episode.error);
-    this.appendSection(parts, 'O que tentou', episode.attempts);
     this.appendSection(parts, 'Solução', episode.solution);
-    this.appendSection(parts, 'Por que funcionou', episode.reasoning);
-
-    if (episode.snippets?.trim()) {
-      parts.push(`### Código relevante\n\n\`\`\`\n${episode.snippets.trim()}\n\`\`\``);
-    }
 
     if (episode.annotations?.length) {
       const items = episode.annotations
@@ -51,17 +45,7 @@ export class ExportService {
   }
 
   private buildEpisodeMeta(episode: Episode): string {
-    const meta = [`**Data:** ${this.formatDate(episode.createdAt)}`];
-
-    if (episode.reviewedAt) {
-      meta.push(`**Revisado:** ${this.formatDate(episode.reviewedAt)}`);
-    }
-
-    if (episode.tags?.length) {
-      meta.push(`**Tags:** ${episode.tags.join(', ')}`);
-    }
-
-    return meta.join(' · ');
+    return `**Data:** ${this.formatDate(episode.createdAt)}`;
   }
 
   private appendSection(parts: string[], heading: string, content: string): void {
@@ -71,7 +55,7 @@ export class ExportService {
     }
   }
 
-  private formatDate(date: Date): string {
+  private formatDate(date: string): string {
     return new Date(date).toLocaleDateString('pt-BR');
   }
 

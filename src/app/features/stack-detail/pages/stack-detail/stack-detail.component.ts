@@ -68,15 +68,13 @@ export class StackDetailComponent implements OnInit {
           e.title.toLowerCase().includes(searchQuery) ||
           e.error.toLowerCase().includes(searchQuery) ||
           e.solution.toLowerCase().includes(searchQuery) ||
-          e.reasoning.toLowerCase().includes(searchQuery) ||
-          e.snippets?.toLowerCase().includes(searchQuery) ||
-          e.tags?.some((t) => t.toLowerCase().includes(searchQuery)),
+          e.annotations.some((annotation) => annotation.text.toLowerCase().includes(searchQuery)),
       );
     }
 
     if (!episodes) return [];
-    if (filter === 'pending') return episodes.filter((e) => !e.reviewedAt);
-    if (filter === 'reviewed') return episodes.filter((e) => e.reviewedAt);
+    if (filter === 'pending') return episodes.filter((e) => !this._episodeService.isReviewed(e.id));
+    if (filter === 'reviewed') return episodes.filter((e) => this._episodeService.isReviewed(e.id));
     return episodes;
   });
 

@@ -1,14 +1,20 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { StackApiService } from '@app/core/services/stack-api.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Episode } from '@app/core/models/episode.model';
 import { EpisodeService } from '@app/core/services/episode.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,13 +29,11 @@ import { StackListResponse } from '@app/core/models/stack-list-response.model';
     MatFormFieldModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatChipsModule,
-    MatIconModule,
     MatInputModule,
     MatButtonModule,
   ],
 })
-export class EpisodeFormComponent implements OnInit {
+export class EpisodeFormComponent implements OnChanges {
   @Input() initialData?: Episode;
   @Output() saved = new EventEmitter<void>();
 
@@ -38,30 +42,19 @@ export class EpisodeFormComponent implements OnInit {
   private readonly _router = inject(Router);
   private readonly _fb = inject(FormBuilder);
 
-  readonly currentTag = signal<string>('');
   readonly stacks = signal<StackListResponse | null>(null);
-  readonly separatorKeysCodes = [ENTER, COMMA];
   readonly form: FormGroup;
 
-  ngOnInit(): void {
-    this._stackApiService.getStacks().subscribe({
-      next: (stacks) => {
-        this.stacks.set(stacks);
-      },
-    });
-
-    if (this.initialData) {
-      this.form.patchValue(this.initialData);
-      this.form.controls['stackId'].setValue(this.initialData.stackId);
-      this.form.controls['episodeData'].patchValue({
-        title: this.initialData.title,
-        error: this.initialData.error,
-        attempts: this.initialData.attempts,
-        solution: this.initialData.solution,
-        reasoning: this.initialData.reasoning,
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialData'] && this.initialData) {
+      this.form.patchValue({
+        stackId: this.initialData.stackId,
+        episodeData: {
+          title: this.initialData.title,
+          error: this.initialData.error,
+          solution: this.initialData.solution,
+        },
       });
-      this.form.controls['snippets'].setValue(this.initialData.snippets);
-      this.form.controls['tags'].setValue(this.initialData.tags);
     }
   }
 
@@ -71,12 +64,14 @@ export class EpisodeFormComponent implements OnInit {
       episodeData: this._fb.group({
         title: ['', Validators.required],
         error: ['', Validators.required],
-        attempts: ['', Validators.required],
         solution: ['', Validators.required],
-        reasoning: ['', Validators.required],
       }),
-      snippets: [''],
-      tags: [[] as string[]],
+    });
+
+    this._stackApiService.getStacks().subscribe({
+      next: (stacks) => {
+        this.stacks.set(stacks);
+      },
     });
   }
 
@@ -85,56 +80,43 @@ export class EpisodeFormComponent implements OnInit {
       return this.form.markAllAsTouched();
     }
 
-    const episode: Episode = {
-      id: uuidv4(),
-      stackId: this.form.value.stackId,
-      title: this.form.value.episodeData.title,
-      error: this.form.value.episodeData.error,
-      attempts: this.form.value.episodeData.attempts,
-      solution: this.form.value.episodeData.solution,
-      reasoning: this.form.value.episodeData.reasoning,
-      snippets: this.form.value.snippets,
-      tags: this.form.value.tags,
-      createdAt: new Date(),
-    };
+    const formValue = this.form.getRawValue();
+    const stack = this.stacks()?.stacks.find((item) => item.id === formValue.stackId);
+
+    if (!stack) {
+      this.form.controls['stackId'].setErrors({ unavailable: true });
+      return;
+    }
 
     if (this.initialData) {
       this._episodeService.update(this.initialData, {
-        title: this.form.value.episodeData.title,
-        stackId: this.form.value.stackId,
-        error: this.form.value.episodeData.error,
-        attempts: this.form.value.episodeData.attempts,
-        solution: this.form.value.episodeData.solution,
-        reasoning: this.form.value.episodeData.reasoning,
-        snippets: this.form.value.snippets,
-        tags: this.form.value.tags,
+        stack,
+        stackId: formValue.stackId,
+        title: formValue.episodeData.title,
+        error: formValue.episodeData.error,
+        solution: formValue.episodeData.solution,
+        updatedAt: new Date().toISOString(),
       });
     } else {
+      const now = new Date().toISOString();
+      const episode: Episode = {
+        id: uuidv4(),
+        title: formValue.episodeData.title,
+        stackId: formValue.stackId,
+        stack,
+        error: formValue.episodeData.error,
+        solution: formValue.episodeData.solution,
+        annotations: [],
+        createdAt: now,
+        updatedAt: now,
+      };
       this._episodeService.add(episode);
     }
 
     this.saved.emit();
 
     if (!this.saved.observed) {
-      this._router.navigate(['/stacks', this.form.value.stackId]);
+      this._router.navigate(['/stacks', formValue.stackId]);
     }
-  }
-
-  get tagsValue(): string[] {
-    return this.form.controls['tags'].value ?? [];
-  }
-
-  addTag(event: MatChipInputEvent): void {
-    const value = event.value.trim();
-    if (value) {
-      this.form.controls['tags'].setValue([...this.form.controls['tags'].value, value]);
-    }
-    this.currentTag.set('');
-  }
-
-  removeTag(tag: string): void {
-    this.form.controls['tags'].setValue(
-      this.form.controls['tags'].value.filter((t: string) => t !== tag),
-    );
   }
 }

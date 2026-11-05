@@ -23,14 +23,6 @@
   }
 }
 
-.episode-tag {
-  padding: 0.125rem 0.5rem;
-  border-radius: 9999px;
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
-  background: var(--color-bg-primary);
-  color: var(--color-text-secondary);
-}
-
 @media (prefers-color-scheme: dark) {
   .episode-card {
     border-color: rgba(255, 255, 255, 0.1);
@@ -40,7 +32,4 @@
     }
   }
 
-  .episode-tag {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
 }

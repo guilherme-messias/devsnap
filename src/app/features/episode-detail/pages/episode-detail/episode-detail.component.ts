@@ -1,18 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { EpisodeService } from '@app/core/services/episode.service';
-import { StackService } from '@app/core/services/stack.service';
-import { CodeSnippetComponent } from '@app/shared/components/code-snippet.component';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog.component';
 import { AnnotationFormComponent } from '../../components/annotation-form/annotation-form.component';
 import { AnnotationListComponent } from '../../components/annotation-list/annotation-list.component';
-import { EpisodeApiService } from '@app/core/services/episode-api.service';
 
 @Component({
   selector: 'app-episode-detail',
@@ -20,8 +15,6 @@ import { EpisodeApiService } from '@app/core/services/episode-api.service';
   templateUrl: './episode-detail.component.html',
   styleUrl: './episode-detail.component.scss',
   imports: [
-    CodeSnippetComponent,
-    MatChipsModule,
     DatePipe,
     RouterLink,
     MatIconModule,
@@ -32,7 +25,6 @@ import { EpisodeApiService } from '@app/core/services/episode-api.service';
 })
 export class EpisodeDetailComponent {
   private readonly _episodeService = inject(EpisodeService);
-  private readonly _episodeApiService = inject(EpisodeApiService);
   private readonly _dialog = inject(MatDialog);
   private readonly _router = inject(Router);
 
@@ -45,22 +37,20 @@ export class EpisodeDetailComponent {
     const id = this.eid();
     return this._episodeService.episodes().find((e) => e.id === id);
   });
+  readonly isReviewed = computed(() => {
+    const episode = this.episode();
+    return episode ? this._episodeService.isReviewed(episode.id) : false;
+  });
 
   revealSolution(): void {
     this.solutionRevealed.set(true);
   }
 
-  getStackName(): Subscription {
-    return this._episodeApiService.getEpisodeById(this.eid()).subscribe({
-      next: (ep) => {
-        ep.episode.stack.name;
-      },
-      error: () => '',
-    });
-  }
-
   markAsReviewed(): void {
-    this._episodeService.markReviewed(this.episode()?.id ?? '');
+    const id = this.episode()?.id;
+    if (id) {
+      this._episodeService.markReviewed(id);
+    }
   }
 
   deleteEpisode(): void {
@@ -85,7 +75,7 @@ export class EpisodeDetailComponent {
   goToNextPendingEpisode(): void {
     const nextEpisode = this._episodeService
       .getByStack(this.episode()?.stackId ?? '')
-      .filter((e) => !e.reviewedAt && e.id !== this.episode()?.id)
+      .filter((e) => !this._episodeService.isReviewed(e.id) && e.id !== this.episode()?.id)
       .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
       .at(0);
 

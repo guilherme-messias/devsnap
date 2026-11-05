@@ -32,6 +32,17 @@ export class HomeComponent {
     initialValue: [] as Episode[],
   });
 
+  readonly welcomeMessage = computed(() => {
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const pendingCount = this._episodeService
+      .pending()
+      .filter((episode) => new Date(episode.createdAt).getTime() < weekAgo).length;
+
+    if (pendingCount === 0) return 'Nenhum episódio pendente. Parabéns! Continue assim!';
+    if (pendingCount === 1) return '1 episódio pendente. Vamos revisar? Não deixe para depois!';
+    return `${pendingCount} episódios pendentes. Vamos revisar? Não deixe para depois!`;
+  });
+
   readonly onCreateStack = (): void => {
     this._dialog.open(CreateStackDialogComponent, {
       width: '400px',
@@ -66,14 +77,4 @@ export class HomeComponent {
     this.refresh$.next();
   }
 
-  // welcomeMessage = computed(() => {
-  //   const pendingCount = this._episodeService.pending()?.filter(
-  //     (e) =>
-  //       !e.reviewedAt && new Date(e.createdAt) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 dias
-  //   ).length;
-
-  //   if (pendingCount === 0) return 'Nenhum episódio pendente. Parabéns! Continue assim!';
-  //   if (pendingCount === 1) return '1 episódio pendente. Vamos revisar? Não deixe para depois!';
-  //   return `${pendingCount} episódios pendentes. Vamos revisar? Não deixe para depois!`;
-  // });
 }
